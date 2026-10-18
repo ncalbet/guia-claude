@@ -19,6 +19,7 @@
 }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{font-family:Nunito, "Segoe UI", system-ui, sans-serif;color:var(--tinta);background:var(--nit);overflow:hidden}
 a{color:var(--blau);font-weight:800}
 
@@ -29,7 +30,7 @@ a{color:var(--blau);font-weight:800}
     repeating-conic-gradient(from 0deg at 50% 55%, rgba(255,255,255,.055) 0 2deg, transparent 2deg 9deg),
     linear-gradient(180deg,#123173 0%,#081129 100%)}
 
-.deck{position:relative;z-index:1;height:100%;display:flex;flex-direction:column}
+.deck{position:relative;z-index:1;height:100%;height:100dvh;display:flex;flex-direction:column}
 
 /* Barra de dalt */
 .dalt{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 22px;color:#fff;min-height:54px}
@@ -163,6 +164,9 @@ dt.destaca,dt.destaca+dd{color:var(--blau);font-weight:800}
 .portada .ajuda{font-size:15px;opacity:.9}
 .portada .peu{color:#cfd8ee}
 .nuvol-portada{position:absolute;right:2%;top:0;width:clamp(110px,15vw,200px)}
+.nuvol-portada svg{width:100%;height:auto;display:block}
+.nomes-tactil{display:none}
+@media (hover:none) and (pointer:coarse){.nomes-tactil{display:inline}.nomes-teclat{display:none}}
 .nuvol-portada.esq{left:1%;right:auto;top:44%;width:clamp(80px,10vw,140px);animation-delay:-1.6s}
 .g2 .cmd.pre{font-size:13px}
 table.problemes td:first-child{width:33%}
@@ -237,9 +241,50 @@ table.problemes td{padding:6px}
   .boles{gap:2px}
   .boles button svg{width:18px;height:18px}
   .centre{gap:8px}
-  .nuvol-portada{width:90px;top:-10px}
   .recull{gap:4px}
   .recull svg{width:34px;height:34px}
+  .slide{padding:2px 12px 10px 6px}
+  .panel{padding:16px 14px;border-width:3px;box-shadow:5px 5px 0 var(--tinta)}
+  .panel h2{font-size:clamp(26px,8vw,34px)}
+  .lead{font-size:16px}
+  /* Ordres: el botó de copiar baixa a sota i l'ordre fa servir tota l'amplada */
+  .cmd{flex-direction:column;align-items:stretch;gap:6px}
+  .copia{align-self:flex-end}
+  .cmd code,.cmd.pre code{white-space:pre-wrap;overflow-wrap:anywhere}
+  .cmd.gran{font-size:15px;padding:12px 14px}
+  .arbre{white-space:pre-wrap;font-size:12.5px}
+  /* Taules de tres columnes: cada fila es converteix en una fitxa */
+  table.apila,table.apila tbody,table.apila tr,table.apila td{display:block;width:auto}
+  table.apila tr:first-child{display:none}
+  table.apila tr{border-top:2px dashed #e0d5bf;padding:8px 0}
+  table.apila td{border:0;padding:2px 0}
+  table.apila td:first-child{font-size:16px}
+  table.apila td[data-l]::before{content:attr(data-l) ": ";font-weight:800;color:var(--blau)}
+  /* El cicle dels 5 passos, en files compactes */
+  .cicle{gap:8px}
+  .pas{flex-direction:row;text-align:left;gap:12px;padding:8px 12px;box-shadow:3px 3px 0 var(--tinta)}
+  .pas svg{width:34px;height:34px;flex:none}
+  .pas b{font-size:20px}
+  .fletxa{display:none}
+  /* Portada */
+  .nuvol-portada{position:static;display:block;width:110px;margin:0 auto 6px}
+  .titol{font-size:clamp(46px,15vw,64px);-webkit-text-stroke:2px var(--tinta);text-shadow:4px 4px 0 var(--tinta)}
+  .portada .kicker{font-size:16px}
+  .portada .sub{font-size:16px;margin-bottom:16px}
+  .mapa{gap:8px 12px}
+  .mapa button{font-size:13px}
+  .mapa button svg{width:44px;height:44px}
+  .portada .peu{font-size:12px}
+}
+/* Pantalles baixes (mòbil apaisat) */
+@media (max-height:520px){
+  .dalt{min-height:0;padding:4px 12px}
+  .saga{font-size:14px}
+  .saga svg{width:22px;height:22px}
+  .baix{padding:4px 12px 6px}
+  .boto{font-size:15px;padding:2px 10px}
+  .panel{padding:12px 16px}
+  .requadre-shenron{height:calc(100dvh - 110px);min-height:200px}
 }
 @media print{
   html,body{height:auto;overflow:visible;background:#fff}
@@ -294,7 +339,7 @@ table.problemes td{padding:6px}
     <h1 class="titol">Claude Code</h1>
     <p class="sub">Supera les 7 proves del torneig i aconsegueix les 7 boles de drac. Acabaràs amb Claude Code instal·lat i un mètode per treballar-hi cada dia: de zero a Super Guerrer.</p>
     <nav class="mapa" id="mapa" aria-label="Les 7 proves"></nav>
-    <p class="ajuda">Passa pantalles amb <kbd>←</kbd> <kbd>→</kbd> o amb els botons de sota. Clica una bola per saltar a la seva prova.</p>
+    <p class="ajuda"><span class="nomes-teclat">Passa pantalles amb <kbd>←</kbd> <kbd>→</kbd> o amb els botons de sota.</span><span class="nomes-tactil">Llisca el dit cap als costats o fes servir els botons de sota.</span> Clica una bola per saltar a la seva prova.</p>
     <p class="peu">Comprovat amb la documentació oficial (code.claude.com/docs) l'octubre de 2026. Claude Code s'actualitza sovint: algun text de pantalla pot canviar.</p>
   </div>
 </section>
@@ -308,7 +353,7 @@ table.problemes td{padding:6px}
     <div class="g2">
       <div>
         <h3>Xat o Claude Code?</h3>
-        <table>
+        <table class="apila">
           <tr><th></th><th>Xat (claude.ai)</th><th>Claude Code</th></tr>
           <tr><td>Fitxers</td><td>Els hi passes tu</td><td>Els obre ell, a la carpeta</td></tr>
           <tr><td>Resultat</td><td>Text per copiar</td><td>Fitxers creats o canviats</td></tr>
@@ -533,7 +578,7 @@ table.problemes td{padding:6px}
     <div class="kicker">Entrenament · Idea 2 de 3</div>
     <h2>Qui decideix què fa Claude: els modes</h2>
     <p class="lead">El <b>mode</b> decideix què pot fer sense preguntar-te. Surt sota el quadre on escrius; <kbd>Shift</kbd>+<kbd>Tab</kbd> el canvia.</p>
-    <table>
+    <table class="apila">
       <tr><th>Mode</th><th>Què fa sense preguntar-te</th><th>Quan</th></tr>
       <tr><td>Auto<span class="estat">⏵⏵ auto mode on</span></td><td>Gairebé tot. Un altre model, l'<b>àrbitre</b>, revisa cada acció abans i atura les perilloses: esborrar el que ja hi era, enviar dades fora, executar coses baixades d'internet.</td><td>Arrenca així. Per a la feina normal.</td></tr>
       <tr><td>Manual<span class="estat">⏸ manual mode on</span></td><td>Res: et pregunta cada canvi i cada ordre.</td><td>Quan ho vols veure tot.</td></tr>
@@ -781,7 +826,7 @@ claude</code></div>
   <div class="panel">
     <div class="kicker">Mongetes màgiques · per recuperar-te dels cops</div>
     <h2>Problemes i solucions</h2>
-    <table class="problemes">
+    <table class="problemes apila">
       <tr><th>Passa això</th><th>Fes això</th></tr>
       <tr><td><code class="in">claude</code> no es reconeix</td><td>Pas 4 de la instal·lació (la línia del PATH) i obre un terminal nou.</td></tr>
       <tr><td>El navegador no s'obre en connectar-te</td><td>Prem <kbd>c</kbd> i enganxa l'enllaç al navegador.</td></tr>
@@ -1144,6 +1189,15 @@ claude</code></div>
     bt.addEventListener('click', function(){ tancaIndex(); ves(i); });
     li.appendChild(bt);
     llista.appendChild(li);
+  });
+
+  // Taules apilables: cada cel·la porta el nom de la seva columna
+  document.querySelectorAll('table.apila').forEach(function(t){
+    var caps = Array.prototype.map.call(t.rows[0].cells, function(c){ return c.textContent.trim(); });
+    if (caps.length < 3) return;
+    Array.prototype.slice.call(t.rows, 1).forEach(function(r){
+      Array.prototype.forEach.call(r.cells, function(c, k){ if (k > 0 && caps[k]) c.setAttribute('data-l', caps[k]); });
+    });
   });
 
   // Botons de copiar
