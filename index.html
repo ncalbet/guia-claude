@@ -95,6 +95,14 @@ ul.estrelles>li::before{content:"★";position:absolute;left:2px;top:0;color:var
 .copia{flex:none;font-family:Nunito,sans-serif;font-weight:800;font-size:13px;background:var(--groc);color:var(--tinta);
   border:2px solid var(--tinta);border-radius:8px;padding:3px 10px;cursor:pointer}
 .copia.fet{background:var(--verd);color:#fff}
+/* On s'escriu cada requadre: etiqueta a la vora de dalt */
+.cmd[data-on]{position:relative;margin-top:20px}
+.cmd[data-on]::before{content:attr(data-on);position:absolute;top:-14px;left:12px;font-family:Nunito,"Segoe UI",sans-serif;font-weight:800;
+  font-size:12px;line-height:1;padding:4px 8px;border:2px solid var(--tinta);border-radius:6px;background:var(--blau);color:#fff;white-space:nowrap}
+.cmd.claude,.cmd.notes{background:#fff;color:var(--tinta)}
+.cmd.claude code{font-family:Nunito,"Segoe UI",sans-serif;font-size:clamp(14.5px,1.45vw,17px)}
+.cmd.claude::before{background:var(--taronja)}
+.cmd.notes::before{background:var(--gris)}
 code.in{font-family:var(--mono);background:#f1ebdf;border:1px solid #d8cdb8;border-radius:6px;padding:0 5px;font-size:.9em;overflow-wrap:anywhere}
 kbd{font-family:var(--mono);font-size:.84em;background:#fff;color:var(--tinta);border:2px solid var(--tinta);border-bottom-width:4px;border-radius:6px;padding:0 6px;white-space:nowrap}
 
@@ -370,14 +378,14 @@ table.problemes td{padding:6px}
       <div>
         <h3>Què et cal per inscriure't</h3>
         <ul class="estrelles">
-          <li>Windows 10 (versió 1809 o posterior) o Windows 11.</li>
+          <li>Windows 10 o Windows 11.</li>
           <li>4 GB de RAM i connexió a internet.</li>
-          <li>Un pla de pagament de Claude: <b>Pro</b>, Max, Team o Enterprise (o un compte de la Console, amb API). <b>El pla gratuït no l'inclou.</b></li>
+          <li>Un pla de pagament de Claude: el <b>Pro</b> o un de superior. <b>El pla gratuït no serveix.</b></li>
           <li>Uns 20 minuts.</li>
         </ul>
       </div>
     </div>
-    <div class="caixa truc"><span class="etiq">💡 Sense terminal?</span> L'app d'escriptori de Claude (claude.com/download) també porta Claude Code. Aquesta guia fa servir el terminal, que és el que fa servir el mètode de la quarta bola.</div>
+    <div class="caixa truc"><span class="etiq">💡 Sense terminal?</span> L'app d'escriptori de Claude (claude.com/download) també porta Claude Code. Aquesta guia fa servir el terminal.</div>
   </div>
 </section>
 
@@ -405,125 +413,107 @@ table.problemes td{padding:6px}
           <li>Escriu <code class="in">Terminal</code> (si no surt, <code class="in">PowerShell</code>).</li>
           <li>Prem <kbd>Enter</kbd>.</li>
         </ol>
-        <div class="caixa truc"><span class="etiq">💡 Al terminal</span> Per enganxar: <kbd>Ctrl</kbd>+<kbd>V</kbd> o clic dret. Per executar el que has escrit: <kbd>Enter</kbd>.</div>
+        <div class="caixa truc"><span class="etiq">💡 Al terminal</span> Els requadres amb l'etiqueta <b>Al PowerShell</b> s'escriuen aquí. Per enganxar: clica dins la finestra i prem <kbd>Ctrl</kbd>+<kbd>V</kbd> (o clic dret). Per executar el que has escrit: <kbd>Enter</kbd>. Si surt text en vermell, no has trencat res: la guia et diu què fer.</div>
       </div>
       <div>
         <p><b>Has de veure això</b>, amb el teu nom d'usuari:</p>
         <div class="term"><div class="barra">Windows PowerShell</div><pre><span class="ps">PS C:\Users\nom&gt;</span> _</pre></div>
         <p><b>PS</b> vol dir PowerShell: és el que volem. No cal obrir-lo com a administrador.</p>
+        <div class="caixa compte"><span class="etiq">⚠️ No hi ha PS al principi?</span> Si veus només <code class="in">C:\Users\nom&gt;</code>, has obert el Símbol del sistema (CMD), que no serveix. Tanca'l i torna-hi escrivint <code class="in">PowerShell</code>.</div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="slide" data-saga="2" data-titol="Pas 2 · Git for Windows">
+<section class="slide" data-saga="2" data-titol="Pas 2 · Instal·la Claude Code">
   <div class="panel">
-    <div class="kicker">Preparació · Pas 2 de 7 · recomanat</div>
-    <h2>Instal·la Git for Windows</h2>
-    <p class="lead">No és obligatori, però és recomanat: dona a Claude la consola Git Bash, que fa servir per a moltes ordres, i el sistema <b>git</b> per desar versions dels fitxers. Sense Git, Claude Code fa servir PowerShell.</p>
-    <div class="g2">
-      <div>
-        <h3>Manera fàcil</h3>
-        <ol class="passos">
-          <li>Ves a <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener">git-scm.com/downloads/win</a>.</li>
-          <li>Baixa la versió <b>x64</b> (l'enllaç de descàrrega de dalt de tot).</li>
-          <li>Obre l'instal·lador i prem <b>Next</b> a totes les pantalles: les opcions per defecte ja van bé.</li>
-        </ol>
-      </div>
-      <div>
-        <h3>O amb una ordre al terminal</h3>
-        <div class="cmd"><code>winget install --id Git.Git -e</code></div>
-        <div class="caixa be"><span class="etiq">✅ Comprova-ho</span> Obre un terminal <b>nou</b> i escriu:
-          <div class="cmd"><code>git --version</code></div>
-          Ha de respondre <code class="in">git version 2.…</code>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="slide" data-saga="2" data-titol="Pas 3 · Instal·la Claude Code">
-  <div class="panel">
-    <div class="kicker">Preparació · Pas 3 de 7 · el Kamehameha</div>
+    <div class="kicker">Preparació · Pas 2 de 7 · el Kamehameha</div>
     <h2>Instal·la Claude Code</h2>
-    <p class="lead">Copia aquesta ordre, enganxa-la al terminal i prem <kbd>Enter</kbd>:</p>
-    <div class="cmd gran"><code>irm https://claude.ai/install.ps1 | iex</code></div>
+    <p class="lead">Prem el botó groc <b>Copia</b>, clica dins la finestra del PowerShell, enganxa amb <kbd>Ctrl</kbd>+<kbd>V</kbd> i prem <kbd>Enter</kbd>:</p>
+    <div class="cmd gran" data-on="Al PowerShell"><code>irm https://claude.ai/install.ps1 | iex</code></div>
     <div class="g2">
       <ul class="estrelles">
         <li><b>No mostra cap barra de progrés.</b> Espera que torni a sortir <code class="in">PS C:\…&gt;</code>. Pot trigar un parell de minuts.</li>
-        <li>Si al final diu <code class="in">…is not in your PATH</code>, cap problema: ho arregles al pas 4.</li>
+        <li>Si al final diu <code class="in">…is not in your PATH</code>, cap problema: ho arregles a la pantalla següent.</li>
         <li>S'actualitza sol en segon pla. No l'hauràs de tornar a instal·lar.</li>
       </ul>
-      <div class="caixa compte"><span class="etiq">⚠️ Si diu «'irm' is not recognized…»</span> Ets a CMD, no a PowerShell. Obre PowerShell (pas 1) o, si vols seguir a CMD, fes servir aquesta altra ordre:
-        <div class="cmd"><code>curl -fsSL https://claude.ai/install.cmd -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd</code></div>
+      <div class="caixa be"><span class="etiq">✅ Ha anat bé</span> Al final surt alguna cosa així:
+        <div class="term"><pre><span class="out">✔ Claude Code successfully installed!</span>
+  Version: 2.1.xxx
+  Location: C:\Users\nom\.local\bin\claude.exe</pre></div>
       </div>
     </div>
+    <div class="caixa compte"><span class="etiq">⚠️ Text vermell que diu que no reconeix «irm»?</span> Pot sortir en anglès, castellà o català. Vol dir que has obert el Símbol del sistema (CMD), no PowerShell. Tanca'l i torna al pas 1.</div>
   </div>
 </section>
 
-<section class="slide" data-saga="2" data-titol="Pas 4 · Comprova-ho">
+<section class="slide" data-saga="2" data-titol="Pas 3 · Comprova-ho">
   <div class="panel">
-    <div class="kicker">Preparació · Pas 4 de 7</div>
+    <div class="kicker">Preparació · Pas 3 de 7</div>
     <h2>Comprova que funciona</h2>
     <div class="g2">
       <ol class="passos">
-        <li><b>Tanca el terminal i obre'n un de nou.</b> Només el nou veu la instal·lació.</li>
-        <li>Escriu:<div class="cmd"><code>claude --version</code></div></li>
+        <li><b>Tanca el terminal i obre'n un de nou</b> (com al pas 1). Només el nou veu la instal·lació.</li>
+        <li>Escriu:<div class="cmd" data-on="Al PowerShell"><code>claude --version</code></div></li>
       </ol>
       <div class="caixa be"><span class="etiq">✅ Bé</span> Surt un número de versió:
         <div class="term"><pre><span class="ps">PS C:\Users\nom&gt;</span> claude --version
 <span class="out">2.1.xxx (Claude Code)</span></pre></div>
-        El número serà un altre, no importa. Per a una revisió completa: <code class="in">claude doctor</code>.
+        El número serà un altre, no importa.
       </div>
     </div>
-    <div class="caixa compte"><span class="etiq">⚠️ Si diu «'claude' is not recognized…»</span> Windows no sap on l'ha instal·lat. Copia això, enganxa-ho al PowerShell i prem <kbd>Enter</kbd>. Després tanca'l, obre'n un de nou i torna a provar. Només cal fer-ho una vegada.
-      <div class="cmd pre" data-copia="$p = [Environment]::GetEnvironmentVariable('PATH', 'User'); [Environment]::SetEnvironmentVariable('PATH', &quot;$p;$env:USERPROFILE\.local\bin&quot;, 'User')"><code>$p = [Environment]::GetEnvironmentVariable('PATH', 'User');
+    <div class="caixa compte"><span class="etiq">⚠️ Text vermell que diu que no reconeix «claude»?</span> Pot sortir en anglès, castellà o català («is not recognized», «no se reconoce»…). Vol dir que Windows no sap on l'ha instal·lat. Copia això, enganxa-ho al PowerShell i prem <kbd>Enter</kbd>. Després tanca'l, obre'n un de nou i torna a provar. Només cal fer-ho una vegada.
+      <div class="cmd pre" data-on="Al PowerShell" data-copia="$p = [Environment]::GetEnvironmentVariable('PATH', 'User'); [Environment]::SetEnvironmentVariable('PATH', &quot;$p;$env:USERPROFILE\.local\bin&quot;, 'User')"><code>$p = [Environment]::GetEnvironmentVariable('PATH', 'User');
 [Environment]::SetEnvironmentVariable('PATH', "$p;$env:USERPROFILE\.local\bin", 'User')</code></div>
     </div>
   </div>
 </section>
 
-<section class="slide" data-saga="2" data-titol="Pas 5 · La carpeta del primer projecte">
+<section class="slide" data-saga="2" data-titol="Pas 4 · La carpeta del primer projecte">
   <div class="panel">
-    <div class="kicker">Preparació · Pas 5 de 7</div>
-    <h2>Crea la carpeta del primer projecte i entra-hi</h2>
-    <p class="lead">Claude Code s'obre sempre <b>dins d'una carpeta</b>, i hi treballa. Abans d'arrencar-lo, crea la del teu primer projecte i situa-t'hi.</p>
+    <div class="kicker">Preparació · Pas 4 de 7</div>
+    <h2>Crea la carpeta i obre-hi el PowerShell</h2>
+    <p class="lead">Claude Code s'obre sempre <b>dins d'una carpeta</b>, i hi treballa. Abans d'arrencar-lo, crea la del teu primer projecte i obre-hi un PowerShell.</p>
     <div class="g2">
       <div>
         <h3>1 · Crea-la a l'Explorador de fitxers</h3>
         <ol class="passos">
-          <li>Obre <b>Documents</b> i crea-hi una carpeta <code class="in">Claude</code>.</li>
+          <li>Obre <b>Documents</b> (o «Documentos») i crea-hi una carpeta <code class="in">Claude</code>.</li>
           <li>A dins, una carpeta per al projecte, per exemple <code class="in">Receptes</code>. Noms curts, sense espais ni accents.</li>
+          <li>Entra a la carpeta <code class="in">Receptes</code> amb doble clic.</li>
         </ol>
-        <div class="caixa truc"><span class="etiq">💡 Més fàcil</span> Al terminal, escriu <code class="in">cd</code> i un espai, i després <b>arrossega la carpeta</b> des de l'Explorador fins a la finestra del terminal: la ruta s'escriu sola. Prem <kbd>Enter</kbd>.</div>
+        <div class="caixa truc"><span class="etiq">💡 Altres maneres</span> A Windows 11, clic dret dins la carpeta → <b>Obre al Terminal</b> («Abrir en Terminal»). O, en un terminal obert, escriu <code class="in">cd</code> i un espai, arrossega-hi la carpeta des de l'Explorador i prem <kbd>Enter</kbd>.</div>
       </div>
       <div>
-        <h3>2 · Entra-hi des del terminal</h3>
-        <div class="cmd"><code>cd "C:\Users\nom\Documents\Claude\Receptes"</code></div>
-        <p>Canvia <b>nom</b> pel teu usuari de Windows i <b>Receptes</b> pel teu projecte. Si fas servir OneDrive, la ruta pot ser una altra: el truc d'arrossegar la carpeta ho resol.</p>
-        <div class="caixa be"><span class="etiq">✅ Bé</span> El terminal ara mostra la carpeta:
+        <h3>2 · Obre-hi el PowerShell</h3>
+        <ol class="passos">
+          <li>Amb la carpeta oberta, prem <kbd>Ctrl</kbd>+<kbd>L</kbd>: el camí de dalt de tot es marca en blau.</li>
+          <li>Escriu <code class="in">powershell</code> (substitueix el que hi havia) i prem <kbd>Enter</kbd>.</li>
+        </ol>
+        <div class="caixa be"><span class="etiq">✅ Bé</span> S'obre un PowerShell que ja mostra la carpeta. Les altres finestres del terminal, ja les pots tancar.
           <div class="term"><pre><span class="ps">PS C:\Users\nom\Documents\Claude\Receptes&gt;</span> _</pre></div>
+          Si fas servir OneDrive, la ruta serà una mica diferent: no passa res.
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="slide" data-saga="2" data-titol="Pas 6 · Primera arrencada">
+<section class="slide" data-saga="2" data-titol="Pas 5 · Primera arrencada">
   <div class="panel">
-    <div class="kicker">Preparació · Pas 6 de 7</div>
+    <div class="kicker">Preparació · Pas 5 de 7</div>
     <h2>Primera arrencada i connexió</h2>
-    <p class="lead">Ja dins la carpeta, escriu <code class="in">claude</code> i prem <kbd>Enter</kbd>. Això només passa la primera vegada:</p>
+    <p class="lead">Al PowerShell de la carpeta, escriu <code class="in">claude</code> i prem <kbd>Enter</kbd>. La primera vegada et fa unes preguntes en anglès: tria amb les fletxes <kbd>↑</kbd> <kbd>↓</kbd> i confirma amb <kbd>Enter</kbd>.</p>
     <div class="g2">
       <ol class="passos">
-        <li><b>Tria els colors</b> amb les fletxes <kbd>↑</kbd> <kbd>↓</kbd> i <kbd>Enter</kbd>.</li>
-        <li><b>Tria com entres:</b> l'opció del compte de Claude amb subscripció (Pro, Max…).</li>
-        <li><b>S'obre el navegador:</b> entra amb el teu compte de Claude i autoritza l'accés.</li>
-        <li><b>Torna al terminal.</b> Si surten pantalles informatives, <kbd>Enter</kbd> per continuar.</li>
-        <li><b>Et pregunta si confies en aquesta carpeta.</b> És teva: digues que sí.</li>
+        <li><b>«Choose the text style…»</b>: són els colors. Qualsevol va bé.</li>
+        <li><b>«Select login method»</b>: tria <b>Claude account with subscription</b>.</li>
+        <li><b>S'obre el navegador:</b> entra amb el teu compte de Claude i autoritza l'accés. Després torna a la finestra del terminal.</li>
+        <li><b>«Login successful», «Security notes»…</b>: <kbd>Enter</kbd> per continuar. Si et proposa una configuració recomanada del terminal, tria <b>Yes</b>.</li>
+        <li><b>«Accessing workspace»</b>: et pregunta si confies en aquesta carpeta. És teva: tria <b>Yes, I trust this folder</b>.</li>
       </ol>
       <div>
-        <div class="caixa be"><span class="etiq">✅ Ja hi ets</span> Surt el quadre on escriure. El compte queda desat i no ho hauràs de repetir.</div>
+        <div class="caixa be"><span class="etiq">✅ Ja hi ets</span> A baix ja no hi ha <code class="in">PS C:\…&gt;</code>: ara hi ha el quadre de Claude, on li escrius. Els requadres amb l'etiqueta <b>Missatge a Claude</b> van aquí. El compte queda desat i no ho hauràs de repetir.</div>
         <div class="caixa compte"><span class="etiq">⚠️ El navegador no s'obre?</span> Prem <kbd>c</kbd> per copiar l'enllaç i enganxa'l al navegador.</div>
         <p class="peu">Sortir: <code class="in">/exit</code> · Canviar de compte: <code class="in">/login</code></p>
       </div>
@@ -531,16 +521,39 @@ table.problemes td{padding:6px}
   </div>
 </section>
 
-<section class="slide" data-saga="2" data-titol="Pas 7 · Que et parli en català">
+<section class="slide" data-saga="2" data-titol="Pas 6 · Que et parli en català">
   <div class="panel">
-    <div class="kicker">Preparació · Pas 7 de 7</div>
+    <div class="kicker">Preparació · Pas 6 de 7</div>
     <h2>Que et parli sempre en català</h2>
     <p class="lead">Claude sol respondre en la llengua en què li escrius, però de vegades pregunta o proposa opcions en anglès. Per fixar el català, demana-li-ho una vegada:</p>
-    <div class="cmd"><code>Configura't perquè em parlis sempre en català: posa "language": "catalan" al meu settings.json d'usuari i afegeix al meu CLAUDE.md global que totes les respostes, preguntes i opcions han de ser en català.</code></div>
-    <p>Et demanarà permís per tocar aquests dos fitxers (són a <code class="in">C:\Users\nom\.claude\</code>): digues que sí. Val per a tots els projectes. Per assegurar-t'ho, surt amb <code class="in">/exit</code> i torna a entrar.</p>
+    <div class="cmd claude" data-on="Missatge a Claude"><code>Configura't perquè em parlis sempre en català: posa "language": "catalan" al meu settings.json d'usuari i afegeix al meu CLAUDE.md global que totes les respostes, preguntes i opcions han de ser en català.</code></div>
+    <p>Si et demana permís per tocar aquests dos fitxers (són a <code class="in">C:\Users\nom\.claude\</code>), tria <b>Yes</b>. Val per a tots els projectes. Per assegurar-t'ho, surt amb <code class="in">/exit</code> i torna a entrar.</p>
     <div class="g2">
       <div class="caixa be"><span class="etiq">✅ Què canvia</span> Tot el que escriu Claude: les respostes, les preguntes que et fa i les opcions que et proposa.</div>
       <div class="caixa compte"><span class="etiq">⚠️ Què no canvia</span> Els textos fixos del programa (<i>Yes</i>, <i>No</i>, <i>auto mode on</i>, els menús) són en anglès i no es poden traduir.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-saga="2" data-titol="Pas 7 · Git for Windows (opcional)">
+  <div class="panel">
+    <div class="kicker">Preparació · Pas 7 de 7 · opcional</div>
+    <h2>Extra: instal·la Git for Windows</h2>
+    <p class="lead">Claude Code ja et funciona sense això. Git li dona eines que fa servir sovint i et permet desar versions dels fitxers per poder-hi tornar. És recomanat, però si avui ja en tens prou, deixa-ho per un altre dia.</p>
+    <div class="g2">
+      <ol class="passos">
+        <li>Ves a <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener">git-scm.com/downloads/win</a>.</li>
+        <li>Baixa la versió <b>x64</b> (l'enllaç de descàrrega de dalt de tot).</li>
+        <li>Obre el fitxer que has baixat. Windows et preguntarà si permets que faci canvis al dispositiu: <b>Sí</b>.</li>
+        <li>Prem <b>Next</b> a totes les pantalles (són moltes; no cal llegir-les) i al final <b>Install</b> i <b>Finish</b>.</li>
+      </ol>
+      <div>
+        <div class="caixa be"><span class="etiq">✅ Comprova-ho</span> Obre un terminal <b>nou</b> i escriu:
+          <div class="cmd" data-on="Al PowerShell"><code>git --version</code></div>
+          Ha de respondre <code class="in">git version 2.…</code>
+        </div>
+        <p>La pròxima vegada que obris Claude, ja el farà servir.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -660,14 +673,14 @@ table.problemes td{padding:6px}
     <div class="g2">
       <div>
         <ol class="passos">
-          <li>Com al pas 5 de la instal·lació: dins de <code class="in">Documents\Claude</code>, <b>una carpeta per projecte</b>.</li>
+          <li>Com al pas 4 de la instal·lació: dins de <code class="in">Documents\Claude</code>, <b>una carpeta per projecte</b>.</li>
           <li>Noms curts, sense espais ni accents: <code class="in">Llista-compra</code>, <code class="in">Web-escola</code>.</li>
           <li>Posa-hi el material que Claude hagi de fer servir: documents, imatges, dades.</li>
         </ol>
       </div>
       <div>
         <p><b>El primer dia</b>, obre Claude a la carpeta, explica-li de què va el projecte i demana-li:</p>
-        <div class="cmd"><code>Crea un CLAUDE.md curt amb les normes d'aquest projecte.</code></div>
+        <div class="cmd claude" data-on="Missatge a Claude"><code>Crea un CLAUDE.md curt amb les normes d'aquest projecte.</code></div>
         <p>El <b>CLAUDE.md</b> és el fitxer de normes que Claude llegeix a cada sessió. Quedarà semblant a això:</p>
 <pre class="arbre"># Projecte: Receptes
 - Abans de tocar fitxers, explica'm què faràs.
@@ -683,21 +696,22 @@ table.problemes td{padding:6px}
     <h2>Obre la sessió des de la carpeta</h2>
     <div class="g2">
       <div class="targeta blau">
-        <h3>A · Al terminal, com a la instal·lació</h3>
-        <div class="cmd pre"><code>cd "C:\Users\nom\Documents\Claude\Receptes"
-claude</code></div>
-        <p>Funciona, però cada dia has d'escriure la ruta. I si t'equivoques de carpeta, Claude no t'avisa.</p>
+        <h3>A · Com a la instal·lació</h3>
+        <p>A l'Explorador, entra a la carpeta del projecte, prem <kbd>Ctrl</kbd>+<kbd>L</kbd>, escriu <code class="in">powershell</code> i prem <kbd>Enter</kbd>. Al PowerShell que s'obre:</p>
+        <div class="cmd" data-on="Al PowerShell"><code>claude</code></div>
+        <p>Funciona, però cada dia has de buscar la carpeta. I si t'equivoques de carpeta, Claude no t'avisa.</p>
         <div class="caixa be"><span class="etiq">✅ Comprova-ho sempre</span> A dalt de la sessió hi surt la ruta. Si no és la del projecte, <code class="in">/exit</code> i torna-hi.</div>
       </div>
       <div class="targeta taronja">
         <h3>B · Un fitxer .bat <span class="segell">Recomanat</span></h3>
-        <p>Les mateixes dues línies, desades en un fitxer: <b>doble clic i ja hi ets</b>, sense escriure res.</p>
+        <p>Un fitxer que entra a la carpeta i obre Claude: <b>doble clic i ja hi ets</b>, sense buscar res.</p>
         <p>Obre el <b>Bloc de notes</b> i enganxa-hi:</p>
-        <div class="cmd pre"><code>@echo off
+        <div class="cmd pre notes" data-on="Al Bloc de notes"><code>@echo off
+chcp 65001 &gt;nul
 cd /d "C:\Users\nom\Documents\Claude\Receptes"
 claude</code></div>
         <ol class="passos">
-          <li>Canvia la ruta per la del teu projecte.</li>
+          <li>Canvia la ruta per la del teu projecte. Per no equivocar-te: a l'Explorador, clic dret a la carpeta → <b>Copia com a camí</b> («Copiar como ruta de acceso»; a Windows 10, amb <kbd>Maj</kbd> premuda). Enganxa-la al lloc de la ruta d'exemple, cometes incloses.</li>
           <li><b>Fitxer → Anomena i desa</b>. A «Tipus», tria <b>Tots els fitxers</b>. Nom: <code class="in">Receptes.bat</code>. Desa'l a l'escriptori.</li>
         </ol>
       </div>
@@ -746,7 +760,7 @@ claude</code></div>
           <li>Quan <code class="in">/context</code> passa de ~150.000 tokens o veus l'avís de compactació.</li>
         </ul>
         <h3>Com</h3>
-        <div class="cmd"><code>Guarda a la memòria el que hem decidit, en quin punt som i què queda pendent.</code></div>
+        <div class="cmd claude" data-on="Missatge a Claude"><code>Guarda a la memòria el que hem decidit, en quin punt som i què queda pendent.</code></div>
       </div>
       <div>
         <h3>Què hi ha d'anar</h3>
@@ -776,9 +790,9 @@ claude</code></div>
       </div>
       <div>
         <h3>Tornar a una conversa anterior</h3>
-        <div class="cmd"><code>claude -c</code></div>
+        <div class="cmd" data-on="Al PowerShell"><code>claude -c</code></div>
         <p>Continua l'última conversa d'aquesta carpeta.</p>
-        <div class="cmd"><code>claude -r</code></div>
+        <div class="cmd" data-on="Al PowerShell"><code>claude -r</code></div>
         <p>Et deixa triar-ne una de la llista. Dins de Claude, el mateix: <code class="in">/resume</code>.</p>
         <div class="caixa compte"><span class="etiq">⚠️</span> Recupera només converses curtes. Una de llarga torna amb el context ple: millor una sessió nova.</div>
       </div>
@@ -835,7 +849,7 @@ claude</code></div>
     <h2>Problemes i solucions</h2>
     <table class="problemes apila">
       <tr><th>Passa això</th><th>Fes això</th></tr>
-      <tr><td><code class="in">claude</code> no es reconeix</td><td>Pas 4 de la instal·lació (la línia del PATH) i obre un terminal nou.</td></tr>
+      <tr><td><code class="in">claude</code> no es reconeix</td><td>Pas 3 de la instal·lació (la línia del PATH) i obre un terminal nou.</td></tr>
       <tr><td>El navegador no s'obre en connectar-te</td><td>Prem <kbd>c</kbd> i enganxa l'enllaç al navegador.</td></tr>
       <tr><td>«You've hit your session limit»</td><td>Has gastat el límit del pla: es renova cada 5 hores, i també n'hi ha un de setmanal. El missatge diu quan; Claude pot esperar i continuar sol. <code class="in">/usage</code> t'ensenya com vas.</td></tr>
       <tr><td>Ha agafat un camí dolent</td><td><kbd>Esc</kbd> per aturar-lo i <kbd>Esc</kbd> <kbd>Esc</kbd> per tornar enrere. És millor que corregir-lo a base de missatges.</td></tr>
