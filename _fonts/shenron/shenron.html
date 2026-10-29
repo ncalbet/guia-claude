@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ca">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>La invocació de Shenron</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#061613;color:#fff8dc;font-family:system-ui,sans-serif}.scene{position:relative;width:100%;height:100%;isolation:isolate;background:radial-gradient(ellipse at 50% 86%,#335532 0, #102f29 30%,#061613 72%)}svg{width:100%;height:100%;display:block}.caption{position:absolute;left:6%;top:7%;pointer-events:none}.caption small{font-size:10px;letter-spacing:.32em;color:#c6ac70}.caption h1{font-size:clamp(19px,4vw,36px);font-weight:500;letter-spacing:.05em;margin:9px 0}.caption p{font-size:12px;color:#a1b6a6;margin:0}button{position:absolute;bottom:5%;right:5%;background:#142f27cc;color:#f8e7b4;border:1px solid #bca46b70;border-radius:30px;padding:10px 17px;font:11px system-ui;letter-spacing:.1em;cursor:pointer}button:hover{background:#30513d}button:focus-visible{outline:2px solid #ffe299;outline-offset:4px}.dragon{filter:drop-shadow(0 0 12px #66e9a340)}.bodyLine{fill:none;stroke-linecap:round;stroke-linejoin:round}.beam{mix-blend-mode:screen}.status{position:absolute;bottom:5%;left:5%;font-size:10px;letter-spacing:.2em;color:#cfb77d}@media(max-width:420px){.caption p{display:none}.caption small{font-size:8px}.status{font-size:8px}}
+.caption{max-width:36%}.caption h1{font-size:clamp(17px,3vw,28px);line-height:1.25;margin:0;text-wrap:balance}button{padding:7px 11px;font-size:9px;letter-spacing:.06em}.status.is-wish{font-size:clamp(11px,1.6vw,15px);font-weight:800;letter-spacing:.1em;color:#ffe6a3;text-shadow:0 0 14px #ffd27766}@media(max-width:420px){.caption{max-width:45%}.status.is-wish{max-width:49%;line-height:1.5}}
+</style>
+<div class="scene">
+ <div class="caption"><h1>Has trobat les 7 boles de drac!</h1></div>
+ <svg viewBox="0 0 900 650" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Les set boles de drac brillen i invoquen Shenron, un drac verd serpentejant amb banyes i bigotis llargs.">
+ <defs>
+  <radialGradient id="orb"><stop stop-color="#fff4b1"/><stop offset=".3" stop-color="#ffc953"/><stop offset=".78" stop-color="#f18a13"/><stop offset="1" stop-color="#b84b08"/></radialGradient>
+  <radialGradient id="halo"><stop stop-color="#ffe295" stop-opacity=".8"/><stop offset="1" stop-color="#ffbd46" stop-opacity="0"/></radialGradient>
+  <linearGradient id="skin" x1="0" y1="0" x2="1" y2=".5"><stop stop-color="#0d6246"/><stop offset=".45" stop-color="#4bba6c"/><stop offset="1" stop-color="#1a7852"/></linearGradient>
+  <linearGradient id="light" x1="0" y1="1" x2="0" y2="0"><stop stop-color="#fff2ae" stop-opacity=".85"/><stop offset="1" stop-color="#c6ffaf" stop-opacity="0"/></linearGradient>
+  <pattern id="scales" width="22" height="18" patternUnits="userSpaceOnUse"><path d="M-11 0Q0 20 11 0M11 0Q22 20 33 0M0 9Q11 29 22 9" fill="none" stroke="#063b2b" stroke-opacity=".35" stroke-width="1.5"/></pattern>
+  <path id="coil" d="M450 541 C430 498 581 492 600 432 C633 334 306 411 300 316 C295 225 623 315 633 228 C642 150 447 177 481 114"/>
+  <path id="star" d="M0-4 1.2-1.3 4.2-1.3 1.8.6 2.6 3.7 0 1.9-2.6 3.7-1.8.6-4.2-1.3-1.2-1.3Z"/>
+  <filter id="blur"><feGaussianBlur stdDeviation="12"/></filter>
+  <mask id="reveal"><rect width="900" height="650" fill="black"/><rect id="revealRect" x="180" y="650" width="570" height="0" fill="white"/></mask>
+ </defs>
+ <g opacity=".18" stroke="#6ca087" fill="none"><circle cx="450" cy="325" r="245"/><circle cx="450" cy="325" r="255" stroke-dasharray="1 17"/><path d="M450 62V87M450 563V588M188 325H213M687 325H712"/></g>
+ <g id="stars"></g>
+ <g fill="#03110f" opacity=".7"><path d="M0 530 110 439 160 482 214 423 320 538 430 489 525 534 670 436 734 481 790 420 900 498V650H0Z"/><path d="M0 570 160 510 270 561 405 517 545 565 734 524 900 554V650H0Z"/></g>
+ <ellipse cx="450" cy="550" rx="220" ry="42" fill="#77bc6b" opacity=".09"/>
+ <g id="rings" fill="none" stroke="#eac775"><ellipse cx="450" cy="549" rx="166" ry="39" opacity=".4"/><ellipse cx="450" cy="549" rx="183" ry="47" opacity=".16" stroke-dasharray="4 9"/></g>
+ <path id="beam" class="beam" d="M420 550 338 80H562L480 550Z" fill="url(#light)" filter="url(#blur)" opacity="0"/>
+ <g mask="url(#reveal)"><g id="dragon" class="dragon">
+  <use href="#coil" class="bodyLine" stroke="#062b22" stroke-width="66"/>
+  <use href="#coil" class="bodyLine" stroke="url(#skin)" stroke-width="57"/>
+  <use href="#coil" class="bodyLine" stroke="url(#scales)" stroke-width="55"/>
+  <use href="#coil" class="bodyLine" stroke="#e8cb87" stroke-width="19"/>
+  <use href="#coil" class="bodyLine" stroke="#947b45" stroke-width="19" stroke-dasharray="2 9"/>
+  <g fill="#53a664" stroke="#073c2c" stroke-width="4" stroke-linejoin="round">
+   <path d="M326 306Q285 280 264 294L249 326 226 334 252 337 267 324 271 345 282 325 295 335 288 309 326 332Z"/>
+   <path d="M592 235Q669 249 665 278L681 294 663 291 660 308 647 286 630 299 635 278 621 267 585 261Z"/>
+  </g>
+  <g id="head">
+   <g fill="none" stroke="#d1b181" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"><path d="M454 130 427 94 417 51M428 95 399 83 386 61M417 53 432 39M501 126 527 88 538 49M526 90 555 74 566 52M539 49 525 32"/></g>
+   <path d="M438 112 418 112 433 133 412 143 435 153 421 170 451 162 461 185 482 168 503 181 506 159 535 166 519 145 539 129 513 127 521 107 496 118Z" fill="#174d39" stroke="#072f24" stroke-width="3"/>
+   <path d="M443 116Q475 100 508 117L516 147 499 166 496 184Q475 199 451 182L451 166 436 144Z" fill="url(#skin)" stroke="#052f23" stroke-width="4"/>
+   <path d="M440 136 463 142 460 151 445 147ZM507 136 483 142 487 151 503 147Z" fill="#ef3931" stroke="#092c21" stroke-width="3"/>
+   <path d="M451 131 464 139M500 131 483 139" stroke="#98d788" stroke-width="5" stroke-linecap="round"/>
+   <path d="M459 160Q473 150 488 160L501 174 494 192Q473 204 450 190L446 175Z" fill="#75b978" stroke="#103f2d" stroke-width="3"/>
+   <path d="M453 180Q473 190 494 179L490 194Q474 205 457 194Z" fill="#301f1c"/>
+   <path d="M455 181 461 191 465 185M486 184 489 191 493 180" fill="#fff3c7"/>
+   <path d="M458 169 464 170M483 170 490 168" stroke="#153e2c" stroke-width="4" stroke-linecap="round"/>
+   <path d="M453 176C414 159 412 209 374 194S337 150 316 175M495 176C531 155 544 211 576 189S598 152 622 171" fill="none" stroke="#e5d5a1" stroke-width="3" stroke-linecap="round"/>
+   <path d="M462 199 472 223 485 199" fill="#c7cf91"/>
+  </g>
+ </g></g>
+ <ellipse id="flash" cx="450" cy="535" rx="140" ry="95" fill="url(#halo)" opacity="0"/>
+ <g id="balls"></g><g id="sparks" fill="#ffdda0"></g>
+ </svg>
+ <span id="status" class="status" aria-live="polite">REUNINT LES SET ESFERES</span>
+ <button id="replay" type="button" aria-label="Torna a reproduir la invocació">↻ TORNAR A INVOCAR</button>
+</div>
+<script>
+(()=>{'use strict';
+ const root=document.querySelector('svg'),NS='http://www.w3.org/2000/svg';
+ const get=id=>document.getElementById(id);
+ const el=(tag,attrs,parent)=>{const n=document.createElementNS(NS,tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,v);parent.append(n);return n;};
+ let seed=17;const rand=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646;};
+ for(let i=0;i<65;i++)el('circle',{cx:rand()*900,cy:rand()*500,r:rand()*1.4+.4,fill:'#d7e3b8',opacity:rand()*.35+.1},get('stars'));
+ const balls=[];for(let i=0;i<7;i++){
+  const a=-Math.PI/2+i*Math.PI*2/7,x=450+Math.cos(a)*128,y=543+Math.sin(a)*30;
+  const g=el('g',{},get('balls'));el('circle',{r:39,fill:'url(#halo)',opacity:.6},g);el('circle',{r:18,fill:'url(#orb)',stroke:'#ffc96b','stroke-width':1},g);
+  el('ellipse',{cx:-5,cy:-7,rx:7,ry:4,fill:'#fff7cc',opacity:.5,transform:'rotate(-30)'},g);
+  const n=i+1;for(let j=0;j<n;j++){const angle=j*2*Math.PI/Math.max(n-1,1)-Math.PI/2;const center=n===1||j===n-1;el('use',{href:'#star',fill:'#b52c0b',transform:`translate(${center?0:Math.cos(angle)*8} ${center?0:Math.sin(angle)*8}) scale(.68)`},g);}
+  balls.push({g,x,y});
+ }
+ const sparks=[];for(let i=0;i<36;i++)sparks.push({n:el('circle',{r:rand()*1.7+.5},get('sparks')),x:rand(),y:rand(),s:rand()});
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');let start=0,raf=0,active=true,ended=false;
+ const clamp=v=>Math.max(0,Math.min(1,v));const ease=v=>1-Math.pow(1-clamp(v),3);
+ function draw(t){
+  const rise=ease((t-2.4)/4.1),pulse=.5+.5*Math.sin(t*4);
+  balls.forEach(({g,x,y},i)=>{const p=ease((t-i*.1)/1.4);g.setAttribute('transform',`translate(${x} ${y+(1-p)*100})`);g.setAttribute('opacity',p);});
+  get('revealRect').setAttribute('y',650-rise*640);get('revealRect').setAttribute('height',rise*650);
+  get('dragon').setAttribute('transform',`translate(0 ${rise===1?Math.sin(t*1.3)*3:0})`);
+  get('beam').setAttribute('opacity',clamp((t-1.5)*1.2)*(1-clamp((t-6)/2))*(.5+pulse*.3));
+  get('flash').setAttribute('opacity',clamp(t-1)*(1-clamp((t-6)/3))*(.6+pulse*.4));
+  sparks.forEach(({n,x,y,s})=>{const p=(t*(.12+s*.1)+y)%1;n.setAttribute('cx',450+(x-.5)*(65+p*300));n.setAttribute('cy',535-p*420);n.setAttribute('opacity',Math.sin(p*Math.PI)*clamp(t-1.5)*.7);});
+  const message=t<2?'REUNINT LES SET ESFERES':t<6.5?'SHENRON, APAREIX!':'QUIN ÉS EL TEU DESIG?';if(get('status').textContent!==message)get('status').textContent=message;
+  get('status').classList.toggle('is-wish',t>=6.5);
+ }
+ function tick(now){if(!active)return;if(!start)start=now;const t=(now-start)/1000;draw(reduced.matches?9:t);if(reduced.matches||t>=18){ended=true;return;}raf=requestAnimationFrame(tick);}
+ function play(){cancelAnimationFrame(raf);start=0;ended=false;active=true;raf=requestAnimationFrame(tick);}
+ get('replay').addEventListener('click',play);
+ reduced.addEventListener('change',play);
+ document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);active=false;}else if(!ended)play();});
+ play();
+})();
+</script>
+</html>
