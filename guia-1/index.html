@@ -1,0 +1,1339 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guia Claude Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blau:#1d4fa6; --nit:#081129;
+  --taronja:#ff7a00; --groc:#ffd23f;
+  --vermell:#d7261e; --verd:#22985a;
+  --paper:#fffaf0; --tinta:#14110f; --gris:#5b5650;
+  --code-bg:#15171d; --code-fg:#f3f3f3;
+  --titol:Bangers, Impact, "Arial Black", sans-serif;
+  --mono:"JetBrains Mono", Consolas, "Courier New", monospace;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-family:Nunito, "Segoe UI", system-ui, sans-serif;color:var(--tinta);background:var(--nit);overflow:hidden}
+a{color:var(--blau);font-weight:800}
+
+/* Fons: aura i línies de velocitat */
+.fons{position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse at 50% 55%, rgba(255,170,0,.33), transparent 58%),
+    repeating-conic-gradient(from 0deg at 50% 55%, rgba(255,255,255,.055) 0 2deg, transparent 2deg 9deg),
+    linear-gradient(180deg,#123173 0%,#081129 100%)}
+
+.deck{position:relative;z-index:1;height:100%;height:100dvh;display:flex;flex-direction:column}
+
+/* Barra de dalt */
+.dalt{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 22px;color:#fff;min-height:54px;width:100%;max-width:1164px;margin:0 auto}
+.saga{display:flex;align-items:center;gap:10px;font-family:var(--titol);letter-spacing:1px;font-size:clamp(15px,2.1vw,22px);min-width:0}
+.saga span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.saga svg{flex:none}
+.marca{font-family:var(--titol);letter-spacing:1px;color:var(--groc);font-size:clamp(14px,1.8vw,19px);text-align:right;white-space:nowrap}
+a.marca{font-weight:400;text-decoration:none}
+a.marca:hover,a.marca:focus-visible{text-decoration:underline}
+
+/* Escenari i diapositives */
+.escena{position:relative;flex:1;min-height:0}
+.slide{position:absolute;inset:0;padding:4px 30px 14px 22px;display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;transform:translateX(40px);transition:opacity .35s,transform .35s,visibility 0s .35s}
+.slide.abans{transform:translateX(-40px)}
+.slide.activa{opacity:1;visibility:visible;transform:none;transition:opacity .35s,transform .35s}
+.panel{width:min(1120px,100%);max-height:100%;overflow:auto;background:var(--paper);border:4px solid var(--tinta);
+  border-radius:14px;box-shadow:8px 8px 0 var(--tinta);padding:clamp(18px,2.6vw,34px)}
+
+/* Tipografia */
+.kicker{font-family:var(--titol);letter-spacing:1.5px;color:var(--taronja);font-size:clamp(16px,1.9vw,21px)}
+.panel h2{font-family:var(--titol);font-weight:400;letter-spacing:1px;font-size:clamp(30px,4vw,48px);line-height:1.12;margin:4px 0 8px;color:var(--blau);overflow-wrap:break-word}
+.panel h3{font-weight:800;font-size:clamp(16px,1.6vw,19px);margin:6px 0 6px}
+.lead{font-size:clamp(16px,1.7vw,20px);font-weight:600;margin:4px 0 14px;line-height:1.4}
+p,li,td,dd{font-size:clamp(14.5px,1.45vw,17px);line-height:1.45}
+p{margin:6px 0}
+ul,ol{margin:6px 0;padding-left:22px}
+li{margin:5px 0}
+.peu{color:var(--gris);font-size:14px;margin-top:10px}
+
+/* Graelles */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px 26px;align-items:start}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
+.g2>*,.g3>*,.cmd,.cmd code{min-width:0}
+
+/* Llistes */
+ol.passos{list-style:none;counter-reset:p;padding:0}
+ol.passos>li{counter-increment:p;position:relative;padding-left:40px;margin:10px 0}
+ol.passos>li::before{content:counter(p);position:absolute;left:0;top:-1px;width:28px;height:28px;border-radius:50%;
+  background:var(--taronja);color:#fff;border:2px solid var(--tinta);font-family:var(--titol);font-size:17px;display:grid;place-items:center}
+ul.estrelles{list-style:none;padding:0}
+ul.estrelles>li{position:relative;padding-left:26px}
+ul.estrelles>li::before{content:"★";position:absolute;left:2px;top:0;color:var(--vermell)}
+
+/* Caixes */
+.caixa{border:3px solid var(--tinta);border-radius:12px;padding:10px 14px;margin:12px 0;background:#fff;font-size:clamp(14.5px,1.45vw,17px);line-height:1.45}
+.caixa .etiq{font-family:var(--titol);font-weight:400;letter-spacing:1px;font-size:1.12em;margin-right:4px}
+.truc{background:#eaf3ff;border-color:var(--blau)}
+.compte{background:#fff1e0;border-color:var(--taronja)}
+.be{background:#e8f8ee;border-color:var(--verd)}
+.targeta{border:3px solid var(--tinta);border-radius:12px;padding:12px 16px;background:#fff}
+.targeta.blau{border-top:10px solid var(--blau)}
+.targeta.taronja{border-top:10px solid var(--taronja)}
+.targeta.verd{border-top:10px solid var(--verd)}
+.targeta h3{margin-top:2px}
+.segell{display:inline-block;font-family:var(--titol);letter-spacing:1px;font-weight:400;font-size:15px;background:var(--groc);border:2px solid var(--tinta);border-radius:6px;padding:0 6px;margin-left:6px;vertical-align:2px}
+
+/* Codi i tecles */
+.cmd{display:flex;align-items:flex-start;gap:10px;background:var(--code-bg);color:var(--code-fg);border:3px solid var(--tinta);
+  border-radius:10px;padding:10px 12px;margin:8px 0;font-family:var(--mono);font-size:clamp(13px,1.35vw,15.5px)}
+.cmd code{flex:1;white-space:pre-wrap;word-break:break-word;line-height:1.5}
+.cmd.pre code{white-space:pre;overflow-x:auto}
+.cmd.gran{font-size:clamp(16px,2.2vw,24px);padding:16px 18px;box-shadow:0 0 0 4px var(--groc),0 0 30px rgba(80,170,255,.7)}
+.copia{flex:none;font-family:Nunito,sans-serif;font-weight:800;font-size:13px;background:var(--groc);color:var(--tinta);
+  border:2px solid var(--tinta);border-radius:8px;padding:3px 10px;cursor:pointer}
+.copia.fet{background:var(--verd);color:#fff}
+/* On s'escriu cada requadre: etiqueta a la vora de dalt */
+.cmd[data-on]{position:relative;margin-top:20px}
+.cmd[data-on]::before{content:attr(data-on);position:absolute;top:-14px;left:12px;font-family:Nunito,"Segoe UI",sans-serif;font-weight:800;
+  font-size:12px;line-height:1;padding:4px 8px;border:2px solid var(--tinta);border-radius:6px;background:var(--blau);color:#fff;white-space:nowrap}
+.cmd.claude,.cmd.notes{background:#fff;color:var(--tinta)}
+.cmd.claude code{font-family:Nunito,"Segoe UI",sans-serif;font-size:clamp(14.5px,1.45vw,17px)}
+.cmd.claude::before{background:var(--taronja)}
+.cmd.notes::before{background:var(--gris)}
+code.in{font-family:var(--mono);background:#f1ebdf;border:1px solid #d8cdb8;border-radius:6px;padding:0 5px;font-size:.9em;overflow-wrap:anywhere}
+kbd{font-family:var(--mono);font-size:.84em;background:#fff;color:var(--tinta);border:2px solid var(--tinta);border-bottom-width:4px;border-radius:6px;padding:0 6px;white-space:nowrap}
+
+/* Terminal fals */
+.term{background:#0c0c0c;color:#d6d6d6;border:3px solid var(--tinta);border-radius:10px;overflow:hidden;font-family:var(--mono);
+  font-size:clamp(12.5px,1.3vw,15px);margin:8px 0}
+.term .barra{background:#2b2b2b;color:#ddd;padding:4px 10px;font-family:"Segoe UI",sans-serif;font-size:12px}
+.term pre{margin:0;padding:10px 14px;white-space:pre-wrap;word-break:break-word}
+.term .ps{color:#f5ec9a}.term .out{color:#9fe0a8}
+
+.arbre{font-family:var(--mono);background:#f6f0e3;border:2px dashed #c9b994;border-radius:10px;padding:12px 14px;margin:8px 0;
+  white-space:pre;overflow:auto;font-size:clamp(13px,1.35vw,15.5px);line-height:1.5}
+
+/* Taules */
+table{width:100%;border-collapse:collapse}
+th{font-family:var(--titol);font-weight:400;letter-spacing:1px;color:var(--blau);text-align:left;font-size:clamp(16px,1.7vw,20px);padding:6px}
+td{border-top:2px dashed #e0d5bf;padding:7px 6px;vertical-align:top}
+td:first-child{font-weight:800}
+.estat{display:block;font-family:var(--mono);font-weight:400;font-size:12.5px;color:var(--gris);white-space:nowrap}
+
+/* Elements temàtics */
+.ki{display:flex;border:3px solid var(--tinta);border-radius:12px;overflow:hidden;margin:12px 0 6px;box-shadow:4px 4px 0 var(--tinta)}
+.ki .z{padding:10px 12px;display:flex;flex-direction:column;gap:2px;font-size:clamp(13px,1.35vw,16px)}
+.ki .z b{font-family:var(--titol);font-weight:400;letter-spacing:1px;font-size:1.25em}
+.z1{flex:5;background:linear-gradient(90deg,#86e3a6,#cdf28e)}
+.z2{flex:3;background:linear-gradient(90deg,#ffe066,#ffb000)}
+.z3{flex:2;background:linear-gradient(90deg,#ff7a50,#d7261e);color:#fff}
+.nota-ki{font-size:14.5px;color:var(--gris);margin:6px 0 14px}
+.cicle{display:flex;align-items:stretch;justify-content:center;gap:8px;margin:18px 0 10px}
+.pas{flex:1;background:#fff;border:3px solid var(--tinta);border-radius:12px;box-shadow:4px 4px 0 var(--tinta);padding:12px 8px;
+  display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.pas b{font-family:var(--titol);font-weight:400;letter-spacing:1px;font-size:clamp(18px,2vw,24px);color:var(--blau)}
+.pas span{font-size:clamp(13px,1.3vw,15px);color:var(--gris)}
+.fletxa{align-self:center;font-size:26px;color:var(--taronja);font-weight:800}
+.torna{text-align:center;font-weight:800;color:var(--taronja);font-size:clamp(15px,1.6vw,19px)}
+.frase{border-radius:10px;padding:8px 12px;margin:8px 0;font-weight:600;font-size:clamp(14.5px,1.45vw,17px)}
+.frase.no{background:#ffe9e6;border:2px solid var(--vermell)}
+.frase.si{background:#e8f8ee;border:2px solid var(--verd)}
+.potencia{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.pw{position:relative;background:linear-gradient(180deg,#fff6cf,#fff 70%);border:3px solid var(--tinta);border-radius:12px;
+  padding:10px 14px 8px 52px;box-shadow:0 0 16px rgba(255,200,40,.85)}
+.pw .n{position:absolute;left:12px;top:12px;width:30px;height:30px;border-radius:50%;background:var(--groc);border:2px solid var(--tinta);
+  font-family:var(--titol);font-size:18px;display:grid;place-items:center}
+.pw h3{margin:2px 0 4px}
+.pw p{font-size:clamp(14px,1.35vw,16px)}
+dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 12px}
+dt{font-family:var(--mono);font-weight:600;font-size:clamp(13px,1.3vw,15px);white-space:nowrap}
+dd{margin:0;font-size:clamp(13.5px,1.35vw,16px)}
+dt.destaca,dt.destaca+dd{color:var(--blau);font-weight:800}
+.xuleta dl{gap:4px 12px}
+.xuleta dd{line-height:1.35}
+
+/* Núvol Kinton */
+.sura{animation:sura 3.2s ease-in-out infinite}
+@keyframes sura{50%{transform:translateY(-9px)}}
+
+/* Portada */
+.panel.portada{position:relative;background:none;border:0;box-shadow:none;color:#fff;text-align:center}
+.portada .kicker{color:var(--groc);font-size:clamp(18px,2.4vw,26px)}
+.titol{font-family:var(--titol);font-weight:400;font-size:clamp(60px,11vw,140px);line-height:.95;color:var(--taronja);
+  -webkit-text-stroke:3px var(--tinta);text-shadow:6px 6px 0 var(--tinta);letter-spacing:3px;margin:6px 0 10px}
+.portada .sub{font-size:clamp(17px,2vw,23px);font-weight:600;max-width:800px;margin:0 auto 22px}
+.mapa{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 18px;margin:0 auto 18px;max-width:900px}
+.mapa button{background:none;border:0;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;
+  font-family:var(--titol);letter-spacing:1px;font-size:clamp(14px,1.6vw,18px);padding:4px;transition:transform .15s}
+.mapa button:hover,.mapa button:focus-visible{transform:translateY(-4px) scale(1.06)}
+.portada .ajuda{font-size:15px;opacity:.9}
+.portada .peu{color:#cfd8ee}
+.nuvol-portada{position:absolute;right:2%;top:0;width:clamp(110px,15vw,200px)}
+.nuvol-portada svg{width:100%;height:auto;display:block}
+.nomes-tactil{display:none}
+@media (hover:none) and (pointer:coarse){.nomes-tactil{display:inline}.nomes-teclat{display:none}}
+.nuvol-portada.esq{left:1%;right:auto;top:44%;width:clamp(80px,10vw,140px);animation-delay:-1.6s}
+.g2 .cmd.pre{font-size:13px}
+table.problemes td:first-child{width:33%}
+table.problemes td{padding:6px}
+
+/* Bola trobada */
+.panel.trobada{background:none;border:0;box-shadow:none;color:#fff;text-align:center}
+.trobada .kicker{color:var(--groc);font-size:clamp(18px,2.2vw,24px)}
+.premi{display:inline-flex;flex-direction:column;align-items:center;margin:4px 0 0}
+.premi .bola-gran{position:relative;z-index:1;margin-bottom:-26px;filter:drop-shadow(0 0 18px rgba(255,210,63,.9))}
+.panel h2.titol-trobada{font-family:var(--titol);font-weight:400;font-size:clamp(34px,5.4vw,66px);line-height:1;color:var(--taronja);
+  -webkit-text-stroke:2px var(--tinta);text-shadow:4px 4px 0 var(--tinta);letter-spacing:2px;margin:14px 0 14px}
+.recull{display:flex;justify-content:center;gap:10px;margin:0 0 16px}
+.recull .falta{opacity:.28;filter:grayscale(1)}
+.trobada .lead{max-width:760px;margin:0 auto 10px}
+.seguent{font-family:var(--titol);letter-spacing:1px;font-size:clamp(17px,2vw,22px);color:var(--groc)}
+
+/* Final: Shenron */
+.panel.final{background:radial-gradient(ellipse at 28% 62%,#2f5a2a 0,#14243a 52%,#0a1220 100%);color:#fff;
+  display:grid;grid-template-columns:1.25fr .75fr;gap:10px 28px;align-items:center}
+.final h2{color:var(--groc);font-size:clamp(28px,3.2vw,40px)}
+.final .kicker{color:#9be37f}
+.final code.in{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3);color:#fff}
+.final a{color:#9fd0ff}
+.final .peu{color:#b9c6d8}
+.requadre-shenron{width:100%;height:min(600px,calc(100vh - 210px));min-height:280px;border:3px solid var(--tinta);border-radius:14px;overflow:hidden;box-shadow:0 0 30px rgba(255,210,63,.25)}
+.requadre-shenron iframe{width:100%;height:100%;display:block;border:0}
+.final .rutina li{font-size:clamp(15px,1.6vw,19px)}
+
+/* Navegació */
+.baix{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 22px 14px;width:100%;max-width:1164px;margin:0 auto}
+.boto{font-family:var(--titol);letter-spacing:1px;font-size:clamp(16px,1.8vw,20px);background:var(--taronja);color:#fff;border:3px solid var(--tinta);
+  border-radius:10px;box-shadow:3px 3px 0 var(--tinta);padding:5px 14px;cursor:pointer;text-shadow:1px 1px 0 var(--tinta);white-space:nowrap}
+.boto:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--tinta)}
+.boto[disabled]{opacity:.35;cursor:default}
+.boto.blau{background:var(--blau)}
+.centre{display:flex;align-items:center;gap:14px}
+.boles{display:flex;gap:6px}
+.boles button{background:none;border:0;padding:2px;cursor:pointer;opacity:.35;filter:grayscale(.8);transition:transform .2s,opacity .2s}
+.boles button.te{opacity:1;filter:none}
+.boles button.ara{transform:scale(1.28);opacity:1;filter:drop-shadow(0 0 6px var(--groc))}
+.comptador{color:#fff;font-family:var(--titol);letter-spacing:1px;font-size:18px;min-width:56px;text-align:center}
+
+/* Índex */
+.index{position:fixed;inset:0;z-index:10;background:rgba(8,17,41,.88);display:none;align-items:center;justify-content:center;padding:20px}
+.index.oberta{display:flex}
+.index .panel{width:min(820px,100%);max-height:90vh}
+.index h2{margin-bottom:12px}
+.index ol{list-style:none;padding:0;margin:0;columns:2;column-gap:26px}
+.index li{break-inside:avoid;margin:0}
+.index .cap{font-family:var(--titol);letter-spacing:1px;color:var(--taronja);font-size:18px;margin:10px 0 2px;display:flex;align-items:center;gap:6px}
+.index li button{background:none;border:0;padding:3px 0;font:inherit;font-size:16px;color:var(--tinta);cursor:pointer;text-align:left}
+.index li button:hover{color:var(--blau);text-decoration:underline}
+.index li button.ara{font-weight:800;color:var(--blau)}
+.index .accions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;margin-top:16px}
+.index .accions a.boto{margin-right:auto;text-decoration:none;background:var(--groc);color:var(--tinta);text-shadow:none}
+
+@media (max-width:820px){
+  .g2,.g3{grid-template-columns:1fr}
+  table.problemes td:first-child{width:auto}
+  .cicle{flex-direction:column}
+  .fletxa{transform:rotate(90deg)}
+  .slide{padding:2px 20px 12px 12px}
+  .dalt,.baix{padding-left:12px;padding-right:12px}
+  .index ol{columns:1}
+  .panel.final{grid-template-columns:1fr}
+  .requadre-shenron{height:320px}
+  .nuvol-portada.esq{display:none}
+}
+@media (max-width:600px){
+  .boto .txt,.marca,.comptador{display:none}
+  .ki{flex-direction:column}
+  .boles{gap:2px}
+  .boles button svg{width:18px;height:18px}
+  .centre{gap:8px}
+  .recull{gap:4px}
+  .recull svg{width:34px;height:34px}
+  .slide{padding:2px 12px 10px 6px}
+  .panel{padding:16px 14px;border-width:3px;box-shadow:5px 5px 0 var(--tinta)}
+  .panel h2{font-size:clamp(26px,8vw,34px)}
+  .lead{font-size:16px}
+  /* Ordres: el botó de copiar baixa a sota i l'ordre fa servir tota l'amplada */
+  .cmd{flex-direction:column;align-items:stretch;gap:6px}
+  .copia{align-self:flex-end}
+  .cmd code,.cmd.pre code{white-space:pre-wrap;overflow-wrap:anywhere}
+  .cmd.gran{font-size:15px;padding:12px 14px}
+  .arbre{white-space:pre-wrap;font-size:12.5px}
+  /* Taules de tres columnes: cada fila es converteix en una fitxa */
+  table.apila,table.apila tbody,table.apila tr,table.apila td{display:block;width:auto}
+  table.apila tr:first-child{display:none}
+  table.apila tr{border-top:2px dashed #e0d5bf;padding:8px 0}
+  table.apila td{border:0;padding:2px 0}
+  table.apila td:first-child{font-size:16px}
+  table.apila td[data-l]::before{content:attr(data-l) ": ";font-weight:800;color:var(--blau)}
+  /* El cicle dels 5 passos, en files compactes */
+  .cicle{gap:8px}
+  .pas{flex-direction:row;text-align:left;gap:12px;padding:8px 12px;box-shadow:3px 3px 0 var(--tinta)}
+  .pas svg{width:34px;height:34px;flex:none}
+  .pas b{font-size:20px}
+  .fletxa{display:none}
+  /* Portada */
+  .nuvol-portada{position:static;display:block;width:110px;margin:0 auto 6px}
+  .titol{font-size:clamp(46px,15vw,64px);-webkit-text-stroke:2px var(--tinta);text-shadow:4px 4px 0 var(--tinta)}
+  .portada .kicker{font-size:16px}
+  .portada .sub{font-size:16px;margin-bottom:16px}
+  .mapa{gap:8px 12px}
+  .mapa button{font-size:13px}
+  .mapa button svg{width:44px;height:44px}
+  .portada .peu{font-size:12px}
+}
+/* Mòbils molt estrets: el peu ha de cabre sencer */
+@media (max-width:380px){
+  .baix{gap:6px}
+  .boto{padding:2px 9px}
+  .boles{gap:0}
+  .boles button svg{width:14px;height:14px}
+}
+/* Pantalles baixes (mòbil apaisat) */
+@media (max-height:520px){
+  .dalt{min-height:0;padding:4px 12px}
+  .saga{font-size:14px}
+  .saga svg{width:22px;height:22px}
+  .baix{padding:4px 12px 6px}
+  .boto{font-size:15px;padding:2px 10px}
+  .panel{padding:12px 16px}
+  .requadre-shenron{height:calc(100dvh - 110px);min-height:200px}
+}
+@media print{
+  html,body{height:auto;overflow:visible;background:#fff}
+  .fons,.dalt,.baix,.index,.copia{display:none!important}
+  .deck{display:block;height:auto}
+  .escena{display:block}
+  .slide{position:static;opacity:1;visibility:visible;transform:none;display:block;padding:0;break-after:page}
+  .panel{max-height:none;overflow:visible;box-shadow:none;width:100%}
+  .panel.portada,.panel.trobada{color:var(--tinta)}
+  .portada .peu{color:var(--gris)}
+  .mapa button{color:var(--tinta)}
+  .sura{animation:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .slide,.slide.activa{transition:none}
+  .sura{animation:none}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="dbGrad" cx="38%" cy="32%" r="72%">
+      <stop offset="0" stop-color="#fff3b0"/>
+      <stop offset=".25" stop-color="#ffc21a"/>
+      <stop offset=".65" stop-color="#ff8a00"/>
+      <stop offset="1" stop-color="#c24a00"/>
+    </radialGradient>
+    <linearGradient id="nuvolGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff7c2"/>
+      <stop offset=".55" stop-color="#ffd23f"/>
+      <stop offset="1" stop-color="#f0a000"/>
+    </linearGradient>
+  </defs>
+</svg>
+<div class="fons" aria-hidden="true"></div>
+
+<div class="deck">
+  <header class="dalt">
+    <div class="saga" id="saga"></div>
+    <a class="marca" href="https://ncalbet.github.io/guia-claude/" title="Totes les guies">🏆 Torneig de les Arts Marcials</a>
+  </header>
+
+  <main class="escena" id="escena">
+
+<!-- ============ PORTADA ============ -->
+<section class="slide" data-saga="0" data-titol="Portada">
+  <div class="panel portada">
+    <span class="nuvol-portada sura" data-nuvol="200"></span>
+    <span class="nuvol-portada esq sura" data-nuvol="140"></span>
+    <div class="kicker">El Torneig de les Arts Marcials · Guia d'iniciació a Windows</div>
+    <h1 class="titol">Claude Code</h1>
+    <p class="sub">Supera les 7 proves del torneig i aconsegueix les 7 boles de drac. Acabaràs amb Claude Code instal·lat i un mètode per treballar-hi cada dia: de zero a Super Guerrer.</p>
+    <nav class="mapa" id="mapa" aria-label="Les 7 proves"></nav>
+    <p class="ajuda"><span class="nomes-teclat">Passa pantalles amb <kbd>←</kbd> <kbd>→</kbd> o amb els botons de sota.</span><span class="nomes-tactil">Llisca el dit cap als costats o fes servir els botons de sota.</span> Clica una bola per saltar a la seva prova.</p>
+    <p class="peu">Comprovat amb la documentació oficial (code.claude.com/docs) l'octubre de 2026. Claude Code s'actualitza sovint: algun text de pantalla pot canviar.</p>
+  </div>
+</section>
+
+<!-- ============ 1 · INSCRIPCIÓ ============ -->
+<section class="slide" data-saga="1" data-titol="Què és Claude Code">
+  <div class="panel">
+    <div class="kicker">Inscripció al torneig</div>
+    <h2>Què és Claude Code?</h2>
+    <p class="lead">Un assistent d'IA que treballa <b>dins de les teves carpetes</b>: llegeix els fitxers, en crea, els modifica i executa ordres a l'ordinador. Sempre amb el teu permís.</p>
+    <div class="g2">
+      <div>
+        <h3>Xat o Claude Code?</h3>
+        <table class="apila">
+          <tr><th></th><th>Xat (claude.ai)</th><th>Claude Code</th></tr>
+          <tr><td>Fitxers</td><td>Els hi passes tu</td><td>Els obre ell, a la carpeta</td></tr>
+          <tr><td>Resultat</td><td>Text per copiar</td><td>Fitxers creats o canviats</td></tr>
+          <tr><td>On</td><td>Navegador</td><td>Terminal de l'ordinador</td></tr>
+        </table>
+      </div>
+      <div>
+        <h3>Què et cal per inscriure't</h3>
+        <ul class="estrelles">
+          <li>Windows 10 o Windows 11.</li>
+          <li>4 GB de RAM i connexió a internet.</li>
+          <li>Un pla de pagament de Claude: el <b>Pro</b> o un de superior. <b>El pla gratuït no serveix.</b></li>
+          <li>Uns 20 minuts.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="caixa truc"><span class="etiq">💡 Sense terminal?</span> L'app d'escriptori de Claude (claude.com/download) també porta Claude Code. Aquesta guia fa servir el terminal.</div>
+  </div>
+</section>
+
+<section class="slide" data-saga="1" data-trobada="1" data-titol="Primera bola trobada!">
+  <div class="panel trobada">
+    <div class="kicker">Inscripció feta</div>
+    <div class="premi"><span class="bola-gran sura" data-bola="1" data-mida="110"></span><span data-nuvol="210"></span></div>
+    <h2 class="titol-trobada">Has trobat la primera bola de drac!</h2>
+    <div class="recull" data-recull="1"></div>
+    <p class="lead">Ja saps què és Claude Code i què et cal per competir.</p>
+    <p class="seguent">Següent prova ▶ La instal·lació</p>
+  </div>
+</section>
+
+<!-- ============ 2 · INSTAL·LACIÓ ============ -->
+<section class="slide" data-saga="2" data-titol="Pas 1 · Obre el terminal">
+  <div class="panel">
+    <div class="kicker">Preparació · Pas 1 de 7</div>
+    <h2>Obre el terminal</h2>
+    <p class="lead">El terminal és una finestra on escrius ordres en lloc de clicar. Aquí instal·laràs Claude Code i, després, hi treballaràs.</p>
+    <div class="g2">
+      <div>
+        <ol class="passos">
+          <li>Prem la tecla <kbd>⊞ Windows</kbd>.</li>
+          <li>Escriu <code class="in">Terminal</code> (si no surt, <code class="in">PowerShell</code>).</li>
+          <li>Prem <kbd>Enter</kbd>.</li>
+        </ol>
+        <div class="caixa truc"><span class="etiq">💡 Al terminal</span> Els requadres amb l'etiqueta <b>Al PowerShell</b> s'escriuen aquí. Per enganxar: clica dins la finestra i prem <kbd>Ctrl</kbd>+<kbd>V</kbd> (o clic dret). Per executar el que has escrit: <kbd>Enter</kbd>. Si surt text en vermell, no has trencat res: la guia et diu què fer.</div>
+      </div>
+      <div>
+        <p><b>Has de veure això</b>, amb el teu nom d'usuari:</p>
+        <div class="term"><div class="barra">Windows PowerShell</div><pre><span class="ps">PS C:\Users\nom&gt;</span> _</pre></div>
+        <p><b>PS</b> vol dir PowerShell: és el que volem. No cal obrir-lo com a administrador.</p>
+        <div class="caixa compte"><span class="etiq">⚠️ No hi ha PS al principi?</span> Si veus només <code class="in">C:\Users\nom&gt;</code>, has obert el Símbol del sistema (CMD), que no serveix. Tanca'l i torna-hi escrivint <code class="in">PowerShell</code>.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-saga="2" data-titol="Pas 2 · Instal·la Claude Code">
+  <div class="panel">
+    <div class="kicker">Preparació · Pas 2 de 7 · el Kamehameha</div>
+    <h2>Instal·la Claude Code</h2>
+    <p class="lead">Prem el botó groc <b>Copia</b>, clica dins la finestra del PowerShell, enganxa amb <kbd>Ctrl</kbd>+<kbd>V</kbd> i prem <kbd>Enter</kbd>:</p>
+    <div class="cmd gran" data-on="Al PowerShell"><code>irm https://claude.ai/install.ps1 | iex</code></div>
+    <div class="g2">
+      <ul class="estrelles">
+        <li><b>No mostra cap barra de progrés.</b> Espera que torni a sortir <code class="in">PS C:\…&gt;</code>. Pot trigar un parell de minuts.</li>
+        <li>Si al final diu <code class="in">…is not in your PATH</code>, cap problema: ho arregles a la pantalla següent.</li>
+        <li>S'actualitza sol en segon pla. No l'hauràs de tornar a instal·lar.</li>
+      </ul>
+      <div class="caixa be"><span class="etiq">✅ Ha anat bé</span> Al final surt alguna cosa així:
+        <div class="term"><pre><span class="out">✔ Claude Code successfully installed!</span>
+  Version: 2.1.xxx
+  Location: C:\Users\nom\.local\bin\claude.exe</pre></div>
+      </div>
+    </div>
+    <div class="caixa compte"><span class="etiq">⚠️ Text vermell que diu que no reconeix «irm»?</span> Pot sortir en anglès, castellà o català. Vol dir que has obert el Símbol del sistema (CMD), no PowerShell. Tanca'l i torna al pas 1.</div>
+  </div>
+</section>
+
+<section class="slide" data-saga="2" data-titol="Pas 3 · Comprova-ho">
+  <div class="panel">
+    <div class="kicker">Preparació · Pas 3 de 7</div>
+    <h2>Comprova que funciona</h2>
+    <div class="g2">
+      <ol class="passos">
+        <li><b>Tanca el terminal i obre'n un de nou</b> (com al pas 1). Només el nou veu la instal·lació.</li>
+        <li>Escriu:<div class="cmd" data-on="Al PowerShell"><code>claude --version</code></div></li>
+      </ol>
+      <div class="caixa be"><span class="etiq">✅ Bé</span> Surt un número de versió:
+        <div class="term"><pre><span class="ps">PS C:\Users\nom&gt;</span> claude --version
+<span class="out">2.1.xxx (Claude Code)</span></pre></div>
+        El número serà un altre, no importa.
+      </div>
+    </div>
+    <div class="caixa compte"><span class="etiq">⚠️ Text vermell que diu que no reconeix «claude»?</span> Pot sortir en anglès, castellà o català («is not recognized», «no se reconoce»…). Vol dir que Windows no sap on l'ha instal·lat. Copia això, enganxa-ho al PowerShell i prem <kbd>Enter</kbd>. Després tanca'l, obre'n un de nou i torna a provar. Només cal fer-ho una vegada.
+      <div class="cmd pre" data-on="Al PowerShell" data-copia="$p = [Environment]::GetEnvironmentVariable('PATH', 'User'); [Environment]::SetEnvironmentVariable('PATH', &quot;$p;$env:USERPROFILE\.local\bin&quot;, 'User')"><code>$p = [Environment]::GetEnvironmentVariable('PATH', 'User');
+[Environment]::SetEnvironmentVariable('PATH', "$p;$env:USERPROFILE\.local\bin", 'User')</code></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-saga="2" data-titol="Pas 4 · La carpeta del primer projecte">
+  <div class="panel">
+    <div class="kicker">Preparació · Pas 4 de 7</div>
+    <h2>Crea la carpeta i obre-hi el PowerShell</h2>
+    <p class="lead">Claude Code s'obre sempre <b>dins d'una carpeta</b>, i hi treballa. Abans d'arrencar-lo, crea la del teu primer projecte i obre-hi un PowerShell.</p>
+    <div class="g2">
+      <div>
+        <h3>1 · Crea-la a l'Explorador de fitxers</h3>
+        <ol class="passos">
+          <li>Obre <b>Documents</b> (o «Documentos») i crea-hi una carpeta <code class="in">Claude</code>.</li>
+          <li>A dins, una carpeta per al projecte, per exemple <code class="in">Receptes</code>. Noms curts, sense espais ni accents.</li>
+          <li>Entra a la carpeta <code class="in">Receptes</code> amb doble clic.</li>
+        </ol>
+        <div class="caixa truc"><span class="etiq">💡 Altres maneres</span> A Windows 11, clic dret dins la carpeta → <b>Obre al Terminal</b> («Abrir en Terminal»). O, en un terminal obert, escriu <code class="in">cd</code> i un espai, arrossega-hi la carpeta des de l'Explorador i prem <kbd>Enter</kbd>.</div>
+      </div>
+      <div>
+        <h3>2 · Obre-hi el PowerShell</h3>
+        <ol class="passos">
+          <li>Amb la carpeta oberta, prem <kbd>Ctrl</kbd>+<kbd>L</kbd>: el camí de dalt de tot es marca en blau.</li>
+          <li>Escriu <code class="in">powershell</code> (substitueix el que hi havia) i prem <kbd>Enter</kbd>.</li>
+        </ol>
+        <div class="caixa be"><span class="etiq">✅ Bé</span> S'obre un PowerShell que ja mostra la carpeta. Les altres finestres del terminal, ja les pots tancar.
+          <div class="term"><pre><span class="ps">PS C:\Users\nom\Documents\Claude\Receptes&gt;</span> _</pre></div>
+          Si fas servir OneDrive, la ruta serà una mica diferent: no passa res.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-saga="2" data-titol="Pas 5 · Primera arrencada">
+  <div class="panel">
+    <div class="kicker">Preparació · Pas 5 de 7</div>
+    <h2>Primera arrencada i connexió</h2>
+    <p class="lead">Al PowerShell de la carpeta, escriu <code class="in">claude</code> i prem <kbd>Enter</kbd>. La primera vegada et fa unes preguntes en anglès: tria amb les fletxes <kbd>↑</kbd> <kbd>↓</kbd> i confirma amb <kbd>Enter</kbd>.</p>
+    <div class="g2">
+      <ol class="passos">
+        <li><b>«Choose the text style…»</b>: són els colors. Qualsevol va bé.</li>
+        <li><b>«Select login method»</b>: tria <b>Claude account with subscription</b>.</li>
+        <li><b>S'obre el navegador:</b> entra amb el teu compte de Claude i autoritza l'accés. Després torna a la finestra del terminal.</li>
+        <li><b>«Login successful», «Security notes»…</b>: <kbd>Enter</kbd> per continuar. Si et proposa una configuració recomanada del terminal, tria <b>Yes</b>.</li>
+        <li><b>«Accessing workspace»</b>: et pregunta si confies en aquesta carpeta. És teva: tria <b>Yes, I trust this folder</b>.</li>
+      </ol>
+      <div>
+        <div class="caixa be"><span class="etiq">✅ Ja hi ets</span> A baix ja no hi ha <code class="in">PS C:\…&gt;</code>: ara hi ha el quadre de Claude, on li escrius. Els requadres amb l'etiqueta <b>Missatge a Claude</b> van aquí. El compte queda desat i no ho hauràs de repetir.</div>
+        <div class="caixa compte"><span class="etiq">⚠️ El navegador no s'obre?</span> Prem <kbd>c</kbd> per copiar l'enllaç i enganxa'l al navegador.</div>
+        <p class="peu">Sortir: <code class="in">/exit</code> · Canviar de compte: <code class="in">/login</code></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-saga="2" data-titol="Pas 6 · Que et parli en català">
+  <div class="panel">
+    <div class="kicker">Preparació · Pas 6 de 7</div>
+    <h2>Que et parli sempre en català</h2>
+    <p class="lead">Claude sol respondre en la llengua en què li escrius, però de vegades pregunta o proposa opcions en anglès. Per fixar el català, demana-li-ho una vegada:</p>
+    <div class="cmd claude" data-on="Missatge a Claude"><code>Configura't perquè em parlis sempre en català: posa "language": "catalan" al meu settings.json d'usuari i afegeix al meu CLAUDE.md global que totes les respostes, preguntes i opcions han de ser en català.</code></div>
+    <p>Si et demana permís per tocar aquests dos fitxers (són a <code class="in">C:\Users\nom\.claude\</code>), tria <b>Yes</b>. Val per a tots els projectes. Per assegurar-t'ho, surt amb <code class="in">/exit</code> i torna a entrar.</p>
+    <div class="g2">
+      <div class="caixa be"><span class="etiq">✅ Què canvia</span> Tot el que escriu Claude: les respostes, les preguntes que et fa i les opcions que et proposa.</div>
+      <div class="caixa compte"><span class="etiq">⚠️ Què no canvia</span> Els textos fixos del programa (<i>Yes</i>, <i>No</i>, <i>auto mode on</i>, els menús) són en anglès i no es poden traduir.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-saga="2" data-titol="Pas 7 · Git for Windows (opcional)">
+  <div class="panel">
+    <div class="kicker">Preparació · Pas 7 de 7 · opcional</div>
+    <h2>Extra: instal·la Git for Windows</h2>
+    <p class="lead">Claude Code ja et funciona sense això. Git li dona eines que fa servir sovint i et permet desar versions dels fitxers per poder-hi tornar. És recomanat, però si avui ja en tens prou, deixa-ho per un altre dia.</p>
+    <div class="g2">
+      <ol class="passos">
+        <li>Ves a <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener">git-scm.com/downloads/win</a>.</li>
+        <li>Baixa la versió <b>x64</b> (l'enllaç de descàrrega de dalt de tot).</li>
+        <li>Obre el fitxer que has baixat. Windows et preguntarà si permets que faci canvis al dispositiu: <b>Sí</b>.</li>
+        <li>Prem <b>Next</b> a totes les pantalles (són moltes; no cal llegir-les) i al final <b>Install</b> i <b>Finish</b>.</li>
+      </ol>
+      <div>
+        <div class="caixa be"><span class="etiq">✅ Comprova-ho</span> Obre un terminal <b>nou</b> i escriu:
+          <div class="cmd" data-on="Al PowerShell"><code>git --version</code></div>
+          Ha de respondre <code class="in">git version 2.…</code>
+        </div>
+        <p>La pròxima vegada que obris Claude, ja el farà servir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-saga="2" data-trobada="1" data-titol="Segona bola trobada!">
+  <div class="panel trobada">
+    <div class="kicker">Preparació completada</div>
+    <div class="premi"><span class="bola-gran sura" data-bola="2" data-mida="110"></span><span data-nuvol="210"></span></div>
+    <h2 class="titol-trobada">Has trobat la segona bola de drac!</h2>
+    <div class="recull" data-recull="2"></div>
+    <p class="lead">Claude Code instal·lat, connectat al teu compte i parlant en català.</p>
+    <p class="seguent">Següent prova ▶ Entrenament amb el Follet Tortuga</p>
+  </div>
+</section>
+
+<!-- ============ 3 · ENTRENAMENT ============ -->
+<section class="slide" data-saga="3" data-titol="La carpeta mana">
+  <div class="panel">
+    <div class="kicker">Entrenament · Idea 1 de 3</div>
+    <h2>La carpeta mana</h2>
+    <p class="lead">Claude Code treballa a la carpeta on l'obres i a les seves subcarpetes. Cada carpeta té la seva memòria, les seves normes i els seus permisos.</p>
+    <div class="g2">
+      <div>
+<pre class="arbre">Documents\Claude\
+├── Receptes\      ← un projecte
+├── Web-escola\    ← un altre projecte
+└── Viatge-2027\   ← un altre més</pre>
+      </div>
+      <div>
+        <ul class="estrelles">
+          <li><b>Un projecte = una carpeta.</b></li>
+          <li><b>Obre Claude sempre des de la carpeta del projecte</b>, no des de Documents ni des de la carpeta general.</li>
+        </ul>
+        <div class="caixa compte"><span class="etiq">⚠️ Compte</span> Si l'obres a la carpeta equivocada, treballa sense la memòria ni les normes del projecte, i no t'avisa.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-saga="3" data-titol="Els modes: qui decideix">
+  <div class="panel">
+    <div class="kicker">Entrenament · Idea 2 de 3</div>
+    <h2>Qui decideix què fa Claude: els modes</h2>
+    <p class="lead">El <b>mode</b> decideix què pot fer sense preguntar-te. Surt sota el quadre on escrius; <kbd>Shift</kbd>+<kbd>Tab</kbd> el canvia.</p>
+    <table class="apila">
+      <tr><th>Mode</th><th>Què fa sense preguntar-te</th><th>Quan</th></tr>
+      <tr><td>Auto<span class="estat">⏵⏵ auto mode on</span></td><td>Gairebé tot. Un altre model, l'<b>àrbitre</b>, revisa cada acció abans i atura les perilloses: esborrar el que ja hi era, enviar dades fora, executar coses baixades d'internet.</td><td>Arrenca així. Per a la feina normal.</td></tr>
+      <tr><td>Manual<span class="estat">⏸ manual mode on</span></td><td>Res: et pregunta cada canvi i cada ordre.</td><td>Quan ho vols veure tot.</td></tr>
+      <tr><td>Accept edits<span class="estat">⏵⏵ accept edits on</span></td><td>Crear, editar, moure i esborrar fitxers dins la carpeta. Qualsevol altra ordre, te la pregunta.</td><td>Quan només ha d'escriure fitxers.</td></tr>
+      <tr><td>Plan<span class="estat">⏸ plan mode on</span></td><td>No canvia res: llegeix i et proposa un pla.</td><td>Abans d'una feina grossa.</td></tr>
+    </table>
+    <div class="g2">
+      <div class="caixa truc"><span class="etiq">🥋 Auto o Accept edits?</span> La diferència és <b>qui aprova les ordres</b>: amb Accept edits, tu; amb Auto, l'àrbitre, que només atura les perilloses. No comprova que ho faci bé: el resultat, revisa'l tu.</div>
+      <div class="caixa"><span class="etiq">Quan et pregunta</span> <b>1 · Yes</b>: sí, ara. <b>2 · Yes, and don't ask again</b>: sí, i no ho tornis a preguntar. <b>3 · No</b>: i li dius què ha de fer diferent.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-saga="3" data-titol="El context">
+  <div class="panel">
+    <div class="kicker">Entrenament · Idea 3 de 3</div>
+    <h2>El context: la conversa que Claude carrega</h2>
+    <p class="lead">A cada missatge, Claude rellegeix <b>tota</b> la conversa. Aquesta conversa és el <b>context</b>, i es mesura en <b>tokens</b> (trossos de paraula).</p>
+    <div class="ki" role="img" aria-label="Barra de context: fresc; a uns 150.000 tokens toca desar; ple, es resumeix sol">
+      <div class="z z1"><b>Fresc</b><span>respon bé i gasta poc</span></div>
+      <div class="z z2"><b>~150.000 tokens</b><span>desa i reinicia (orientatiu)</span></div>
+      <div class="z z3"><b>Ple</b><span>es resumeix sol i perd detalls</span></div>
+    </div>
+    <p class="nota-ki">És com el <b>ki</b> de Bola de Drac, l'energia que carreguen els guerrers: es va omplint a cada missatge, i si se'n carrega massa, es descontrola.</p>
+    <div class="g2">
+      <ul class="estrelles">
+        <li><b>Conversa llarga = gasta més</b> del límit d'ús del teu pla, encara que escriguis una sola paraula.</li>
+        <li><b>I treballa pitjor</b>: té massa coses al cap.</li>
+        <li>Quan s'omple, <b>es compacta sol</b> (en fa un resum) i hi pot perdre detalls.</li>
+      </ul>
+      <div class="caixa truc"><span class="etiq">💡 Mira-ho</span> Escriu <code class="in">/context</code> i et diu com de ple està. Per això existeix el mètode: desar el que importa i començar de nou abans que s'ompli.</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-saga="3" data-trobada="1" data-titol="Tercera bola trobada!">
+  <div class="panel trobada">
+    <div class="kicker">Entrenament superat</div>
+    <div class="premi"><span class="bola-gran sura" data-bola="3" data-mida="110"></span><span data-nuvol="210"></span></div>
+    <h2 class="titol-trobada">Has trobat la tercera bola de drac!</h2>
+    <div class="recull" data-recull="3"></div>
+    <p class="lead">Ja saps que la carpeta mana, qui decideix què fa Claude i per què el context s'omple.</p>
+    <p class="seguent">Següent prova ▶ La tècnica secreta: el mètode de cada dia</p>
+  </div>
+</section>
+
+<!-- ============ 4 · EL MÈTODE ============ -->
+<section class="slide" data-saga="4" data-titol="El cicle de 5 passos">
+  <div class="panel">
+    <div class="kicker">La tècnica secreta</div>
+    <h2>El mètode: 5 passos, sempre iguals</h2>
+    <p class="lead">Una sessió curta i amb un sol objectiu rendeix més que una de llarga que ho barreja tot.</p>
+    <div class="cicle">
+      <div class="pas"><span data-bola="1" data-mida="46"></span><b>Carpeta</b><span>una per projecte</span></div>
+      <div class="fletxa" aria-hidden="true">➜</div>
+      <div class="pas"><span data-bola="2" data-mida="46"></span><b>Obrir</b><span>des de la carpeta</span></div>
+      <div class="fletxa" aria-hidden="true">➜</div>
+      <div class="pas"><span data-bola="3" data-mida="46"></span><b>Treballar</b><span>un tema per sessió</span></div>
+      <div class="fletxa" aria-hidden="true">➜</div>
+      <div class="pas"><span data-bola="4" data-mida="46"></span><b>Desar</b><span>a la memòria</span></div>
+      <div class="fletxa" aria-hidden="true">➜</div>
+      <div class="pas"><span data-bola="5" data-mida="46"></span><b>Tancar i obrir</b><span>sessió neta</span></div>
+    </div>
+    <p class="torna">↺ Després del 5, tornes al 2. La carpeta (pas 1) només es crea el primer dia.</p>
+  </div>
+</section>
+
+<section class="slide" data-saga="4" data-titol="Pas 1 · La carpeta">
+  <div class="panel">
+    <div class="kicker">La tècnica secreta · Pas 1</div>
+    <h2>Cada projecte, la seva carpeta</h2>
+    <div class="g2">
+      <div>
+        <ol class="passos">
+          <li>Com al pas 4 de la instal·lació: dins de <code class="in">Documents\Claude</code>, <b>una carpeta per projecte</b>.</li>
+          <li>Noms curts, sense espais ni accents: <code class="in">Llista-compra</code>, <code class="in">Web-escola</code>.</li>
+          <li>Posa-hi el material que Claude hagi de fer servir: documents, imatges, dades.</li>
+        </ol>
+      </div>
+      <div>
+        <p><b>El primer dia</b>, obre Claude a la carpeta, explica-li de què va el projecte i demana-li:</p>
+        <div class="cmd claude" data-on="Missatge a Claude"><code>Crea un CLAUDE.md curt amb les normes d'aquest projecte.</code></div>
+        <p>El <b>CLAUDE.md</b> és el fitxer de normes que Claude llegeix a cada sessió. Quedarà semblant a això:</p>
+<pre class="arbre"># Projecte: Receptes
+- Abans de tocar fitxers, explica'm què faràs.
+- Cada recepta va en un fitxer a receptes\.</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-saga="4" data-titol="Pas 2 · Obrir la sessió">
+  <div class="panel">
+    <div class="kicker">La tècnica secreta · Pas 2</div>
+    <h2>Obre la sessió des de la carpeta</h2>
+    <div class="g2">
+      <div class="targeta blau">
+        <h3>A · Com a la instal·lació</h3>
+        <p>A l'Explorador, entra a la carpeta del projecte, prem <kbd>Ctrl</kbd>+<kbd>L</kbd>, escriu <code class="in">powershell</code> i prem <kbd>Enter</kbd>. Al PowerShell que s'obre:</p>
+        <div class="cmd" data-on="Al PowerShell"><code>claude</code></div>
+        <p>Funciona, però cada dia has de buscar la carpeta. I si t'equivoques de carpeta, Claude no t'avisa.</p>
+        <div class="caixa be"><span class="etiq">✅ Comprova-ho sempre</span> A dalt de la sessió hi surt la ruta. Si no és la del projecte, <code class="in">/exit</code> i torna-hi.</div>
+      </div>
+      <div class="targeta taronja">
+        <h3>B · Un fitxer .bat <span class="segell">Recomanat</span></h3>
+        <p>Un fitxer que entra a la carpeta i obre Claude: <b>doble clic i ja hi ets</b>, sense buscar res.</p>
+        <p>Obre el <b>Bloc de notes</b> i enganxa-hi:</p>
+        <div class="cmd pre notes" data-on="Al Bloc de notes"><code>@echo off
+chcp 65001 &gt;nul
+cd /d "C:\Users\nom\Documents\Claude\Receptes"
+claude</code></div>
+        <ol class="passos">
+          <li>Canvia la ruta per la del teu projecte. Per no equivocar-te: a l'Explorador, clic dret a la carpeta → <b>Copia com a camí</b> («Copiar como ruta de acceso»; a Windows 10, amb <kbd>Maj</kbd> premuda). Enganxa-la al lloc de la ruta d'exemple, cometes incloses.</li>
+          <li><b>Fitxer → Anomena i desa</b>. A «Tipus», tria <b>Tots els fitxers</b>. Nom: <code class="in">Receptes.bat</code>. Desa'l a l'escriptori.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-saga="4" data-titol="Pas 3 · Treballar">
+  <div class="panel">
+    <div class="kicker">La tècnica secreta · Pas 3</div>
+    <h2>Treballa: un tema per sessió</h2>
+    <div class="g2">
+      <div>
+        <h3>Primer missatge: digues el tema d'avui</h3>
+        <div class="frase no">✗ «Recupera la memòria» · «Continua»</div>
+        <div class="frase si">✓ «Avui: les receptes de tardor. Mira la carpeta receptes\ i proposa'm com ordenar-les.»</div>
+        <p>La memòria ja l'ha carregada sola. Amb el tema, obre només els fitxers que toquen.</p>
+        <div class="caixa truc"><span class="etiq">💡 Feina grossa?</span> <kbd>Shift</kbd>+<kbd>Tab</kbd> fins a <b>Plan</b>: et proposa un pla, el llegeixes i, quan t'agrada, li dius que el faci.</div>
+      </div>
+      <div>
+        <h3>Tecles que salven</h3>
+        <table>
+          <tr><td><kbd>Esc</kbd></td><td>L'atura a mitja feina.</td></tr>
+          <tr><td><kbd>Esc</kbd> <kbd>Esc</kbd></td><td>Amb el quadre buit: torna a un punt anterior (conversa, fitxers o totes dues coses).</td></tr>
+          <tr><td><kbd>@</kbd></td><td>Assenyala un fitxer: <code class="in">@receptes\pa.md</code></td></tr>
+          <tr><td><kbd>Alt</kbd>+<kbd>V</kbd></td><td>Enganxa una captura de pantalla.</td></tr>
+          <tr><td><kbd>Ctrl</kbd>+<kbd>J</kbd></td><td>Salt de línia sense enviar (o escriu <kbd>\</kbd> i prem <kbd>Enter</kbd>).</td></tr>
+          <tr><td><kbd>↑</kbd></td><td>Recupera missatges anteriors.</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-saga="4" data-titol="Pas 4 · Desar les novetats">
+  <div class="panel">
+    <div class="kicker">La tècnica secreta · Pas 4</div>
+    <h2>Desa les novetats abans que peti el context</h2>
+    <p class="lead">El que no és a la memòria, a la sessió següent no existeix.</p>
+    <div class="g2">
+      <div>
+        <h3>Quan</h3>
+        <ul class="estrelles">
+          <li>Quan acabes la tasca.</li>
+          <li>Quan es tanca una decisió important.</li>
+          <li>Quan <code class="in">/context</code> passa de ~150.000 tokens o veus l'avís de compactació.</li>
+        </ul>
+        <h3>Com</h3>
+        <div class="cmd claude" data-on="Missatge a Claude"><code>Guarda a la memòria el que hem decidit, en quin punt som i què queda pendent.</code></div>
+      </div>
+      <div>
+        <h3>Què hi ha d'anar</h3>
+        <ul>
+          <li><b>Sí:</b> decisions i el perquè, l'estat, els pendents, les teves preferències.</li>
+          <li><b>No:</b> la crònica del dia ni el que ja es pot llegir dels fitxers.</li>
+        </ul>
+        <div class="caixa be"><span class="etiq">✅</span> Claude avisa quan desa (p. ex. «Saved 1 memory»). Si no ho veus, pregunta-li què ha desat.</div>
+        <div class="caixa truc"><span class="etiq">💡 Si fas servir git</span> «Fes commit dels canvis» desa una versió dels fitxers, per poder-hi tornar.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-saga="4" data-titol="Pas 5 · Tancar i obrir">
+  <div class="panel">
+    <div class="kicker">La tècnica secreta · Pas 5</div>
+    <h2>Tanca i obre una sessió nova</h2>
+    <div class="g2">
+      <div>
+        <ol class="passos">
+          <li><b>Tanca:</b> <code class="in">/exit</code> (o <kbd>Ctrl</kbd>+<kbd>C</kbd> dues vegades, o tanca la finestra).</li>
+          <li><b>Obre:</b> doble clic al .bat del projecte.</li>
+          <li><b>Primer missatge:</b> el tema, com al pas 3.</li>
+        </ol>
+        <div class="caixa be"><span class="etiq">✅ Què passa</span> La sessió nova arrenca amb el context buit i carrega sola el CLAUDE.md i l'índex de la memòria. No cal dir «recupera la memòria».</div>
+      </div>
+      <div>
+        <h3>Tornar a una conversa anterior</h3>
+        <div class="cmd" data-on="Al PowerShell"><code>claude -c</code></div>
+        <p>Continua l'última conversa d'aquesta carpeta.</p>
+        <div class="cmd" data-on="Al PowerShell"><code>claude -r</code></div>
+        <p>Et deixa triar-ne una de la llista. Dins de Claude, el mateix: <code class="in">/resume</code>.</p>
+        <div class="caixa compte"><span class="etiq">⚠️</span> Recupera només converses curtes. Una de llarga torna amb el context ple: millor una sessió nova.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-saga="4" data-trobada="1" data-titol="Quarta bola trobada!">
+  <div class="panel trobada">
+    <div class="kicker">Tècnica apresa</div>
+    <div class="premi"><span class="bola-gran sura" data-bola="4" data-mida="110"></span><span data-nuvol="210"></span></div>
+    <h2 class="titol-trobada">Has trobat la quarta bola de drac!</h2>
+    <div class="recull" data-recull="4"></div>
+    <p class="lead">Ja tens el mètode: carpeta, obrir, treballar, desar, tancar i obrir.</p>
+    <p class="seguent">Següent prova ▶ Super Guerrer: cinc millores</p>
+  </div>
+</section>
+
+<!-- ============ 5 · SUPER GUERRER ============ -->
+<section class="slide" data-saga="5" data-titol="Cinc millores al mètode">
+  <div class="panel">
+    <div class="kicker">Nivell Super Guerrer · propostes de millora</div>
+    <h2>Cinc millores al mètode</h2>
+    <div class="g2 potencia">
+      <div class="pw"><span class="n">1</span><h3><code class="in">/clear</code> en lloc de tancar i obrir</h3>
+        <p>Fa el mateix (conversa nova a la mateixa carpeta, amb el CLAUDE.md i la memòria) sense sortir de la finestra. Si et pot tornar a fer falta: abans <code class="in">/rename</code>, i després <code class="in">/resume</code>.</p></div>
+      <div class="pw"><span class="n">2</span><h3>Desa en el moment, no al final</h3>
+        <p>Al final, la sessió és llarga i el que en surt és una crònica. Quan es decideixi una cosa: «guarda-ho a la memòria». Per tancar: <i>«què sabem ara que no es pot llegir dels fitxers?»</i></p></div>
+      <div class="pw"><span class="n">3</span><h3>El context, sempre a la vista</h3>
+        <p>Escriu <code class="in">/statusline</code> i demana-li que mostri el percentatge de context. Així saps quan toca desar sense haver-ho d'endevinar.</p></div>
+      <div class="pw"><span class="n">4</span><h3>Una sessió per carpeta</h3>
+        <p>Dues sessions a la mateixa carpeta es trepitgen els fitxers. En paral·lel, sí, però en projectes diferents i poques alhora: totes gasten del mateix límit d'ús.</p></div>
+      <div class="pw"><span class="n">5</span><h3>Compacta només si has de seguir el fil</h3>
+        <p><code class="in">/compact centra't en …</code> resumeix i continua, però el resum és una crida grossa. Si la memòria ja està al dia, <code class="in">/clear</code> no costa res.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-saga="5" data-trobada="1" data-titol="Cinquena bola trobada!">
+  <div class="panel trobada">
+    <div class="kicker">Transformació completada</div>
+    <div class="premi"><span class="bola-gran sura" data-bola="5" data-mida="110"></span><span data-nuvol="210"></span></div>
+    <h2 class="titol-trobada">Has trobat la cinquena bola de drac!</h2>
+    <div class="recull" data-recull="5"></div>
+    <p class="lead">Ja coneixes les millores per treballar com un Super Guerrer.</p>
+    <p class="seguent">Següent prova ▶ Mongetes màgiques: quan alguna cosa falla</p>
+  </div>
+</section>
+
+<!-- ============ 6 · PROBLEMES ============ -->
+<section class="slide" data-saga="6" data-titol="Problemes i solucions">
+  <div class="panel">
+    <div class="kicker">Mongetes màgiques · per recuperar-te dels cops</div>
+    <h2>Problemes i solucions</h2>
+    <table class="problemes apila">
+      <tr><th>Passa això</th><th>Fes això</th></tr>
+      <tr><td><code class="in">claude</code> no es reconeix</td><td>Pas 3 de la instal·lació (la línia del PATH) i obre un terminal nou.</td></tr>
+      <tr><td>El navegador no s'obre en connectar-te</td><td>Prem <kbd>c</kbd> i enganxa l'enllaç al navegador.</td></tr>
+      <tr><td>«You've hit your session limit»</td><td>Has gastat el límit del pla: es renova cada 5 hores, i també n'hi ha un de setmanal. El missatge diu quan; Claude pot esperar i continuar sol. <code class="in">/usage</code> t'ensenya com vas.</td></tr>
+      <tr><td>Ha agafat un camí dolent</td><td><kbd>Esc</kbd> per aturar-lo i <kbd>Esc</kbd> <kbd>Esc</kbd> per tornar enrere. És millor que corregir-lo a base de missatges.</td></tr>
+      <tr><td>Ha tocat un fitxer que no volies</td><td><kbd>Esc</kbd> <kbd>Esc</kbd> → tria el punt d'abans → restaura els fitxers. Desfà el que ha editat ell; el que ha fet amb ordres del terminal, no sempre.</td></tr>
+      <tr><td>Shift+Enter envia el missatge</td><td>Per fer un salt de línia: <kbd>Ctrl</kbd>+<kbd>J</kbd>, o escriu <kbd>\</kbd> i prem <kbd>Enter</kbd>.</td></tr>
+      <tr><td>S'oblida d'una norma</td><td>No és escrita enlloc: «afegeix-ho al CLAUDE.md».</td></tr>
+      <tr><td>Va lent o respon estrany</td><td>Context massa ple: desa a la memòria i comença de nou.</td></tr>
+      <tr><td>No entens què et demana</td><td>Digues <b>No</b> i pregunta-li-ho. O escriu <code class="in">/help</code>.</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="slide" data-saga="6" data-trobada="1" data-titol="Sisena bola trobada!">
+  <div class="panel trobada">
+    <div class="kicker">Recuperat del tot</div>
+    <div class="premi"><span class="bola-gran sura" data-bola="6" data-mida="110"></span><span data-nuvol="210"></span></div>
+    <h2 class="titol-trobada">Has trobat la sisena bola de drac!</h2>
+    <div class="recull" data-recull="6"></div>
+    <p class="lead">Ja saps sortir dels problemes més habituals.</p>
+    <p class="seguent">Última prova ▶ El radar del drac: la xuleta</p>
+  </div>
+</section>
+
+<!-- ============ 7 · XULETA ============ -->
+<section class="slide" data-saga="7" data-titol="Xuleta">
+  <div class="panel xuleta">
+    <div class="kicker">El radar del drac · tot en una pantalla</div>
+    <h2>Xuleta</h2>
+    <div class="g3">
+      <div class="targeta blau"><h3>Al terminal</h3>
+        <dl>
+          <dt>cd "ruta"</dt><dd>entra a una carpeta</dd>
+          <dt>claude</dt><dd>obre una sessió</dd>
+          <dt>claude -c</dt><dd>continua l'última</dd>
+          <dt>claude -r</dt><dd>tria una conversa</dd>
+          <dt>claude --version</dt><dd>quina versió tens</dd>
+          <dt>claude doctor</dt><dd>diagnòstic</dd>
+          <dt>claude update</dt><dd>actualitza ara</dd>
+        </dl></div>
+      <div class="targeta taronja"><h3>Dins de Claude</h3>
+        <dl>
+          <dt class="destaca">/model</dt><dd>tria el model: Opus pensa més; Sonnet va més de pressa i gasta menys</dd>
+          <dt class="destaca">/effort</dt><dd>quant pensa: low, medium, high, xhigh, max</dd>
+          <dt>/help</dt><dd>ajuda (o escriu <b>/</b> i surt la llista)</dd>
+          <dt>/clear</dt><dd>conversa nova</dd>
+          <dt>/context</dt><dd>com de ple és el context</dd>
+          <dt>/compact …</dt><dd>resumeix i continua</dd>
+          <dt>/memory</dt><dd>veu i edita la memòria</dd>
+          <dt>/init</dt><dd>crea el CLAUDE.md</dd>
+          <dt>/rename</dt><dd>posa nom a la conversa</dd>
+          <dt>/resume</dt><dd>recupera una conversa</dd>
+          <dt>/usage</dt><dd>quant has gastat del límit</dd>
+          <dt>/exit</dt><dd>surt</dd>
+        </dl></div>
+      <div class="targeta verd"><h3>Tecles</h3>
+        <dl>
+          <dt>Esc</dt><dd>atura</dd>
+          <dt>Esc Esc</dt><dd>torna enrere</dd>
+          <dt>Shift+Tab</dt><dd>canvia el mode</dd>
+          <dt>Ctrl+J</dt><dd>salt de línia</dd>
+          <dt>Alt+V</dt><dd>enganxa una imatge</dd>
+          <dt>@</dt><dd>assenyala un fitxer</dd>
+          <dt>!</dt><dd>executa una ordre del terminal</dd>
+          <dt>↑</dt><dd>missatges anteriors</dd>
+        </dl></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" data-saga="7" data-trobada="1" data-titol="Setena bola trobada!">
+  <div class="panel trobada">
+    <div class="kicker">Torneig guanyat</div>
+    <div class="premi"><span class="bola-gran sura" data-bola="7" data-mida="110"></span><span data-nuvol="210"></span></div>
+    <h2 class="titol-trobada">Les set boles de drac són teves!</h2>
+    <div class="recull" data-recull="7"></div>
+    <p class="lead">Has superat totes les proves. Ja pots invocar el drac.</p>
+    <p class="seguent">▶ Surt, Shenron!</p>
+  </div>
+</section>
+
+<!-- ============ FINAL · SHENRON ============ -->
+<section class="slide" data-saga="8" data-titol="Shenron">
+  <div class="panel final">
+    <div class="requadre-shenron"><iframe id="marc-shenron" title="Invocació de Shenron amb les set boles de drac"></iframe></div>
+    <div>
+      <div class="kicker">Final del torneig</div>
+      <h2>Shenron: «Digues el teu desig!»</h2>
+      <p class="lead">El teu desig: una rutina que funcioni cada dia.</p>
+      <ol class="passos rutina">
+        <li>Doble clic al <b>.bat</b> del projecte.</li>
+        <li>Digues <b>el tema</b> d'avui.</li>
+        <li>Treballa. Si és gros, primer <b>Plan</b>.</li>
+        <li>Quan es decideixi alguna cosa: <b>«guarda-ho a la memòria»</b>.</li>
+        <li>Tasca acabada: <b>tanca i obre</b> (o <code class="in">/clear</code>).</li>
+      </ol>
+      <p class="peu">Per aprendre'n més: <a href="https://code.claude.com/docs" target="_blank" rel="noopener">code.claude.com/docs</a> · curs gratuït «Claude Code 101» a <a href="https://academy.claude.com" target="_blank" rel="noopener">academy.claude.com</a>. A la pantalla següent hi ha un extra.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXTRA · MEMÒRIES ============ -->
+<section class="slide" data-saga="9" data-titol="Extra · Com recorda Claude">
+  <div class="panel">
+    <div class="kicker">Extra · per quan hi tinguis la mà trencada</div>
+    <h2>Com recorda Claude: les dues memòries</h2>
+    <p class="lead">Per començar no et cal. Serveix per entendre com treballa Claude, i a la llarga va bé repassar-ho. Si tens dubtes, pregunta-li a ell: <i>«com tens organitzada la memòria d'aquest projecte?»</i></p>
+    <div class="g2">
+      <div class="targeta blau">
+        <h3>📜 CLAUDE.md · el reglament</h3>
+        <ul>
+          <li><b>L'escrius tu</b> (o li dius què hi ha de posar).</li>
+          <li>Normes de sempre: com t'ha de parlar, què no ha de fer mai, com és el projecte.</li>
+          <li>Es llegeix sencer a cada sessió: que sigui <b>curt</b> (menys de 200 línies).</li>
+          <li>On: a la carpeta del projecte. Per a tots els projectes: <code class="in">C:\Users\nom\.claude\CLAUDE.md</code></li>
+          <li>Per crear-lo: <code class="in">/init</code></li>
+        </ul>
+      </div>
+      <div class="targeta taronja">
+        <h3>📓 Memòria automàtica · la llibreta</h3>
+        <ul>
+          <li><b>L'escriu Claude</b>: decisions, en quin punt ets, el que li has corregit.</li>
+          <li>Un índex (<code class="in">MEMORY.md</code>) i un fitxer per tema. A cada sessió carrega l'índex (fins a 200 línies) i obre els fitxers quan li calen.</li>
+          <li>On: a <code class="in">C:\Users\nom\.claude\projects\</code>, dins la carpeta que acaba amb el nom del projecte, a <code class="in">memory\</code>.</li>
+          <li>Per demanar-ho: «guarda-ho a la memòria». Per veure-la: <code class="in">/memory</code></li>
+        </ul>
+      </div>
+    </div>
+    <p class="peu">Totes dues són instruccions, no cadenats: Claude les segueix gairebé sempre, però no és infal·lible.</p>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="baix">
+    <button class="boto" id="enrere" type="button" aria-label="Pantalla anterior">◀<span class="txt"> Enrere</span></button>
+    <div class="centre">
+      <div class="boles" id="boles" aria-label="Boles de drac"></div>
+      <span class="comptador" id="comptador">1 / 1</span>
+      <button class="boto blau" id="obre-index" type="button" aria-label="Índex">☰<span class="txt"> Índex</span></button>
+    </div>
+    <button class="boto" id="endavant" type="button" aria-label="Pantalla següent"><span class="txt">Endavant </span>▶</button>
+  </footer>
+</div>
+
+<div class="index" id="index" role="dialog" aria-modal="true" aria-label="Índex de la guia">
+  <div class="panel">
+    <h2>Índex</h2>
+    <ol id="index-llista"></ol>
+    <div class="accions">
+      <a class="boto" href="https://ncalbet.github.io/guia-claude/">🏆 Totes les guies</a>
+      <button class="boto blau" id="imprimeix" type="button">Imprimeix</button>
+      <button class="boto" id="tanca-index" type="button">Tanca</button>
+    </div>
+  </div>
+</div>
+
+<template id="shenron-src"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>La invocació de Shenron</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#061613;color:#fff8dc;font-family:system-ui,sans-serif}.scene{position:relative;width:100%;height:100%;isolation:isolate;background:radial-gradient(ellipse at 50% 86%,#335532 0, #102f29 30%,#061613 72%)}svg{width:100%;height:100%;display:block}.caption{position:absolute;left:6%;top:7%;pointer-events:none}.caption small{font-size:10px;letter-spacing:.32em;color:#c6ac70}.caption h1{font-size:clamp(19px,4vw,36px);font-weight:500;letter-spacing:.05em;margin:9px 0}.caption p{font-size:12px;color:#a1b6a6;margin:0}button{position:absolute;bottom:5%;right:5%;background:#142f27cc;color:#f8e7b4;border:1px solid #bca46b70;border-radius:30px;padding:10px 17px;font:11px system-ui;letter-spacing:.1em;cursor:pointer}button:hover{background:#30513d}button:focus-visible{outline:2px solid #ffe299;outline-offset:4px}.dragon{filter:drop-shadow(0 0 12px #66e9a340)}.bodyLine{fill:none;stroke-linecap:round;stroke-linejoin:round}.beam{mix-blend-mode:screen}.status{position:absolute;bottom:5%;left:5%;font-size:10px;letter-spacing:.2em;color:#cfb77d}@media(max-width:420px){.caption p{display:none}.caption small{font-size:8px}.status{font-size:8px}}
+.caption{max-width:36%}.caption h1{font-size:clamp(17px,3vw,28px);line-height:1.25;margin:0;text-wrap:balance}button{padding:7px 11px;font-size:9px;letter-spacing:.06em}.status.is-wish{font-size:clamp(11px,1.6vw,15px);font-weight:800;letter-spacing:.1em;color:#ffe6a3;text-shadow:0 0 14px #ffd27766}@media(max-width:420px){.caption{max-width:45%}.status.is-wish{max-width:49%;line-height:1.5}}
+</style>
+<div class="scene">
+ <div class="caption"><h1>Has trobat les 7 boles de drac!</h1></div>
+ <svg viewBox="0 0 900 650" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Les set boles de drac brillen i invoquen Shenron, un drac verd serpentejant amb banyes i bigotis llargs.">
+ <defs>
+  <radialGradient id="orb"><stop stop-color="#fff4b1"/><stop offset=".3" stop-color="#ffc953"/><stop offset=".78" stop-color="#f18a13"/><stop offset="1" stop-color="#b84b08"/></radialGradient>
+  <radialGradient id="halo"><stop stop-color="#ffe295" stop-opacity=".8"/><stop offset="1" stop-color="#ffbd46" stop-opacity="0"/></radialGradient>
+  <linearGradient id="skin" x1="0" y1="0" x2="1" y2=".5"><stop stop-color="#0d6246"/><stop offset=".45" stop-color="#4bba6c"/><stop offset="1" stop-color="#1a7852"/></linearGradient>
+  <linearGradient id="light" x1="0" y1="1" x2="0" y2="0"><stop stop-color="#fff2ae" stop-opacity=".85"/><stop offset="1" stop-color="#c6ffaf" stop-opacity="0"/></linearGradient>
+  <pattern id="scales" width="22" height="18" patternUnits="userSpaceOnUse"><path d="M-11 0Q0 20 11 0M11 0Q22 20 33 0M0 9Q11 29 22 9" fill="none" stroke="#063b2b" stroke-opacity=".35" stroke-width="1.5"/></pattern>
+  <path id="coil" d="M450 541 C430 498 581 492 600 432 C633 334 306 411 300 316 C295 225 623 315 633 228 C642 150 447 177 481 114"/>
+  <path id="star" d="M0-4 1.2-1.3 4.2-1.3 1.8.6 2.6 3.7 0 1.9-2.6 3.7-1.8.6-4.2-1.3-1.2-1.3Z"/>
+  <filter id="blur"><feGaussianBlur stdDeviation="12"/></filter>
+  <mask id="reveal"><rect width="900" height="650" fill="black"/><rect id="revealRect" x="180" y="650" width="570" height="0" fill="white"/></mask>
+ </defs>
+ <g opacity=".18" stroke="#6ca087" fill="none"><circle cx="450" cy="325" r="245"/><circle cx="450" cy="325" r="255" stroke-dasharray="1 17"/><path d="M450 62V87M450 563V588M188 325H213M687 325H712"/></g>
+ <g id="stars"></g>
+ <g fill="#03110f" opacity=".7"><path d="M0 530 110 439 160 482 214 423 320 538 430 489 525 534 670 436 734 481 790 420 900 498V650H0Z"/><path d="M0 570 160 510 270 561 405 517 545 565 734 524 900 554V650H0Z"/></g>
+ <ellipse cx="450" cy="550" rx="220" ry="42" fill="#77bc6b" opacity=".09"/>
+ <g id="rings" fill="none" stroke="#eac775"><ellipse cx="450" cy="549" rx="166" ry="39" opacity=".4"/><ellipse cx="450" cy="549" rx="183" ry="47" opacity=".16" stroke-dasharray="4 9"/></g>
+ <path id="beam" class="beam" d="M420 550 338 80H562L480 550Z" fill="url(#light)" filter="url(#blur)" opacity="0"/>
+ <g mask="url(#reveal)"><g id="dragon" class="dragon">
+  <use href="#coil" class="bodyLine" stroke="#062b22" stroke-width="66"/>
+  <use href="#coil" class="bodyLine" stroke="url(#skin)" stroke-width="57"/>
+  <use href="#coil" class="bodyLine" stroke="url(#scales)" stroke-width="55"/>
+  <use href="#coil" class="bodyLine" stroke="#e8cb87" stroke-width="19"/>
+  <use href="#coil" class="bodyLine" stroke="#947b45" stroke-width="19" stroke-dasharray="2 9"/>
+  <g fill="#53a664" stroke="#073c2c" stroke-width="4" stroke-linejoin="round">
+   <path d="M326 306Q285 280 264 294L249 326 226 334 252 337 267 324 271 345 282 325 295 335 288 309 326 332Z"/>
+   <path d="M592 235Q669 249 665 278L681 294 663 291 660 308 647 286 630 299 635 278 621 267 585 261Z"/>
+  </g>
+  <g id="head">
+   <g fill="none" stroke="#d1b181" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"><path d="M454 130 427 94 417 51M428 95 399 83 386 61M417 53 432 39M501 126 527 88 538 49M526 90 555 74 566 52M539 49 525 32"/></g>
+   <path d="M438 112 418 112 433 133 412 143 435 153 421 170 451 162 461 185 482 168 503 181 506 159 535 166 519 145 539 129 513 127 521 107 496 118Z" fill="#174d39" stroke="#072f24" stroke-width="3"/>
+   <path d="M443 116Q475 100 508 117L516 147 499 166 496 184Q475 199 451 182L451 166 436 144Z" fill="url(#skin)" stroke="#052f23" stroke-width="4"/>
+   <path d="M440 136 463 142 460 151 445 147ZM507 136 483 142 487 151 503 147Z" fill="#ef3931" stroke="#092c21" stroke-width="3"/>
+   <path d="M451 131 464 139M500 131 483 139" stroke="#98d788" stroke-width="5" stroke-linecap="round"/>
+   <path d="M459 160Q473 150 488 160L501 174 494 192Q473 204 450 190L446 175Z" fill="#75b978" stroke="#103f2d" stroke-width="3"/>
+   <path d="M453 180Q473 190 494 179L490 194Q474 205 457 194Z" fill="#301f1c"/>
+   <path d="M455 181 461 191 465 185M486 184 489 191 493 180" fill="#fff3c7"/>
+   <path d="M458 169 464 170M483 170 490 168" stroke="#153e2c" stroke-width="4" stroke-linecap="round"/>
+   <path d="M453 176C414 159 412 209 374 194S337 150 316 175M495 176C531 155 544 211 576 189S598 152 622 171" fill="none" stroke="#e5d5a1" stroke-width="3" stroke-linecap="round"/>
+   <path d="M462 199 472 223 485 199" fill="#c7cf91"/>
+  </g>
+ </g></g>
+ <ellipse id="flash" cx="450" cy="535" rx="140" ry="95" fill="url(#halo)" opacity="0"/>
+ <g id="balls"></g><g id="sparks" fill="#ffdda0"></g>
+ </svg>
+ <span id="status" class="status" aria-live="polite">REUNINT LES SET ESFERES</span>
+ <button id="replay" type="button" aria-label="Torna a reproduir la invocació">↻ TORNAR A INVOCAR</button>
+</div>
+<script>
+(()=>{'use strict';
+ const root=document.querySelector('svg'),NS='http://www.w3.org/2000/svg';
+ const get=id=>document.getElementById(id);
+ const el=(tag,attrs,parent)=>{const n=document.createElementNS(NS,tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,v);parent.append(n);return n;};
+ let seed=17;const rand=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646;};
+ for(let i=0;i<65;i++)el('circle',{cx:rand()*900,cy:rand()*500,r:rand()*1.4+.4,fill:'#d7e3b8',opacity:rand()*.35+.1},get('stars'));
+ const balls=[];for(let i=0;i<7;i++){
+  const a=-Math.PI/2+i*Math.PI*2/7,x=450+Math.cos(a)*128,y=543+Math.sin(a)*30;
+  const g=el('g',{},get('balls'));el('circle',{r:39,fill:'url(#halo)',opacity:.6},g);el('circle',{r:18,fill:'url(#orb)',stroke:'#ffc96b','stroke-width':1},g);
+  el('ellipse',{cx:-5,cy:-7,rx:7,ry:4,fill:'#fff7cc',opacity:.5,transform:'rotate(-30)'},g);
+  const n=i+1;for(let j=0;j<n;j++){const angle=j*2*Math.PI/Math.max(n-1,1)-Math.PI/2;const center=n===1||j===n-1;el('use',{href:'#star',fill:'#b52c0b',transform:`translate(${center?0:Math.cos(angle)*8} ${center?0:Math.sin(angle)*8}) scale(.68)`},g);}
+  balls.push({g,x,y});
+ }
+ const sparks=[];for(let i=0;i<36;i++)sparks.push({n:el('circle',{r:rand()*1.7+.5},get('sparks')),x:rand(),y:rand(),s:rand()});
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');let start=0,raf=0,active=true,ended=false;
+ const clamp=v=>Math.max(0,Math.min(1,v));const ease=v=>1-Math.pow(1-clamp(v),3);
+ function draw(t){
+  const rise=ease((t-2.4)/4.1),pulse=.5+.5*Math.sin(t*4);
+  balls.forEach(({g,x,y},i)=>{const p=ease((t-i*.1)/1.4);g.setAttribute('transform',`translate(${x} ${y+(1-p)*100})`);g.setAttribute('opacity',p);});
+  get('revealRect').setAttribute('y',650-rise*640);get('revealRect').setAttribute('height',rise*650);
+  get('dragon').setAttribute('transform',`translate(0 ${rise===1?Math.sin(t*1.3)*3:0})`);
+  get('beam').setAttribute('opacity',clamp((t-1.5)*1.2)*(1-clamp((t-6)/2))*(.5+pulse*.3));
+  get('flash').setAttribute('opacity',clamp(t-1)*(1-clamp((t-6)/3))*(.6+pulse*.4));
+  sparks.forEach(({n,x,y,s})=>{const p=(t*(.12+s*.1)+y)%1;n.setAttribute('cx',450+(x-.5)*(65+p*300));n.setAttribute('cy',535-p*420);n.setAttribute('opacity',Math.sin(p*Math.PI)*clamp(t-1.5)*.7);});
+  const message=t<2?'REUNINT LES SET ESFERES':t<6.5?'SHENRON, APAREIX!':'QUIN ÉS EL TEU DESIG?';if(get('status').textContent!==message)get('status').textContent=message;
+  get('status').classList.toggle('is-wish',t>=6.5);
+ }
+ function tick(now){if(!active)return;if(!start)start=now;const t=(now-start)/1000;draw(reduced.matches?9:t);if(reduced.matches||t>=18){ended=true;return;}raf=requestAnimationFrame(tick);}
+ function play(){cancelAnimationFrame(raf);start=0;ended=false;active=true;raf=requestAnimationFrame(tick);}
+ get('replay').addEventListener('click',play);
+ reduced.addEventListener('change',play);
+ document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);active=false;}else if(!ended)play();});
+ play();
+})();
+</script>
+</template>
+<script>
+(function(){
+  var ORD = ['', 'Primera', 'Segona', 'Tercera', 'Quarta', 'Cinquena', 'Sisena', 'Setena'];
+  var SAGUES = {
+    1:{nom:"Inscripció al torneig", curt:"Inscripció"},
+    2:{nom:"Preparació: la instal·lació", curt:"Instal·lació"},
+    3:{nom:"Entrenament amb el Follet Tortuga", curt:"Entrenament"},
+    4:{nom:"La tècnica secreta: el mètode", curt:"El mètode"},
+    5:{nom:"Super Guerrer: millores", curt:"Super Guerrer"},
+    6:{nom:"Mongetes màgiques: problemes", curt:"Problemes"},
+    7:{nom:"El radar del drac: xuleta", curt:"Xuleta"}
+  };
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var ara = 0;
+
+  // Boles de drac en SVG
+  var POS = {
+    1:[[50,52]], 2:[[38,44],[62,60]], 3:[[50,33],[35,60],[65,60]],
+    4:[[36,37],[64,37],[36,63],[64,63]], 5:[[50,29],[31,46],[69,46],[39,69],[61,69]],
+    6:[[37,32],[63,32],[28,53],[72,53],[39,73],[61,73]],
+    7:[[50,51],[50,27],[71,39],[71,63],[50,75],[29,63],[29,39]]
+  };
+  function estrella(cx, cy, r){
+    var p = [];
+    for (var k = 0; k < 10; k++){
+      var a = -Math.PI/2 + k*Math.PI/5, rr = k % 2 ? r*0.45 : r;
+      p.push((cx + rr*Math.cos(a)).toFixed(1) + ',' + (cy + rr*Math.sin(a)).toFixed(1));
+    }
+    return p.join(' ');
+  }
+  function bola(n, mida, classe){
+    var r = n === 1 ? 14 : n < 5 ? 10.5 : 8.5;
+    var est = POS[n].map(function(c){ return '<polygon points="' + estrella(c[0], c[1], r) + '" fill="#d7261e"/>'; }).join('');
+    return '<svg' + (classe ? ' class="' + classe + '"' : '') + ' width="' + mida + '" height="' + mida + '" viewBox="0 0 100 100" aria-hidden="true" focusable="false">' +
+      '<circle cx="50" cy="50" r="45" fill="url(#dbGrad)" stroke="#14110f" stroke-width="5"/>' +
+      '<ellipse cx="35" cy="29" rx="13" ry="7" fill="#fff" opacity=".55" transform="rotate(-30 35 29)"/>' + est + '</svg>';
+  }
+  // Núvol Kinton: els cercles es dibuixen dos cops perquè només en quedi el contorn exterior
+  var NUVOL = [[52,54,24],[82,40,28],[116,38,27],[146,50,22],[104,60,26],[72,64,18],[132,64,18],[28,60,13],[12,64,8]];
+  function nuvol(w){
+    var c = NUVOL.map(function(x){ return '<circle cx="' + x[0] + '" cy="' + x[1] + '" r="' + x[2] + '"/>'; }).join('');
+    return '<svg width="' + w + '" height="' + Math.round(w*95/175) + '" viewBox="0 0 175 95" aria-hidden="true" focusable="false">' +
+      '<g fill="#14110f" stroke="#14110f" stroke-width="7">' + c + '</g><g fill="url(#nuvolGrad)">' + c + '</g>' +
+      '<ellipse cx="96" cy="28" rx="22" ry="7" fill="#fff" opacity=".55"/><ellipse cx="54" cy="42" rx="11" ry="4" fill="#fff" opacity=".45"/></svg>';
+  }
+
+  document.querySelectorAll('[data-bola]').forEach(function(el){
+    el.innerHTML = bola(+el.dataset.bola, +el.dataset.mida || 40);
+  });
+  document.querySelectorAll('[data-nuvol]').forEach(function(el){
+    el.innerHTML = nuvol(+el.dataset.nuvol || 160);
+  });
+  document.querySelectorAll('[data-recull]').forEach(function(el){
+    var n = +el.dataset.recull, h = '';
+    for (var k = 1; k <= 7; k++) h += bola(k, 46, k <= n ? '' : 'falta');
+    el.innerHTML = h;
+  });
+
+  function primeraDeSaga(s){
+    for (var i = 0; i < slides.length; i++) if (+slides[i].dataset.saga === s) return i;
+    return 0;
+  }
+  function nomSaga(sg){
+    if (SAGUES[sg]) return ORD[sg] + ' bola de drac · ' + SAGUES[sg].nom;
+    if (sg === 0) return "Guia d'iniciació a Claude Code";
+    if (sg === 8) return 'Final · Shenron';
+    return 'Extra · Com recorda Claude';
+  }
+
+  // Mapa de la portada i boles del peu
+  var mapa = document.getElementById('mapa');
+  var boles = document.getElementById('boles');
+  for (var s = 1; s <= 7; s++){
+    (function(s){
+      var m = document.createElement('button');
+      m.type = 'button';
+      m.innerHTML = bola(s, 58) + '<span>' + s + ' · ' + SAGUES[s].curt + '</span>';
+      m.addEventListener('click', function(){ ves(primeraDeSaga(s)); });
+      mapa.appendChild(m);
+
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.title = ORD[s] + ' bola de drac: ' + SAGUES[s].nom;
+      b.setAttribute('aria-label', b.title);
+      b.innerHTML = bola(s, 26);
+      b.addEventListener('click', function(){ ves(primeraDeSaga(s)); });
+      boles.appendChild(b);
+    })(s);
+  }
+
+  // Índex
+  var llista = document.getElementById('index-llista');
+  var sagaAnt = -1;
+  slides.forEach(function(sl, i){
+    var sg = +sl.dataset.saga;
+    if (sg !== sagaAnt && sg > 0){
+      var cap = document.createElement('li');
+      cap.className = 'cap';
+      cap.innerHTML = SAGUES[sg] ? bola(sg, 20) + '<span>' + ORD[sg] + ' bola · ' + SAGUES[sg].curt + '</span>'
+                                 : '<span>' + (sg === 8 ? 'Final' : 'Extra') + '</span>';
+      llista.appendChild(cap);
+    }
+    sagaAnt = sg;
+    var li = document.createElement('li');
+    var bt = document.createElement('button');
+    bt.type = 'button';
+    bt.textContent = (i + 1) + '. ' + sl.dataset.titol;
+    bt.dataset.go = i;
+    bt.addEventListener('click', function(){ tancaIndex(); ves(i); });
+    li.appendChild(bt);
+    llista.appendChild(li);
+  });
+
+  // Taules apilables: cada cel·la porta el nom de la seva columna
+  document.querySelectorAll('table.apila').forEach(function(t){
+    var caps = Array.prototype.map.call(t.rows[0].cells, function(c){ return c.textContent.trim(); });
+    if (caps.length < 3) return;
+    Array.prototype.slice.call(t.rows, 1).forEach(function(r){
+      Array.prototype.forEach.call(r.cells, function(c, k){ if (k > 0 && caps[k]) c.setAttribute('data-l', caps[k]); });
+    });
+  });
+
+  // Botons de copiar
+  function copiaAlternativa(t){
+    var ta = document.createElement('textarea');
+    ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    ta.remove();
+    return ok;
+  }
+  document.querySelectorAll('.cmd').forEach(function(el){
+    var code = el.querySelector('code');
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'copia'; b.textContent = 'Copia';
+    b.addEventListener('click', function(){
+      var t = el.dataset.copia || code.textContent;
+      var fet = function(){
+        b.textContent = 'Copiat!'; b.classList.add('fet');
+        setTimeout(function(){ b.textContent = 'Copia'; b.classList.remove('fet'); }, 1600);
+      };
+      if (navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(t).then(fet, function(){ if (copiaAlternativa(t)) fet(); });
+      } else if (copiaAlternativa(t)) fet();
+    });
+    el.appendChild(b);
+  });
+
+  // Navegació
+  // Shenron: l'animació viu en un iframe aïllat i torna a començar cada vegada que s'arriba a la pantalla
+  var marc = document.getElementById('marc-shenron');
+  var SHENRON = '<!doctype html><html lang="ca">' + document.getElementById('shenron-src').innerHTML +
+    '<script>addEventListener("keydown",function(e){parent.postMessage({teclaGuia:e.key},"*")})<\/script></html>';
+  window.addEventListener('message', function(e){
+    if (marc && e.source === marc.contentWindow && e.data && e.data.teclaGuia)
+      document.dispatchEvent(new KeyboardEvent('keydown', {key: e.data.teclaGuia}));
+  });
+  var sagaEl = document.getElementById('saga');
+  var comptador = document.getElementById('comptador');
+  var enrere = document.getElementById('enrere');
+  var endavant = document.getElementById('endavant');
+
+  function ves(i){
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    ara = i;
+    slides.forEach(function(sl, k){
+      sl.classList.toggle('activa', k === i);
+      sl.classList.toggle('abans', k < i);
+      sl.setAttribute('aria-hidden', k === i ? 'false' : 'true');
+      if (k === i){ var p = sl.querySelector('.panel'); if (p) p.scrollTop = 0; }
+    });
+    if (marc){
+      var veu = slides[i].contains(marc);
+      if (veu && !marc.dataset.on){ marc.srcdoc = SHENRON; marc.dataset.on = '1'; }
+      else if (!veu && marc.dataset.on){ marc.srcdoc = ''; delete marc.dataset.on; }
+    }
+    var sg = +slides[i].dataset.saga;
+    var trobada = slides[i].dataset.trobada === '1';
+    sagaEl.innerHTML = bola(SAGUES[sg] ? sg : (sg === 0 ? 4 : 7), 30) + '<span>' + nomSaga(sg) + '</span>';
+    Array.prototype.forEach.call(boles.children, function(b, k){
+      var n = k + 1;
+      b.classList.toggle('te', n < sg || (n === sg && trobada));
+      b.classList.toggle('ara', n === sg);
+    });
+    comptador.textContent = (i + 1) + ' / ' + slides.length;
+    enrere.disabled = i === 0;
+    endavant.disabled = i === slides.length - 1;
+    llista.querySelectorAll('button').forEach(function(b){ b.classList.toggle('ara', +b.dataset.go === i); });
+    try { history.replaceState(null, '', '#' + (i + 1)); } catch (e) {}
+  }
+
+  var index = document.getElementById('index');
+  function obreIndex(){ index.classList.add('oberta'); var b = llista.querySelector('button.ara'); if (b) b.focus(); }
+  function tancaIndex(){ index.classList.remove('oberta'); }
+  document.getElementById('obre-index').addEventListener('click', obreIndex);
+  document.getElementById('tanca-index').addEventListener('click', tancaIndex);
+  document.getElementById('imprimeix').addEventListener('click', function(){ tancaIndex(); window.print(); });
+  index.addEventListener('click', function(e){ if (e.target === index) tancaIndex(); });
+  enrere.addEventListener('click', function(){ ves(ara - 1); });
+  endavant.addEventListener('click', function(){ ves(ara + 1); });
+
+  document.addEventListener('keydown', function(e){
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    if (index.classList.contains('oberta')){ if (e.key === 'Escape') tancaIndex(); return; }
+    if (e.key === 'ArrowRight' || e.key === 'PageDown'){ e.preventDefault(); ves(ara + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); ves(ara - 1); }
+    else if (e.key === 'Home'){ e.preventDefault(); ves(0); }
+    else if (e.key === 'End'){ e.preventDefault(); ves(slides.length - 1); }
+    else if (e.key === 'i' || e.key === 'I'){ obreIndex(); }
+  });
+
+  var tx = null, ty = null;
+  document.getElementById('escena').addEventListener('touchstart', function(e){
+    tx = e.touches[0].clientX; ty = e.touches[0].clientY;
+  }, {passive:true});
+  document.getElementById('escena').addEventListener('touchend', function(e){
+    if (tx === null) return;
+    var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) ves(ara + (dx < 0 ? 1 : -1));
+    tx = ty = null;
+  }, {passive:true});
+
+  window.addEventListener('hashchange', function(){
+    var h = parseInt(location.hash.slice(1), 10);
+    if (h >= 1 && h <= slides.length && h - 1 !== ara) ves(h - 1);
+  });
+
+  var inici = parseInt(location.hash.slice(1), 10);
+  ves(inici >= 1 && inici <= slides.length ? inici - 1 : 0);
+})();
+</script>
+</body>
+</html>
