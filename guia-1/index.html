@@ -1015,90 +1015,223 @@ claude</code></div>
 <style>
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#061613;color:#fff8dc;font-family:system-ui,sans-serif}.scene{position:relative;width:100%;height:100%;isolation:isolate;background:radial-gradient(ellipse at 50% 86%,#335532 0, #102f29 30%,#061613 72%)}svg{width:100%;height:100%;display:block}.caption{position:absolute;left:6%;top:7%;pointer-events:none}.caption small{font-size:10px;letter-spacing:.32em;color:#c6ac70}.caption h1{font-size:clamp(19px,4vw,36px);font-weight:500;letter-spacing:.05em;margin:9px 0}.caption p{font-size:12px;color:#a1b6a6;margin:0}button{position:absolute;bottom:5%;right:5%;background:#142f27cc;color:#f8e7b4;border:1px solid #bca46b70;border-radius:30px;padding:10px 17px;font:11px system-ui;letter-spacing:.1em;cursor:pointer}button:hover{background:#30513d}button:focus-visible{outline:2px solid #ffe299;outline-offset:4px}.dragon{filter:drop-shadow(0 0 12px #66e9a340)}.bodyLine{fill:none;stroke-linecap:round;stroke-linejoin:round}.beam{mix-blend-mode:screen}.status{position:absolute;bottom:5%;left:5%;font-size:10px;letter-spacing:.2em;color:#cfb77d}@media(max-width:420px){.caption p{display:none}.caption small{font-size:8px}.status{font-size:8px}}
 .caption{max-width:36%}.caption h1{font-size:clamp(17px,3vw,28px);line-height:1.25;margin:0;text-wrap:balance}button{padding:7px 11px;font-size:9px;letter-spacing:.06em}.status.is-wish{font-size:clamp(11px,1.6vw,15px);font-weight:800;letter-spacing:.1em;color:#ffe6a3;text-shadow:0 0 14px #ffd27766}@media(max-width:420px){.caption{max-width:45%}.status.is-wish{max-width:49%;line-height:1.5}}
+.llum{mix-blend-mode:screen}
 </style>
 <div class="scene">
  <div class="caption"><h1>Has trobat les 7 boles de drac!</h1></div>
- <svg viewBox="0 0 900 650" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Les set boles de drac brillen i invoquen Shenron, un drac verd serpentejant amb banyes i bigotis llargs.">
+ <svg viewBox="0 0 900 650" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Les set boles de drac brillen, una llum en surt serpentejant cap al cel i es converteix en Shenron, un drac verd amb banyes daurades i bigotis llargs.">
  <defs>
   <radialGradient id="orb"><stop stop-color="#fff4b1"/><stop offset=".3" stop-color="#ffc953"/><stop offset=".78" stop-color="#f18a13"/><stop offset="1" stop-color="#b84b08"/></radialGradient>
   <radialGradient id="halo"><stop stop-color="#ffe295" stop-opacity=".8"/><stop offset="1" stop-color="#ffbd46" stop-opacity="0"/></radialGradient>
-  <linearGradient id="skin" x1="0" y1="0" x2="1" y2=".5"><stop stop-color="#0d6246"/><stop offset=".45" stop-color="#4bba6c"/><stop offset="1" stop-color="#1a7852"/></linearGradient>
+  <radialGradient id="puntaLlum"><stop stop-color="#fff"/><stop offset=".3" stop-color="#fff6c8" stop-opacity=".95"/><stop offset=".65" stop-color="#ffd25a" stop-opacity=".45"/><stop offset="1" stop-color="#ffb000" stop-opacity="0"/></radialGradient>
+  <radialGradient id="aura"><stop stop-color="#7dffb0" stop-opacity=".35"/><stop offset=".6" stop-color="#2fae6a" stop-opacity=".12"/><stop offset="1" stop-color="#0d4a30" stop-opacity="0"/></radialGradient>
+  <radialGradient id="ullLlum"><stop stop-color="#ffb199"/><stop offset=".35" stop-color="#ff4a2a" stop-opacity=".8"/><stop offset="1" stop-color="#ff2000" stop-opacity="0"/></radialGradient>
+  <linearGradient id="pellCap" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#6fd08a"/><stop offset=".5" stop-color="#3fae6a"/><stop offset="1" stop-color="#2a8452"/></linearGradient>
   <linearGradient id="light" x1="0" y1="1" x2="0" y2="0"><stop stop-color="#fff2ae" stop-opacity=".85"/><stop offset="1" stop-color="#c6ffaf" stop-opacity="0"/></linearGradient>
-  <pattern id="scales" width="22" height="18" patternUnits="userSpaceOnUse"><path d="M-11 0Q0 20 11 0M11 0Q22 20 33 0M0 9Q11 29 22 9" fill="none" stroke="#063b2b" stroke-opacity=".35" stroke-width="1.5"/></pattern>
+  <pattern id="scales" width="16" height="13" patternUnits="userSpaceOnUse"><path d="M-8 0Q0 15 8 0M8 0Q16 15 24 0M0 6.5Q8 21.5 16 6.5" fill="none" stroke="#0a4a33" stroke-opacity=".45" stroke-width="1.3"/></pattern>
   <path id="coil" d="M450 541 C430 498 581 492 600 432 C633 334 306 411 300 316 C295 225 623 315 633 228 C642 150 447 177 481 114"/>
   <path id="star" d="M0-4 1.2-1.3 4.2-1.3 1.8.6 2.6 3.7 0 1.9-2.6 3.7-1.8.6-4.2-1.3-1.2-1.3Z"/>
   <filter id="blur"><feGaussianBlur stdDeviation="12"/></filter>
-  <mask id="reveal"><rect width="900" height="650" fill="black"/><rect id="revealRect" x="180" y="650" width="570" height="0" fill="white"/></mask>
+  <filter id="blurCua" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="9"/></filter>
+  <!-- El cos apareix al llarg del seu propi camí, darrere la llum que surt de les boles -->
+  <mask id="creix" maskUnits="userSpaceOnUse" x="-50" y="-50" width="1000" height="750">
+   <use id="mascaraCos" href="#coil" fill="none" stroke="#fff" stroke-width="116" stroke-linecap="round" visibility="hidden"/>
+  </mask>
+  <path id="banyes" d="M-16-30C-24-50-30-64-44-86M-28-56C-40-58-52-62-62-72M-22-42C-17-52-15-60-17-70M16-30C24-50 30-64 44-86M28-56C40-58 52-62 62-72M22-42C17-52 15-60 17-70"/>
+  <!-- Una pota: x cap enfora del cos, y cap al cap -->
+  <g id="pota" stroke-linejoin="round">
+   <path d="M14-12C12-22 18-27 25-31C22-23 24-18 22-11Z" fill="#f1e4b4" stroke="#7d6c3c" stroke-width="1.3"/>
+   <path d="M0-12C14-15 26-11 31-1L29 10C21 8 12 8 0 12Z" fill="#3fae6a" stroke="#062b22" stroke-width="3"/>
+   <circle cx="30" cy="6" r="8" fill="#3fae6a" stroke="#062b22" stroke-width="3"/>
+   <g fill="#f6ead0" stroke="#6b5a3a" stroke-width="1.4"><path d="M34 0C42-2 48 0 53 4C47 4 41 4 36 5Z"/><path d="M36 6C44 7 49 10 52 15C46 13 41 12 35 11Z"/><path d="M32 11C37 15 40 19 42 25C37 21 33 18 30 14Z"/></g>
+  </g>
  </defs>
  <g opacity=".18" stroke="#6ca087" fill="none"><circle cx="450" cy="325" r="245"/><circle cx="450" cy="325" r="255" stroke-dasharray="1 17"/><path d="M450 62V87M450 563V588M188 325H213M687 325H712"/></g>
  <g id="stars"></g>
  <g fill="#03110f" opacity=".7"><path d="M0 530 110 439 160 482 214 423 320 538 430 489 525 534 670 436 734 481 790 420 900 498V650H0Z"/><path d="M0 570 160 510 270 561 405 517 545 565 734 524 900 554V650H0Z"/></g>
+ <rect id="fosc" width="900" height="650" fill="#010507" opacity="0"/>
  <ellipse cx="450" cy="550" rx="220" ry="42" fill="#77bc6b" opacity=".09"/>
- <g id="rings" fill="none" stroke="#eac775"><ellipse cx="450" cy="549" rx="166" ry="39" opacity=".4"/><ellipse cx="450" cy="549" rx="183" ry="47" opacity=".16" stroke-dasharray="4 9"/></g>
- <path id="beam" class="beam" d="M420 550 338 80H562L480 550Z" fill="url(#light)" filter="url(#blur)" opacity="0"/>
- <g mask="url(#reveal)"><g id="dragon" class="dragon">
-  <use href="#coil" class="bodyLine" stroke="#062b22" stroke-width="66"/>
-  <use href="#coil" class="bodyLine" stroke="url(#skin)" stroke-width="57"/>
-  <use href="#coil" class="bodyLine" stroke="url(#scales)" stroke-width="55"/>
-  <use href="#coil" class="bodyLine" stroke="#e8cb87" stroke-width="19"/>
-  <use href="#coil" class="bodyLine" stroke="#947b45" stroke-width="19" stroke-dasharray="2 9"/>
-  <g fill="#53a664" stroke="#073c2c" stroke-width="4" stroke-linejoin="round">
-   <path d="M326 306Q285 280 264 294L249 326 226 334 252 337 267 324 271 345 282 325 295 335 288 309 326 332Z"/>
-   <path d="M592 235Q669 249 665 278L681 294 663 291 660 308 647 286 630 299 635 278 621 267 585 261Z"/>
+ <g id="rings" fill="none" stroke="#eac775"><ellipse cx="450" cy="549" rx="166" ry="39" opacity=".4"/><ellipse id="anellRoda" cx="450" cy="549" rx="183" ry="47" opacity=".3" stroke-dasharray="4 9"/></g>
+ <ellipse id="auraDrac" cx="465" cy="300" rx="300" ry="290" fill="url(#aura)" opacity="0"/>
+ <path id="beam" class="beam" d="M425 550 360 60H540L475 550Z" fill="url(#light)" filter="url(#blur)" opacity="0"/>
+ <g id="dragon" class="dragon">
+  <g id="potes"></g>
+  <g mask="url(#creix)">
+   <path id="espines" fill="#f2b33d" stroke="#6a4510" stroke-width="1.6" stroke-linejoin="round"/>
+   <path id="cosBase" fill="#3fae6a" stroke="#062b22" stroke-width="4" stroke-linejoin="round"/>
+   <path id="cosOmbra" fill="#14583a" opacity=".55"/>
+   <path id="cosLlum" fill="#a6ecb4" opacity=".42"/>
+   <path id="cosEscates" fill="url(#scales)"/>
+   <path id="panxa" fill="#f0d596" stroke="#8a6b30" stroke-width="1.5" stroke-linejoin="round"/>
+   <path id="plaques" fill="none" stroke="#a8853f" stroke-width="1.5" stroke-linecap="round"/>
   </g>
-  <g id="head">
-   <g fill="none" stroke="#d1b181" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"><path d="M454 130 427 94 417 51M428 95 399 83 386 61M417 53 432 39M501 126 527 88 538 49M526 90 555 74 566 52M539 49 525 32"/></g>
-   <path d="M438 112 418 112 433 133 412 143 435 153 421 170 451 162 461 185 482 168 503 181 506 159 535 166 519 145 539 129 513 127 521 107 496 118Z" fill="#174d39" stroke="#072f24" stroke-width="3"/>
-   <path d="M443 116Q475 100 508 117L516 147 499 166 496 184Q475 199 451 182L451 166 436 144Z" fill="url(#skin)" stroke="#052f23" stroke-width="4"/>
-   <path d="M440 136 463 142 460 151 445 147ZM507 136 483 142 487 151 503 147Z" fill="#ef3931" stroke="#092c21" stroke-width="3"/>
-   <path d="M451 131 464 139M500 131 483 139" stroke="#98d788" stroke-width="5" stroke-linecap="round"/>
-   <path d="M459 160Q473 150 488 160L501 174 494 192Q473 204 450 190L446 175Z" fill="#75b978" stroke="#103f2d" stroke-width="3"/>
-   <path d="M453 180Q473 190 494 179L490 194Q474 205 457 194Z" fill="#301f1c"/>
-   <path d="M455 181 461 191 465 185M486 184 489 191 493 180" fill="#fff3c7"/>
-   <path d="M458 169 464 170M483 170 490 168" stroke="#153e2c" stroke-width="4" stroke-linecap="round"/>
-   <path d="M453 176C414 159 412 209 374 194S337 150 316 175M495 176C531 155 544 211 576 189S598 152 622 171" fill="none" stroke="#e5d5a1" stroke-width="3" stroke-linecap="round"/>
-   <path d="M462 199 472 223 485 199" fill="#c7cf91"/>
-  </g>
- </g></g>
- <ellipse id="flash" cx="450" cy="535" rx="140" ry="95" fill="url(#halo)" opacity="0"/>
+  <g id="head" opacity="0"><g transform="translate(476 136) scale(1.12)">
+   <path id="crinera" fill="#1f5c40" stroke="#062b22" stroke-width="3" stroke-linejoin="round"/>
+   <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <use href="#banyes" stroke="#4a3212" stroke-width="12"/>
+    <use href="#banyes" stroke="#e2c27f" stroke-width="7"/>
+    <use href="#banyes" stroke="#fff3cf" stroke-width="2" opacity=".7" transform="translate(-1 -1)"/>
+   </g>
+   <path d="M-30-8-54-22-47-8-60-2-34 4ZM30-8 54-22 47-8 60-2 34 4Z" fill="#2f8a57" stroke="#062b22" stroke-width="2.5" stroke-linejoin="round"/>
+   <path d="M-8 56C-7 70-3 78 0 90C3 78 7 70 8 56Z" fill="#f1e4b4" stroke="#8a7a4a" stroke-width="1.5"/>
+   <path d="M-30-22C-26-40 26-40 30-22C40-14 40 4 32 12C28 18 24 22 22 30C22 46 14 56 0 58C-14 56-22 46-22 30C-24 22-28 18-32 12C-40 4-40-14-30-22Z" fill="url(#pellCap)" stroke="#052f23" stroke-width="4"/>
+   <path d="M-10-30Q0-24 10-30M-8-22Q0-17 8-22" fill="none" stroke="#1f6b45" stroke-width="2.5" stroke-linecap="round"/>
+   <path d="M-19 24C-19 13 19 13 19 24C19 42 11 52 0 53C-11 52-19 42-19 24Z" fill="#9ad6a2" stroke="#2c6b4a" stroke-width="2"/>
+   <path d="M-35-15C-27-24-14-22-4-11C-13-15-25-16-35-15ZM35-15C27-24 14-22 4-11C13-15 25-16 35-15Z" fill="#0d4a33"/>
+   <path d="M-31-18C-44-27-55-25-66-34C-57-19-45-15-33-13ZM31-18C44-27 55-25 66-34C57-19 45-15 33-13Z" fill="#f1e4b4" stroke="#8a7a4a" stroke-width="1.5" stroke-linejoin="round"/>
+   <path d="M-30-12C-23-17-13-15-7-6C-15-3-24-4-30-12ZM30-12C23-17 13-15 7-6C15-3 24-4 30-12Z" fill="#ef3931" stroke="#2a0b08" stroke-width="2"/>
+   <path d="M-17-14-15-8-17-3-19-8ZM17-14 19-8 17-3 15-8Z" fill="#2a0b08"/>
+   <circle cx="-21" cy="-11" r="1.8" fill="#fff"/><circle cx="13" cy="-11" r="1.8" fill="#fff"/>
+   <path d="M-10 36c-4-3-1-8 4-6M10 36c4-3 1-8-4-6" fill="none" stroke="#153e2c" stroke-width="3" stroke-linecap="round"/>
+   <path d="M-15 47Q0 55 15 47" fill="none" stroke="#153e2c" stroke-width="3" stroke-linecap="round"/>
+   <path d="M-12 48-9 58-6 50ZM12 48 9 58 6 50Z" fill="#fff3c7" stroke="#6b5a3a" stroke-width="1.4" stroke-linejoin="round"/>
+   <g fill="none" stroke-linecap="round"><path id="bigotiFonsE" stroke="#6f6136" stroke-width="6"/><path id="bigotiFonsD" stroke="#6f6136" stroke-width="6"/><path id="bigotiE" stroke="#f1e4b4" stroke-width="3.2"/><path id="bigotiD" stroke="#f1e4b4" stroke-width="3.2"/></g>
+   <g id="ulls" class="llum" opacity="0"><circle cx="-18" cy="-9" r="16" fill="url(#ullLlum)"/><circle cx="18" cy="-9" r="16" fill="url(#ullLlum)"/></g>
+  </g></g>
+ </g>
+ <g id="cometa" class="llum">
+  <use id="cuaAmple" href="#coil" fill="none" stroke="#ffcf5a" stroke-width="70" stroke-linecap="round" filter="url(#blurCua)" opacity="0"/>
+  <use id="cuaNucli" href="#coil" fill="none" stroke="#fffbe8" stroke-width="22" stroke-linecap="round" opacity="0"/>
+  <g id="espurnesCua" fill="#fff1b8"></g>
+  <circle id="punta" r="44" fill="url(#puntaLlum)" opacity="0"/>
+ </g>
+ <ellipse id="flash" cx="450" cy="535" rx="150" ry="100" fill="url(#halo)" opacity="0"/>
  <g id="balls"></g><g id="sparks" fill="#ffdda0"></g>
+ <circle id="esclat" class="llum" cx="476" cy="136" r="80" fill="url(#puntaLlum)" opacity="0"/>
+ <rect id="llamp" class="llum" width="900" height="650" fill="#fff8dc" opacity="0"/>
  </svg>
  <span id="status" class="status" aria-live="polite">REUNINT LES SET ESFERES</span>
  <button id="replay" type="button" aria-label="Torna a reproduir la invocació">↻ TORNAR A INVOCAR</button>
 </div>
 <script>
 (()=>{'use strict';
- const root=document.querySelector('svg'),NS='http://www.w3.org/2000/svg';
+ const NS='http://www.w3.org/2000/svg';
  const get=id=>document.getElementById(id);
  const el=(tag,attrs,parent)=>{const n=document.createElementNS(NS,tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,v);parent.append(n);return n;};
  let seed=17;const rand=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646;};
+ const clamp=v=>Math.max(0,Math.min(1,v));const ease=v=>1-Math.pow(1-clamp(v),3);
+ const easeIO=v=>{v=clamp(v);return v<.5?4*v*v*v:1-Math.pow(-2*v+2,3)/2;};
  for(let i=0;i<65;i++)el('circle',{cx:rand()*900,cy:rand()*500,r:rand()*1.4+.4,fill:'#d7e3b8',opacity:rand()*.35+.1},get('stars'));
  const balls=[];for(let i=0;i<7;i++){
   const a=-Math.PI/2+i*Math.PI*2/7,x=450+Math.cos(a)*128,y=543+Math.sin(a)*30;
-  const g=el('g',{},get('balls'));el('circle',{r:39,fill:'url(#halo)',opacity:.6},g);el('circle',{r:18,fill:'url(#orb)',stroke:'#ffc96b','stroke-width':1},g);
+  const g=el('g',{},get('balls'));const halo=el('circle',{r:39,fill:'url(#halo)',opacity:.6},g);el('circle',{r:18,fill:'url(#orb)',stroke:'#ffc96b','stroke-width':1},g);
   el('ellipse',{cx:-5,cy:-7,rx:7,ry:4,fill:'#fff7cc',opacity:.5,transform:'rotate(-30)'},g);
   const n=i+1;for(let j=0;j<n;j++){const angle=j*2*Math.PI/Math.max(n-1,1)-Math.PI/2;const center=n===1||j===n-1;el('use',{href:'#star',fill:'#b52c0b',transform:`translate(${center?0:Math.cos(angle)*8} ${center?0:Math.sin(angle)*8}) scale(.68)`},g);}
-  balls.push({g,x,y});
+  balls.push({g,x,y,halo});
  }
  const sparks=[];for(let i=0;i<36;i++)sparks.push({n:el('circle',{r:rand()*1.7+.5},get('sparks')),x:rand(),y:rand(),s:rand()});
- const reduced=matchMedia('(prefers-reduced-motion: reduce)');let start=0,raf=0,active=true,ended=false;
- const clamp=v=>Math.max(0,Math.min(1,v));const ease=v=>1-Math.pow(1-clamp(v),3);
+ const cua=[];for(let i=0;i<18;i++)cua.push({n:el('circle',{r:rand()*2.4+.8},get('espurnesCua')),off:12+i*13+rand()*8,dx:(rand()-.5)*2,dy:(rand()-.5)*2});
+
+ // El cos es dibuixa a partir del seu camí: cua prima a les boles, gruixut al mig i coll més estret
+ const coil=get('coil'),L=coil.getTotalLength(),N=360,pas=L/N;
+ const P=[];for(let i=0;i<=N;i++){const p=coil.getPointAtLength(i*pas);P.push([p.x,p.y]);}
+ const T=P.map((p,i)=>{const a=P[Math.max(0,i-1)],b=P[Math.min(N,i+1)],dx=b[0]-a[0],dy=b[1]-a[1],l=Math.hypot(dx,dy)||1;return[dx/l,dy/l];});
+ const Nr=T.map(t=>[-t[1],t[0]]);
+ const W=P.map((p,i)=>{const f=i/N;return(7+51*ease(f/.17))*(1-.32*clamp((f-.84)/.16))*(1+.05*Math.sin(f*Math.PI));});
+ const pt=(i,o)=>[P[i][0]+Nr[i][0]*o*W[i],P[i][1]+Nr[i][1]*o*W[i]];
+ const f1=v=>v.toFixed(1);
+ const banda=(a,b)=>{let s='M';for(let i=0;i<=N;i++){const q=pt(i,b);s+=f1(q[0])+' '+f1(q[1])+' ';}for(let i=N;i>=0;i--){const q=pt(i,a);s+=f1(q[0])+' '+f1(q[1])+' ';}return s+'Z';};
+ get('cosBase').setAttribute('d',banda(-.5,.5));
+ get('cosEscates').setAttribute('d',banda(-.5,.5));
+ get('cosOmbra').setAttribute('d',banda(.33,.5));
+ get('cosLlum').setAttribute('d',banda(.06,.27));
+ get('panxa').setAttribute('d',banda(-.47,-.08));
+ let plaques='';for(let i=Math.round(12/pas);i<N-4;i+=Math.round(11/pas)){const a=pt(i,-.47),b=pt(i,-.08);plaques+=`M${f1(a[0])} ${f1(a[1])}L${f1(b[0])} ${f1(b[1])}`;}
+ get('plaques').setAttribute('d',plaques);
+ // La cresta: espines daurades a l'esquena, decantades cap a la cua. On l'esquena toca una altra
+ // volta del cos (el buit entre revolts), no n'hi ha: semblaria una cremallera.
+ const aprop=(x,y,i,marge)=>{for(let k=0;k<=N;k+=3){if(Math.abs(k-i)<60)continue;if(Math.hypot(P[k][0]-x,P[k][1]-y)<W[k]/2+marge)return true;}return false;};
+ let espines='';const d=Math.round(24/pas),e=Math.round(6/pas);
+ for(let i=Math.round(N*.07);i<N*.95;i+=d){const j=Math.max(0,i-2*e),h=5+.16*W[i];
+  const b1=pt(i-e,.44),b2=pt(i+e,.44),tip=[P[j][0]+Nr[j][0]*(W[j]/2+h),P[j][1]+Nr[j][1]*(W[j]/2+h)];
+  if(aprop(tip[0],tip[1],i,34))continue;
+  espines+=`M${f1(b1[0])} ${f1(b1[1])}L${f1(tip[0])} ${f1(tip[1])}L${f1(b2[0])} ${f1(b2[1])}Z`;}
+ get('espines').setAttribute('d',espines);
+ // Quatre potes, cap enfora: una a la cua, una a cada revolt i la del davant, sota el cap
+ const fraccio=(px,py)=>{let millor=0,dist=1e9;P.forEach((p,i)=>{const dd=(p[0]-px)**2+(p[1]-py)**2;if(dd<dist){dist=dd;millor=i/N;}});return millor;};
+ // El costat de fora és el que té més lluny la resta del cos
+ const espai=(i,sg)=>{const x=P[i][0]+Nr[i][0]*sg*(W[i]/2+45),y=P[i][1]+Nr[i][1]*sg*(W[i]/2+45);let m=1e9;
+  for(let k=0;k<=N;k+=3)if(Math.abs(k-i)>=40)m=Math.min(m,Math.hypot(P[k][0]-x,P[k][1]-y)-W[k]/2);return m;};
+ const potes=[.2,fraccio(300,316),fraccio(633,228),.88].map(f=>{const i=Math.round(f*N);
+  const sg=espai(i,1)>=espai(i,-1)?1:-1;
+  const nx=Nr[i][0]*sg,ny=Nr[i][1]*sg,r=W[i]/2-9;
+  const u=el('use',{href:'#pota',opacity:0,transform:`matrix(${nx} ${ny} ${T[i][0]} ${T[i][1]} ${P[i][0]+nx*r} ${P[i][1]+ny*r})`},get('potes'));
+  return{u,f};});
+ // La crinera, al voltant de les galtes i la barbeta
+ let crin='M';const K=15,a0=-.45,a1=Math.PI+.45;
+ for(let k=0;k<=K*2;k++){const a=a0+(a1-a0)*k/(K*2),ext=k%2===1,rx=ext?60:36,ry=ext?66:44;crin+=f1(Math.cos(a)*rx)+' '+f1(8+Math.sin(a)*ry)+' ';}
+ get('crinera').setAttribute('d',crin+'Z');
+ const bigoti=(sx,t,fase)=>{const o=k=>Math.sin(t*1.6+fase+k)*6;
+  return`M${sx*18} 34C${sx*50} ${26+o(0)} ${sx*72} ${60+o(1)} ${sx*106} ${48+o(1.6)}S${sx*160} ${16+o(2.4)} ${sx*196} ${36+o(3)}`;};
+
+ const llampec=(t,t0)=>t>=t0&&t<t0+.07?.55:t>=t0+.13&&t<t0+.19?.3:0;
+ const finestra=(n,punta,llarg)=>{n.setAttribute('stroke-dasharray',`${llarg} ${L+llarg}`);n.setAttribute('stroke-dashoffset',llarg-punta);};
+ const SURT=3.1,ARRIBA=6.1,RETARD=.08;   // la llum surt de les boles, arriba dalt; el cos la segueix a distància
+
  function draw(t){
-  const rise=ease((t-2.4)/4.1),pulse=.5+.5*Math.sin(t*4);
-  balls.forEach(({g,x,y},i)=>{const p=ease((t-i*.1)/1.4);g.setAttribute('transform',`translate(${x} ${y+(1-p)*100})`);g.setAttribute('opacity',p);});
-  get('revealRect').setAttribute('y',650-rise*640);get('revealRect').setAttribute('height',rise*650);
-  get('dragon').setAttribute('transform',`translate(0 ${rise===1?Math.sin(t*1.3)*3:0})`);
-  get('beam').setAttribute('opacity',clamp((t-1.5)*1.2)*(1-clamp((t-6)/2))*(.5+pulse*.3));
-  get('flash').setAttribute('opacity',clamp(t-1)*(1-clamp((t-6)/3))*(.6+pulse*.4));
-  sparks.forEach(({n,x,y,s})=>{const p=(t*(.12+s*.1)+y)%1;n.setAttribute('cx',450+(x-.5)*(65+p*300));n.setAttribute('cy',535-p*420);n.setAttribute('opacity',Math.sin(p*Math.PI)*clamp(t-1.5)*.7);});
-  const message=t<2?'REUNINT LES SET ESFERES':t<6.5?'SHENRON, APAREIX!':'QUIN ÉS EL TEU DESIG?';if(get('status').textContent!==message)get('status').textContent=message;
-  get('status').classList.toggle('is-wish',t>=6.5);
+  const pulse=.5+.5*Math.sin(t*7);
+  const carrega=clamp((t-1.4)/1.7);               // les boles es carreguen
+  const buidat=clamp((t-ARRIBA)/1.6);             // i es buiden quan el drac ja és fora
+  balls.forEach(({g,x,y,halo},i)=>{
+   const p=ease((t-i*.1)/1.4),s=1+carrega*(1-buidat)*.13*pulse;
+   g.setAttribute('transform',`translate(${x} ${y+(1-p)*100}) scale(${s})`);g.setAttribute('opacity',p*(1-buidat*.35));
+   halo.setAttribute('r',39+carrega*(1-buidat)*16);halo.setAttribute('opacity',(.55+carrega*.45*(.6+.4*pulse))*(1-buidat*.8));
+  });
+  get('fosc').setAttribute('opacity',.6*ease(carrega));
+  get('rings').setAttribute('opacity',.45+.55*carrega*(1-buidat*.5));
+  get('anellRoda').setAttribute('stroke-dashoffset',-t*22);
+
+  // Esclat: un llampec i una columna de llum just abans que surti
+  const esclat=clamp((t-SURT+.35)/.3)*(1-clamp((t-SURT-.3)/1.3));
+  get('beam').setAttribute('opacity',esclat*(.8+.2*pulse));
+  get('flash').setAttribute('opacity',Math.max(carrega*.6*(1-buidat*.7),esclat)*(.75+.25*pulse));
+  get('llamp').setAttribute('opacity',llampec(t,SURT-.3)+llampec(t,ARRIBA-.05));
+
+  // La llum serpenteja des de les boles fins dalt de tot
+  const viatge=easeIO((t-SURT)/(ARRIBA-SURT)),punta=L*viatge;
+  const veu=t<SURT?0:1-clamp((t-ARRIBA-.15)/.9);
+  finestra(get('cuaNucli'),punta,150);finestra(get('cuaAmple'),punta,320);
+  get('cuaNucli').setAttribute('opacity',veu);get('cuaAmple').setAttribute('opacity',veu*.85);
+  const pp=coil.getPointAtLength(punta);
+  get('punta').setAttribute('cx',pp.x);get('punta').setAttribute('cy',pp.y);
+  get('punta').setAttribute('r',38+8*pulse);get('punta').setAttribute('opacity',veu);
+  cua.forEach(c=>{const q=coil.getPointAtLength(Math.max(0,punta-c.off)),k=c.off/250;
+   c.n.setAttribute('cx',q.x+c.dx*c.off*.25);c.n.setAttribute('cy',q.y+c.dy*c.off*.25);
+   c.n.setAttribute('opacity',punta>c.off?veu*(1-k):0);});
+
+  // El cos es fa darrere la llum i l'atrapa quan arriba; les potes surten quan hi arriba
+  const cos=clamp(viatge-RETARD+RETARD*clamp((t-ARRIBA)/.6));
+  const m=get('mascaraCos');
+  if(cos<=0)m.setAttribute('visibility','hidden');
+  else{m.setAttribute('visibility','visible');m.setAttribute('stroke-dasharray',`${L} ${L}`);m.setAttribute('stroke-dashoffset',L*(1-cos));}
+  potes.forEach(({u,f})=>u.setAttribute('opacity',clamp((cos-f-.01)/.05)));
+
+  // El cap es forma d'un esclat de llum, se li encenen els ulls i els bigotis onegen
+  const cap=ease((t-ARRIBA+.1)/.7),s=.5+.5*cap,gir=t>ARRIBA?Math.sin((t-ARRIBA)*.9)*1.6*clamp(t-ARRIBA-.5):0;
+  get('head').setAttribute('opacity',cap);
+  get('head').setAttribute('transform',`rotate(${gir} 476 170) translate(476 136) scale(${s}) translate(-476 -136)`);
+  get('ulls').setAttribute('opacity',ease((t-ARRIBA-.5)/.8)*(.65+.35*pulse));
+  const bE=bigoti(-1,t,0),bD=bigoti(1,t,1.3);
+  get('bigotiE').setAttribute('d',bE);get('bigotiFonsE').setAttribute('d',bE);
+  get('bigotiD').setAttribute('d',bD);get('bigotiFonsD').setAttribute('d',bD);
+  const fl=clamp((t-ARRIBA+.15)/.2)*(1-clamp((t-ARRIBA-.1)/.9));
+  get('esclat').setAttribute('opacity',fl);get('esclat').setAttribute('r',60+150*clamp((t-ARRIBA+.15)/1.1));
+  get('auraDrac').setAttribute('opacity',ease((t-ARRIBA+.3)/1.6));
+  get('dragon').setAttribute('transform',`translate(0 ${t>ARRIBA?Math.sin((t-ARRIBA)*1.3)*3*clamp(t-ARRIBA):0})`);
+
+  sparks.forEach(({n,x,y,s})=>{const p=(t*(.12+s*.1)+y)%1;n.setAttribute('cx',450+(x-.5)*(65+p*300));n.setAttribute('cy',535-p*420);n.setAttribute('opacity',Math.sin(p*Math.PI)*carrega*(1-buidat*.6)*.75);});
+  const message=t<1.6?'REUNINT LES SET ESFERES':t<ARRIBA+.9?'SHENRON, APAREIX!':'QUIN ÉS EL TEU DESIG?';if(get('status').textContent!==message)get('status').textContent=message;
+  get('status').classList.toggle('is-wish',t>=ARRIBA+.9);
  }
- function tick(now){if(!active)return;if(!start)start=now;const t=(now-start)/1000;draw(reduced.matches?9:t);if(reduced.matches||t>=18){ended=true;return;}raf=requestAnimationFrame(tick);}
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');let start=0,raf=0,active=true,ended=false;
+ function tick(now){if(!active)return;if(!start)start=now;const t=(now-start)/1000;draw(reduced.matches?12:t);if(reduced.matches||t>=18){ended=true;return;}raf=requestAnimationFrame(tick);}
  function play(){cancelAnimationFrame(raf);start=0;ended=false;active=true;raf=requestAnimationFrame(tick);}
  get('replay').addEventListener('click',play);
  reduced.addEventListener('change',play);
  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);active=false;}else if(!ended)play();});
+ // Per revisar-la fotograma a fotograma: shenron.html?t=4.5
+ const fix=parseFloat(new URLSearchParams(location.search).get('t'));
+ if(fix>=0){draw(fix);return;}
  play();
 })();
 </script>

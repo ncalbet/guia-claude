@@ -25,6 +25,13 @@ torna-la a muntar perquè la guia per a docents també ho tingui.
 
 ## L'animació de Shenron
 
-`shenron/shenron.html` és l'animació sola, per obrir-la i provar-la. A les guies hi va copiada dins de
-`<template id="shenron-src">` (a `guia-1/index.html` i `guia-2/index.html`; la de docents l'agafa de la
-Guia 1). `shenron/integracio.html` és un exemple de com incrustar-la en una altra pàgina.
+`shenron/shenron.html` és l'animació sola, per obrir-la i provar-la; `shenron.html?t=4.5` la congela en
+aquell segon (així es van treure els fotogrames de `shenron/fotogrames.png`). A les guies hi va copiada
+dins de `<template id="shenron-src">` (a `guia-1/index.html` i `guia-2/index.html`; la de docents l'agafa
+de la Guia 1). Si la canvies, torna-la a copiar a totes dues i remunta la de docents.
+`shenron/integracio.html` és un exemple de com incrustar-la en una altra pàgina.
+
+Com és (29/10/2026): les boles es carreguen i el cel s'enfosqueix; un llampec i una columna de llum; un
+cometa de llum surt del centre de l'anell i recorre el camí del cos (`#coil`), i el cos es fa darrere seu;
+el cap neix d'un esclat i se li encenen els ulls; les boles es buiden. El cos del drac no és un dibuix fix:
+el JS el genera a partir de `#coil` (amplada, panxa, escates, cresta i potes).
