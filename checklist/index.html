@@ -102,6 +102,30 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(48px,8.5vw,104px);li
 .etiq{display:inline-block;font-size:12.5px;font-weight:800;border-radius:5px;padding:0 6px;margin-left:6px;vertical-align:2px;
   background:var(--blau);color:#fff}
 
+.solapa{background:#fff6dc;border-left:5px solid var(--groc);border-radius:6px;padding:6px 10px;font-size:15px}
+
+/* Més skills i més hooks: cartes plegables, sense casella */
+.arsenal{margin:6px 0 14px;border-top:3px solid var(--tinta);padding-top:14px}
+.arsenal h3{font-family:var(--titol);font-weight:400;letter-spacing:1px;font-size:clamp(22px,2.6vw,28px);line-height:1.1;color:var(--vermell);margin:0}
+.arsenal .intro{margin-top:4px}
+.carta{border:2px solid var(--linia);border-radius:10px;background:#fff;margin:9px 0}
+.carta[open]{border-color:var(--tinta)}
+.carta summary{cursor:pointer;list-style:none;padding:10px 12px;display:flex;gap:10px;align-items:flex-start}
+.carta summary::-webkit-details-marker{display:none}
+.carta summary::before{content:"▸";flex:none;font-weight:800;color:var(--taronja);font-size:18px;line-height:1.25;transition:transform .15s}
+.carta[open] summary::before{transform:rotate(90deg)}
+.carta summary:focus-visible{outline:3px solid var(--groc);outline-offset:2px;border-radius:8px}
+.carta-nom{display:block;font-weight:800;font-size:clamp(16px,1.7vw,18px);line-height:1.3}
+.carta-nom code{font-family:Consolas,"Cascadia Mono",monospace;font-size:.95em;background:#efe6d3;border-radius:5px;padding:0 5px}
+.carta-que{display:block;color:var(--gris);font-size:15px;line-height:1.4;margin-top:2px}
+.carta-cos{padding:0 14px 10px 40px;font-size:16px;line-height:1.5}
+.carta-cos p{margin:6px 0}
+.carta-cos code{font-family:Consolas,"Cascadia Mono",monospace;font-size:.92em;background:#efe6d3;border-radius:5px;padding:0 4px}
+.consells{list-style:none;margin:12px 0 4px;padding:0;font-size:15.5px;line-height:1.5}
+.consells li{margin:6px 0}
+.consells a{color:var(--blau);font-weight:800}
+.consells code{font-family:Consolas,"Cascadia Mono",monospace;font-size:.92em;background:#efe6d3;border-radius:5px;padding:0 4px}
+
 /* Missatges i ordres per copiar */
 .cmd{position:relative;margin:22px 0 8px;border:3px solid var(--tinta);border-radius:10px;padding:12px 12px 10px;
   display:flex;flex-direction:column;gap:6px;background:#0d1a3a;color:#e6edff}
@@ -166,6 +190,20 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(48px,8.5vw,104px);li
   .guia{margin-top:4px}
   .guia a{border-color:#999;font-size:11px}
   .peu{font-size:11px}
+  .peu a{color:#000!important}
+  .solapa{font-size:11.5px;padding:3px 8px}
+  .arsenal{padding-top:8px;margin-bottom:8px}
+  .arsenal h3{font-size:18px}
+  .carta{border:1px solid #999;break-inside:avoid;margin:6px 0}
+  .carta summary{padding:6px 8px}
+  .carta summary::before{display:none}
+  .carta-nom{font-size:13px}
+  .carta-que{font-size:11.5px}
+  .carta-cos{padding:0 10px 6px 10px;font-size:12px;line-height:1.4}
+  .carta-cos p{margin:3px 0}
+  .consells{font-size:12px}
+  .etapa-cap,.arsenal h3,.etapa > .intro,.etapa > .guia{break-after:avoid}
+  .etapa-cap{break-inside:avoid}
 }
 </style>
 </head>
@@ -188,7 +226,7 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(48px,8.5vw,104px);li
 <div class="fons" aria-hidden="true"></div>
 
 <nav class="barra" aria-label="Navegació">
-  <a href="../">🏆 Totes les guies</a>
+  <a href="../index.html">🏆 Totes les guies</a>
   <button type="button" id="imprimeix">🖨️ Imprimeix</button>
 </nav>
 
@@ -232,7 +270,7 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(48px,8.5vw,104px);li
         <div class="cos">
           <p>Baixa-la de <b>claude.com/download</b>, instal·la-la i entra-hi amb el teu compte. Claude Code és la pestanya <b>Code</b>.</p>
           <p class="ok">✅ Obres l'app i a la barra lateral hi veus Code.</p>
-          <div class="guia"><a href="../docents/#7" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 7</a><a href="../docents/#9" target="_blank" rel="noopener">📖 pantalla 9</a></div>
+          <div class="guia"><a href="../docents/index.html#7" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 7</a><a href="../docents/index.html#9" target="_blank" rel="noopener">📖 pantalla 9</a></div>
         </div>
       </li>
       <li class="punt" data-ruta="terminal">
@@ -241,7 +279,7 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(48px,8.5vw,104px);li
           <p>Obre el PowerShell (no el CMD), enganxa-hi aquesta ordre i prem Enter. Pot trigar un parell de minuts.</p>
           <div class="cmd" data-on="Al PowerShell"><code>irm https://claude.ai/install.ps1 | iex</code><button type="button" class="copia">Copia</button></div>
           <p class="ok">✅ Escrius <code>claude --version</code> i respon amb un número de versió.</p>
-          <div class="guia"><a href="../guia-1/#4" target="_blank" rel="noopener">📖 Guia 1 · pantalles 4 a 6</a></div>
+          <div class="guia"><a href="../guia-1/index.html#4" target="_blank" rel="noopener">📖 Guia 1 · pantalles 4 a 6</a></div>
         </div>
       </li>
       <li class="punt">
@@ -249,7 +287,7 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(48px,8.5vw,104px);li
         <div class="cos">
           <p>A l'app o a claude.ai, clica el teu nom, obre <b>Settings</b> i, a <b>Privacy</b>, desactiva <b>Help Improve our AI models</b>. Val per al xat, per a l'app i per al terminal, perquè és el mateix compte.</p>
           <p class="ok">✅ L'interruptor és apagat.</p>
-          <div class="guia"><a href="../docents/#8" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 8</a></div>
+          <div class="guia"><a href="../docents/index.html#8" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 8</a></div>
         </div>
       </li>
     </ol>
@@ -268,7 +306,7 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(48px,8.5vw,104px);li
 └── Joc-fraccions\      un de nou, quan arribi</code></div>
           <p class="compte">⛔ Cap llista de classe, nota, informe ni foto d'alumnes. Si una carpeta barreja programacions i notes, no hi obris Claude.</p>
           <p class="ok">✅ A l'Explorador hi ha <code>Documents\Claude\Feina-docent</code>.</p>
-          <div class="guia"><a href="../docents/#12" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 12</a><a href="../guia-1/#7" target="_blank" rel="noopener" data-ruta="terminal">📖 Guia 1 · pantalla 7</a></div>
+          <div class="guia"><a href="../docents/index.html#12" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 12</a><a href="../guia-1/index.html#7" target="_blank" rel="noopener" data-ruta="terminal">📖 Guia 1 · pantalla 7</a></div>
         </div>
       </li>
       <li class="punt" data-ruta="app">
@@ -276,7 +314,7 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(48px,8.5vw,104px);li
         <div class="cos">
           <p>A Code, clica l'entorn i tria <b>Local</b>. Al control del costat, la carpeta, tria <b>Open folder…</b> i busca Feina-docent. Les altres vegades, <b>+ New</b> i comprova la carpeta abans d'escriure.</p>
           <p class="ok">✅ Sota el quadre d'escriure hi diu Feina-docent.</p>
-          <div class="guia"><a href="../docents/#13" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 13</a></div>
+          <div class="guia"><a href="../docents/index.html#13" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 13</a></div>
         </div>
       </li>
       <li class="punt" data-ruta="terminal">
@@ -285,7 +323,7 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(48px,8.5vw,104px);li
           <p>Amb un doble clic, Claude s'obre a la carpeta del projecte sense haver-la de buscar. La primera vegada, obre Claude a Feina-docent com a la instal·lació i demana-li que te'l faci.</p>
           <div class="cmd claude" data-on="Missatge per a Claude"><code>Crea'm un fitxer Feina-docent.bat a l'escriptori que obri Claude Code en aquesta carpeta. Que funcioni encara que la ruta tingui accents.</code><button type="button" class="copia">Copia</button></div>
           <p class="ok">✅ Fas doble clic al <code>.bat</code> i, a dalt de la sessió, hi surt la ruta de Feina-docent.</p>
-          <div class="guia"><a href="../guia-1/#18" target="_blank" rel="noopener">📖 Guia 1 · pantalla 18 (com fer-lo a mà)</a></div>
+          <div class="guia"><a href="../guia-1/index.html#18" target="_blank" rel="noopener">📖 Guia 1 · pantalla 18 (com fer-lo a mà)</a></div>
         </div>
       </li>
       <li class="punt">
@@ -300,7 +338,7 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(48px,8.5vw,104px);li
 - Als exemples, fes servir noms inventats.</code><button type="button" class="copia">Copia</button></div>
           <p class="nota">El fitxer és a <code>C:\Users\nom\.claude\CLAUDE.md</code>, fora de la carpeta del projecte. Si et demana permís per tocar-lo, digues que sí. El pots obrir amb el Bloc de notes.</p>
           <p class="ok">✅ Obres una sessió nova, li preguntes «Quines normes tens per a tots els meus projectes?» i te les diu.</p>
-          <div class="guia" data-ruta="terminal"><a href="../guia-1/#9" target="_blank" rel="noopener">📖 Guia 1 · pantalla 9 (el català)</a><a href="../guia-1/#30" target="_blank" rel="noopener">📖 Guia 1 · pantalla 30 (les dues memòries)</a></div>
+          <div class="guia" data-ruta="terminal"><a href="../guia-1/index.html#9" target="_blank" rel="noopener">📖 Guia 1 · pantalla 9 (el català)</a><a href="../guia-1/index.html#30" target="_blank" rel="noopener">📖 Guia 1 · pantalla 30 (les dues memòries)</a></div>
         </div>
       </li>
       <li class="punt">
@@ -308,7 +346,7 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(48px,8.5vw,104px);li
         <div class="cos">
           <p>Dins de Feina-docent, qui ets, què fas i com vols la feina. El missatge per crear-lo és a la guia. Cada vegada que li hagis de repetir una cosa, hi va una línia nova.</p>
           <p class="ok">✅ A la carpeta hi ha el fitxer CLAUDE.md i, en una sessió nova, «Què saps de mi i de la meva feina?» té bona resposta.</p>
-          <div class="guia"><a href="../docents/#17" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 17</a><a href="../docents/#18" target="_blank" rel="noopener">📖 pantalla 18</a></div>
+          <div class="guia"><a href="../docents/index.html#17" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 17</a><a href="../docents/index.html#18" target="_blank" rel="noopener">📖 pantalla 18</a></div>
         </div>
       </li>
     </ol>
@@ -323,7 +361,7 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(48px,8.5vw,104px);li
         <div class="cos">
           <p>Hi posaré dades d'alumnes? Decidirà alguna cosa sobre algú? L'ha autoritzada el centre? Amb el compte personal, la tercera és «no», i per això les dues primeres també ho han de ser.</p>
           <p class="ok">✅ Te les saps de memòria.</p>
-          <div class="guia"><a href="../docents/#36" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 36</a></div>
+          <div class="guia"><a href="../docents/index.html#36" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 36</a></div>
         </div>
       </li>
       <li class="punt">
@@ -332,7 +370,7 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(48px,8.5vw,104px);li
           <p>Un fitxer que s'obre al navegador, com unes diapositives, un joc per repassar o un qüestionari que es corregeix sol. Un exemple per començar, amb el teu tema i el teu curs.</p>
           <div class="cmd claude" data-on="Missatge per a Claude"><code>Fes-me un joc en un sol fitxer HTML per repassar [tema] amb alumnes de [curs]. Deu preguntes de tres opcions, que expliqui per què cada resposta és bona o no, que funcioni obrint el fitxer al navegador i que no enviï cap dada enlloc. Abans de fer-lo, proposa'm un pla.</code><button type="button" class="copia">Copia</button></div>
           <p class="ok">✅ Fas doble clic al fitxer i el joc s'obre al navegador. L'has jugat sencer.</p>
-          <div class="guia"><a href="../docents/#25" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 25</a><a href="../docents/#29" target="_blank" rel="noopener">📖 pantalla 29</a></div>
+          <div class="guia"><a href="../docents/index.html#25" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 25</a><a href="../docents/index.html#29" target="_blank" rel="noopener">📖 pantalla 29</a></div>
         </div>
       </li>
       <li class="punt">
@@ -341,7 +379,7 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(48px,8.5vw,104px);li
           <p>Prova'l, demana-li un canvi cada vegada i desa al CLAUDE.md el que hagis après. Així creix un projecte.</p>
           <div class="cmd claude" data-on="Missatge per a Claude"><code>L'he provat i la pregunta 4 es resol massa fàcil. Fes-la més difícil, i afegeix al CLAUDE.md que les preguntes no han de deixar endevinar la resposta.</code><button type="button" class="copia">Copia</button></div>
           <p class="ok">✅ El material té una segona versió, i el CLAUDE.md, una línia nova.</p>
-          <div class="guia"><a href="../docents/#32" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 32</a></div>
+          <div class="guia"><a href="../docents/index.html#32" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 32</a></div>
         </div>
       </li>
     </ol>
@@ -350,8 +388,8 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(48px,8.5vw,104px);li
   <!-- ============ ETAPA 4 ============ -->
   <section class="etapa e4" aria-labelledby="t4">
     <div class="etapa-cap"><span data-bola="4"></span><div><span class="etapa-num">Etapa 4</span><h2 id="t4">Les primeres skills</h2><span class="quan">Quan portis tres o quatre sessions</span></div></div>
-    <p class="intro">Una skill és una feina que Claude aprèn una vegada i que fa quan la crides, escrivint <b>/</b> i el seu nom. Aquestes tres són exemples per començar. Copia el missatge, enganxa'l i Claude crea la skill. Després, adapta-la a la teva manera de treballar. <span data-ruta="app">A l'app, també les trobes al botó <b>+</b> › <b>Slash commands</b>.</span></p>
-    <div class="guia" style="margin-bottom:4px"><a href="../guia-2/#10" target="_blank" rel="noopener">📖 Guia 2 · pantalles 10 i 11 (què és una skill)</a></div>
+    <p class="intro">Una skill és una feina que Claude aprèn una vegada i que fa quan la crides, escrivint <b>/</b> i el seu nom. Val la pena fer-ne una quan et trobes enganxant sempre les mateixes instruccions. Aquestes tres són exemples per començar. Copia el missatge, enganxa'l i Claude crea la skill. Després, adapta-la a la teva manera de treballar. <span data-ruta="app">A l'app, també les trobes al botó <b>+</b> › <b>Slash commands</b>.</span></p>
+    <div class="guia" style="margin-bottom:4px"><a href="../guia-2/index.html#10" target="_blank" rel="noopener">📖 Guia 2 · pantalles 10 i 11 (què és una skill)</a></div>
     <ol class="punts">
       <li class="punt">
         <label class="marca"><input type="checkbox" data-id="skill-comencem"><span class="titol"><code>/comencem</code>, per obrir la sessió</span></label>
@@ -363,6 +401,7 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(48px,8.5vw,104px);li
 3. Proposar-me dues o tres coses per fer avui i esperar que en triï una.
 Que no toqui cap fitxer i que només la faci servir quan jo la cridi.</code><button type="button" class="copia">Copia</button></div>
           <p class="ok">✅ En una sessió nova escrius <code>/comencem</code> i et diu on ho vas deixar.</p>
+          <p class="solapa">🔁 Es solapa amb el hook «En obrir, ja sap on ho vas deixar» de l'etapa 5. El hook li passa el resum sol en obrir la sessió. La skill, a més, et proposa per on seguir. Pots tenir-los tots dos.</p>
         </div>
       </li>
       <li class="punt">
@@ -391,14 +430,129 @@ Que només la faci servir quan jo la cridi.</code><button type="button" class="c
         </div>
       </li>
     </ol>
+
+    <div class="arsenal">
+      <h3>Més skills, per triar</h3>
+      <p class="intro">No cal fer-les totes. Tria les que facin una feina que repeteixes. Clica'n una per veure el missatge. Les quatre primeres s'inspiren en les <a href="https://github.com/anthropics/k12-teacher-skills" target="_blank" rel="noopener">skills per a docents d'Anthropic</a>, pensades en anglès per a les escoles dels Estats Units i adaptades aquí al nostre currículum.</p>
+
+      <details class="carta">
+        <summary><span><span class="carta-nom"><code>/sa</code> Una SA a punt per fer classe</span><span class="carta-que">Planifica una situació d'aprenentatge amb el teu model i el currículum.</span></span></summary>
+        <div class="carta-cos">
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Crea'm una skill personal que es digui sa, per planificar una situació d'aprenentatge. Quan la cridi, ha de fer això:
+1. Preguntar-me el curs, la matèria, quantes sessions hi tinc i què vull que aprenguin.
+2. Fer servir el model de SA i la programació que hi hagi a la carpeta, i el currículum si hi és. No inventar cap criteri ni cap codi.
+3. Proposar-me primer l'esquema (el repte, les activitats de cada sessió i com l'avaluaré) i esperar que el validi.
+4. Després, escriure-la sencera en un Word a la carpeta.
+Que només la faci servir quan jo la cridi.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Escrius <code>/sa</code> i et pregunta el curs i la matèria abans de fer res.</p>
+        </div>
+      </details>
+
+      <details class="carta">
+        <summary><span><span class="carta-nom"><code>/diversifica</code> Un material per a alumnes diferents</span><span class="carta-que">Tres versions del mateix material, amb més suport o amb més repte.</span></span></summary>
+        <div class="carta-cos">
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Crea'm una skill personal que es digui diversifica, per adaptar un material a alumnes diferents. Quan la cridi, ha de fer això:
+1. Llegir el material que li indiqui.
+2. Fer-ne tres versions, una amb més suport, una de referència i una amb més repte, totes amb el mateix contingut de fons.
+3. Si li descric una necessitat sense noms (per exemple, «llegeix amb dificultat»), fer-ne també una versió adaptada.
+4. Posar en una taula què canvia a cada versió.
+Que no em demani mai noms ni diagnòstics d'alumnes.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Escrius <code>/diversifica</code> i el nom d'una fitxa de la carpeta, i en surten les tres versions i la taula.</p>
+        </div>
+      </details>
+
+      <details class="carta">
+        <summary><span><span class="carta-nom"><code>/prepara</code> Preparar una classe que ja tens</span><span class="carta-que">Fa la tasca com un alumne i et deixa una nota per tenir al costat a classe.</span></span></summary>
+        <div class="carta-cos">
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Crea'm una skill personal que es digui prepara, per preparar una classe que ja tinc feta. Quan la cridi, ha de fer això:
+1. Llegir el material de la classe que li indiqui.
+2. Fer la tasca principal com la faria un alumne i dir-me on s'encallaran i quins errors faran.
+3. Deixar-me una nota d'una pàgina amb l'objectiu, els errors previsibles, tres preguntes per fer a classe i què fer si no ho entenen.
+Que no canviï el material i que només la faci servir quan jo la cridi.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Després de <code>/prepara</code>, tens una nota d'una pàgina per a aquella classe.</p>
+        </div>
+      </details>
+
+      <details class="carta">
+        <summary><span><span class="carta-nom"><code>/comprova</code> Saber si ho han entès</span><span class="carta-que">D'una a tres preguntes curtes i què fer amb cada resposta.</span></span></summary>
+        <div class="carta-cos">
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Crea'm una skill personal que es digui comprova, per saber si la classe ha entès una idea. Quan la cridi, ha de fer això:
+1. Preguntar-me què han d'haver après.
+2. Fer d'una a tres preguntes curtes, amb opcions incorrectes que surtin dels errors típics d'aquella idea.
+3. Per a cada opció, dir-me què vol dir que la triïn i què puc fer a continuació.
+Que només la faci servir quan jo la cridi.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Escrius <code>/comprova les fraccions equivalents</code> i en surten les preguntes i què fer amb cada resposta.</p>
+        </div>
+      </details>
+
+      <details class="carta">
+        <summary><span><span class="carta-nom"><code>/revisa</code> Una revisió exigent abans de fer classe</span><span class="carta-que">Com un company crític, amb una taula de problemes i propostes.</span></span></summary>
+        <div class="carta-cos">
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Crea'm una skill personal que es digui revisa, per revisar un material abans de portar-lo a classe. Quan la cridi, ha de fer això:
+1. Llegir el material que li indiqui i revisar-lo com un company exigent. L'objectiu és clar? El nivell és el del curs? S'entenen les instruccions? Hi ha errors? La resposta es veu massa? Hi cap en el temps? Hi surt cap dada de persones?
+2. Posar el que trobi en una taula amb el problema, on és i la proposta.
+3. No canviar res fins que jo triï què aplico.
+Que només la faci servir quan jo la cridi.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Escrius <code>/revisa</code> i el nom d'un material, i et torna la taula sense haver tocat el fitxer.</p>
+          <p class="nota">A la Guia 2 n'hi ha una per revisar el català (<a href="../guia-2/index.html#11" target="_blank" rel="noopener">pantalla 11</a>). Es poden fer servir juntes.</p>
+        </div>
+      </details>
+
+      <details class="carta">
+        <summary><span><span class="carta-nom"><code>/opcions</code> Tres camins abans de començar</span><span class="carta-que">Tres maneres de fer un material, amb la seva recomanació.</span></span></summary>
+        <div class="carta-cos">
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Crea'm una skill personal que es digui opcions, per triar com fer un material abans de començar-lo. Quan la cridi, ha de fer això:
+1. Proposar-me tres maneres ben diferents de fer el que li demano.
+2. Per a cadascuna, dir-me en dues línies què té de bo i què de dolent.
+3. Dir-me quina recomana i per què.
+4. Esperar que en triï una abans de fer res.
+Que només la faci servir quan jo la cridi.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Escrius <code>/opcions un joc per repassar els verbs</code> i et dona tres camins i una recomanació.</p>
+          <p class="solapa">🔁 Es complementa amb <code>/entrevista</code>. L'entrevista aclareix què vols, i <code>/opcions</code> et proposa com fer-ho.</p>
+        </div>
+      </details>
+
+      <details class="carta">
+        <summary><span><span class="carta-nom"><code>/diapositives</code> Diapositives per projectar</span><span class="carta-que">Lletra gran, una idea per pantalla i a pantalla completa.</span></span></summary>
+        <div class="carta-cos">
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Crea'm una skill personal que es digui diapositives, per fer diapositives per projectar. Quan la cridi, abans m'ha de proposar quantes en farà i què hi anirà, i després fer-les en un sol fitxer HTML amb aquestes normes:
+1. Lletra gran, que es llegeixi des del fons de l'aula.
+2. Una idea per diapositiva i poc text.
+3. Fletxes per avançar i un botó de pantalla completa.
+4. Cap diapositiva que avanci la resposta d'una activitat.
+5. Que funcioni sense internet i que no enviï cap dada enlloc.
+Que només la faci servir quan jo la cridi.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Escrius <code>/diapositives</code> i el tema, valides el pla i el fitxer s'obre al navegador a pantalla completa.</p>
+        </div>
+      </details>
+
+      <details class="carta">
+        <summary><span><span class="carta-nom"><code>/setmana</code> Què tinc pendent</span><span class="carta-que">El pendent de tots els projectes, en una sola llista.</span></span></summary>
+        <div class="carta-cos">
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Crea'm una skill personal que es digui setmana, per veure què tinc pendent a tots els projectes. Quan la cridi, ha de fer això:
+1. Llegir el fitxer on-ho-deixem.md de cada carpeta de Documents\Claude.
+2. Fer-me una llista numerada del que queda pendent, projecte per projecte, el més urgent primer.
+3. No tocar cap fitxer.
+Que només la faci servir quan jo la cridi.</code><button type="button" class="copia">Copia</button></div>
+          <p class="nota">Per fer-la servir, obre Claude a Documents\Claude, no a la carpeta d'un projecte, perquè els pugui llegir tots.</p>
+          <p class="ok">✅ Un cop per setmana escrius <code>/setmana</code> i tens la llista del que queda.</p>
+          <p class="solapa">🔁 Llegeix el que deixa <code>/pleguem</code>. Sense aquella skill, no trobarà res.</p>
+        </div>
+      </details>
+
+      <ul class="consells">
+        <li>📦 Claude ja porta de sèrie algunes skills d'Anthropic, com les de treballar amb PDF i amb Excel. Aquestes no cal fer-les.</li>
+        <li>🛠️ Per fer skills més elaborades i millorar les que tens, Anthropic té el plugin <b>skill-creator</b>. <span data-ruta="app">A l'app, botó <b>+</b> › <b>Add plugins</b> (o <b>Plugins</b> › <b>Browse plugins</b>) i busca'l.</span><span data-ruta="terminal">Al terminal, <code>/plugin install skill-creator@claude-plugins-official</code>.</span> Abans d'instal·lar cap plugin, <a href="../guia-2/index.html#24" target="_blank" rel="noopener">Guia 2, pantalla 24</a>.</li>
+      </ul>
+    </div>
   </section>
 
   <!-- ============ ETAPA 5 ============ -->
   <section class="etapa e5" aria-labelledby="t5">
     <div class="etapa-cap"><span data-bola="5"></span><div><span class="etapa-num">Etapa 5</span><h2 id="t5">Els primers hooks</h2><span class="quan">Quan les skills ja et funcionin</span></div></div>
-    <p class="intro">Un hook és una ordre que s'executa sola en un moment concret, sense que Claude se n'hagi de recordar. Demana-li que el configuri ell al teu <b>settings.json</b> d'usuari, que val per a l'app i per al terminal. Si ja hi ha altres hooks, Claude hi afegeix el nou sense esborrar-los. Perquè un hook nou funcioni, tanca la sessió i obre'n una altra.</p>
+    <p class="intro">Un hook és una ordre que s'executa sola en un moment concret, sense que Claude se n'hagi de recordar. Si n'hi ha prou que Claude tingui una cosa en compte, va al CLAUDE.md o a una skill. Si ha de passar sempre, és un hook. Demana-li que el configuri ell al teu <b>settings.json</b> d'usuari, que val per a l'app i per al terminal. Si ja hi ha altres hooks, Claude hi afegeix el nou sense esborrar-los. Perquè un hook nou funcioni, tanca la sessió i obre'n una altra.</p>
     <p class="intro compte">⚠️ Els hooks s'executen sense preguntar. Posa només els que entenguis, i si un no et va bé, demana-li que el tregui.<span data-ruta="terminal"> Per veure els que tens, <code>/hooks</code>.</span></p>
-    <div class="guia" style="margin-bottom:4px"><a href="../guia-2/#13" target="_blank" rel="noopener">📖 Guia 2 · pantalles 13 i 14 (què és un hook)</a></div>
+    <div class="guia" style="margin-bottom:4px"><a href="../guia-2/index.html#13" target="_blank" rel="noopener">📖 Guia 2 · pantalles 13 i 14 (què és un hook)</a></div>
     <ol class="punts">
       <li class="punt">
         <label class="marca"><input type="checkbox" data-id="hook-avis"><span class="titol">Un avís quan Claude t'espera</span></label>
@@ -419,9 +573,10 @@ Que només la faci servir quan jo la cridi.</code><button type="button" class="c
       <li class="punt">
         <label class="marca"><input type="checkbox" data-id="hook-inici"><span class="titol">En obrir, ja sap on ho vas deixar</span></label>
         <div class="cos">
-          <p>En obrir la sessió, llegeix sol el principi de on-ho-deixem.md. Ja no et caldrà <code>/comencem</code> per saber on ets.</p>
-          <div class="cmd claude" data-on="Missatge per a Claude"><code>Afegeix un hook de SessionStart al meu settings.json d'usuari. Si a la carpeta on obro la sessió hi ha un fitxer on-ho-deixem.md, que te'n passi les primeres 30 línies.</code><button type="button" class="copia">Copia</button></div>
+          <p>En obrir la sessió, llegeix sol el principi de on-ho-deixem.md. També ho torna a fer després de compactar la conversa, que és quan Claude en resumeix el principi per fer lloc i pot perdre detalls.</p>
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Afegeix un hook de SessionStart al meu settings.json d'usuari. Si a la carpeta on obro la sessió hi ha un fitxer on-ho-deixem.md, que te'n passi les primeres 30 línies, en obrir la sessió i també després de compactar la conversa.</code><button type="button" class="copia">Copia</button></div>
           <p class="ok">✅ Obres una sessió nova, li preguntes «On ho vam deixar?» i ho sap sense haver de llegir res.</p>
+          <p class="solapa">🔁 Fa sol la primera part de <code>/comencem</code>. Si el poses, la skill continua servint per triar per on seguir.</p>
         </div>
       </li>
       <li class="punt">
@@ -431,12 +586,65 @@ Que només la faci servir quan jo la cridi.</code><button type="button" class="c
           <div class="cmd claude" data-on="Missatge per a Claude"><code>Afegeix un hook de PreToolUse al meu settings.json d'usuari que bloquegi qualsevol acció teva que toqui la carpeta Documents\Alumnes (llegir, escriure o executar ordres) i que em digui per què l'ha bloquejada.</code><button type="button" class="copia">Copia</button></div>
           <p class="ok">✅ Li demanes «Llegeix el que hi ha a Documents\Alumnes» i et respon que no pot.</p>
           <p class="nota">És una segona barrera. La primera és que les dades d'alumnes no siguin mai a Documents\Claude.</p>
+          <p class="solapa">🔁 El CLAUDE.md d'usuari ja li diu que no en vol. El hook ho assegura, encara que Claude se n'oblidi.</p>
         </div>
       </li>
     </ol>
+
+    <div class="arsenal">
+      <h3>Més hooks, per triar</h3>
+      <p class="intro">Tria'n només els que necessitis, i un cada vegada, per saber què fa cadascun. Clica'n un per veure el missatge. Els tres primers adapten exemples de la <a href="https://code.claude.com/docs/en/hooks-guide" target="_blank" rel="noopener">documentació oficial de Claude Code</a>.</p>
+
+      <details class="carta">
+        <summary><span><span class="carta-nom">Que no toqui els originals</span><span class="carta-que">Claude llegeix la programació i els documents del centre, però no els pot canviar.</span></span></summary>
+        <div class="carta-cos">
+          <p>Per a un projecte amb una carpeta <code>originals</code> on guardes els documents de partida.</p>
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Afegeix un hook de PreToolUse al settings.json d'aquest projecte que no et deixi modificar, moure ni esborrar res de la carpeta originals, i que em digui per què ho ha bloquejat. Llegir-los, sí.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Li demanes que canviï un fitxer d'originals i et respon que no pot.</p>
+          <p class="nota">Va al settings.json del projecte, no al d'usuari, perquè només val per a aquesta carpeta.</p>
+        </div>
+      </details>
+
+      <details class="carta">
+        <summary><span><span class="carta-nom">Que comprovi que ho ha fet tot abans d'acabar</span><span class="carta-que">Li demanes deu preguntes i en fa vuit? Continua fins que hi són totes.</span></span></summary>
+        <div class="carta-cos">
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Afegeix un hook de Stop de tipus prompt al meu settings.json d'usuari que, abans que acabis, comprovi si has fet tot el que t'he demanat a l'últim missatge i, si falta res, que continuïs.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Li demanes una llista de deu coses i, si en surten menys, continua sol fins a deu.</p>
+          <p class="compte">⚠️ A cada resposta fa una consulta més, i això gasta una mica del límit del Pro.</p>
+        </div>
+      </details>
+
+      <details class="carta">
+        <summary><span><span class="carta-nom">Un registre dels fitxers que toca</span><span class="carta-que">L'hora i el nom de cada fitxer que Claude crea o canvia.</span></span></summary>
+        <div class="carta-cos">
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Afegeix un hook de PostToolUse al meu settings.json d'usuari que, cada vegada que creïs o canviïs un fitxer, apunti la data, l'hora i el nom del fitxer al final de registre-canvis.txt, a la carpeta del projecte.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Després d'una sessió, obres registre-canvis.txt i hi ha els fitxers que ha tocat.</p>
+          <p class="solapa">🔁 <code>/pleguem</code> explica què heu fet. El registre diu exactament quins fitxers, sense deixar-se'n cap.</p>
+        </div>
+      </details>
+
+      <details class="carta">
+        <summary><span><span class="carta-nom">Un filtre de dades personals als teus missatges</span><span class="carta-que">Si enganxes un text amb un DNI, un correu o un telèfon, el missatge no arriba a Claude.</span></span></summary>
+        <div class="carta-cos">
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Afegeix un hook de UserPromptSubmit al meu settings.json d'usuari que aturi el meu missatge abans d'enviar-te'l si hi troba un DNI o NIE, una adreça de correu o un número de telèfon, i que em digui què hi ha trobat.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Escrius un missatge amb un correu inventat, com nom@exemple.cat, i no s'envia.</p>
+          <p class="nota">Només atura el que té una forma reconeixible. Un nom i cognoms, no. Per això les tres preguntes continuen manant.</p>
+          <p class="solapa">🔁 Es complementa amb la barrera de l'etapa 5. Aquest filtre mira el que escrius, i la barrera, les carpetes.</p>
+        </div>
+      </details>
+
+      <details class="carta">
+        <summary><span><span class="carta-nom">El correu, només per llegir</span><span class="carta-que">Si has connectat Claude al teu correu, que pugui llegir i buscar, però no enviar ni esborrar.</span></span></summary>
+        <div class="carta-cos">
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Afegeix un hook de PreToolUse al meu settings.json d'usuari que bloquegi qualsevol acció del connector de correu que enviï, respongui, reenviï o esborri missatges, o que en creï esborranys. Llegir i buscar, sí.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Li demanes que enviï un correu de prova i et respon que no pot.</p>
+          <p class="nota">Els connectors s'expliquen a la <a href="../guia-2/index.html#20" target="_blank" rel="noopener">Guia 2, pantalla 20</a>.</p>
+        </div>
+      </details>
+    </div>
   </section>
 
-  <p class="peu">Les skills i els hooks d'aquesta llista són exemples per començar. Adapta'ls a la teva feina.<br>Comprovada amb la documentació oficial de Claude el novembre de 2026. Claude s'actualitza sovint i algun nom de botó pot canviar.<br>
+  <p class="peu">Les skills i els hooks d'aquesta llista són exemples per començar. Adapta'ls a la teva feina.<br>Fonts consultades: la documentació oficial de Claude Code sobre <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener" style="color:#cfd8ee">skills</a> i <a href="https://code.claude.com/docs/en/hooks-guide" target="_blank" rel="noopener" style="color:#cfd8ee">hooks</a>, i les <a href="https://github.com/anthropics/k12-teacher-skills" target="_blank" rel="noopener" style="color:#cfd8ee">skills per a docents d'Anthropic</a>.<br>Comprovada amb la documentació oficial de Claude el novembre de 2026. Claude s'actualitza sovint i algun nom de botó pot canviar.<br>
     <button type="button" id="esborra">Esborra totes les marques</button></p>
 </main>
 
@@ -548,6 +756,16 @@ Que només la faci servir quan jo la cridi.</code><button type="button" class="c
     });
   });
 
+  // En imprimir, totes les cartes obertes; després, com estaven
+  var tancades = [];
+  window.addEventListener('beforeprint', function(){
+    tancades = Array.prototype.filter.call(document.querySelectorAll('details.carta'), function(d){ return !d.open; });
+    tancades.forEach(function(d){ d.open = true; });
+  });
+  window.addEventListener('afterprint', function(){
+    tancades.forEach(function(d){ d.open = false; });
+    tancades = [];
+  });
   document.getElementById('imprimeix').addEventListener('click', function(){ window.print(); });
 
   // Esborrar les marques demana dos clics, sense finestres emergents
