@@ -55,6 +55,20 @@ ol.passos.tres>li{font-size:clamp(17px,1.9vw,22px);font-weight:800;margin:14px 0
   .cami::before{border-color:#999}
 }
 
+/* Bola 6: entrada a cada tasca (el nom, què és i com t'hi ajuda Claude) */
+.tasques-cami{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 12px;margin:10px auto 4px}
+.tasques-cami .t{font-family:var(--titol);letter-spacing:1px;font-size:clamp(14px,1.6vw,19px);color:#cfd8ee;
+  border:2px solid rgba(255,255,255,.35);border-radius:999px;padding:3px 14px;opacity:.6}
+.tasques-cami .t.ara{opacity:1;color:var(--tinta);background:var(--groc);border-color:var(--tinta);
+  box-shadow:0 0 18px rgba(255,210,63,.9);font-size:clamp(16px,1.9vw,22px)}
+.fase h2.titol-obertura .ic{-webkit-text-stroke:0;text-shadow:none}
+.fase .que-es{font-size:clamp(17px,2vw,23px);font-weight:600;line-height:1.4;max-width:860px;margin:0 auto 18px}
+.ajuda-fase{max-width:860px;margin:0 auto 14px;text-align:left;color:var(--tinta)}
+.ajuda-fase p{font-size:clamp(16px,1.75vw,20px);line-height:1.45}
+@media print{
+  .tasques-cami .t{color:var(--tinta);border-color:#999}
+}
+
 /* Bola 6: nivells, galeria amb fitxes i idees */
 .nivells{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:8px 0 6px}
 .nivells .pw h3{font-family:var(--titol);font-weight:400;letter-spacing:1px;font-size:clamp(20px,2.2vw,26px);color:var(--blau)}
