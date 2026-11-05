@@ -55,7 +55,7 @@ ol.passos.tres>li{font-size:clamp(17px,1.9vw,22px);font-weight:800;margin:14px 0
   .cami::before{border-color:#999}
 }
 
-/* Bola 6: entrada a cada tasca (el nom, què és i com t'hi ajuda Claude) */
+/* Bola 6: entrada a cada funció (el nom, què és i com t'hi ajuda Claude) */
 .tasques-cami{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 12px;margin:10px auto 4px}
 .tasques-cami .t{font-family:var(--titol);letter-spacing:1px;font-size:clamp(14px,1.6vw,19px);color:#cfd8ee;
   border:2px solid rgba(255,255,255,.35);border-radius:999px;padding:3px 14px;opacity:.6}
@@ -154,7 +154,7 @@ CANVIS = [
     5:{nom:"Super Guerrer: millores", curt:"Super Guerrer"},
     6:{nom:"Mongetes màgiques: problemes", curt:"Problemes"},
     7:{nom:"El radar del drac: xuleta", curt:"Xuleta"}""",
-     """    1:{nom:"Inscripció: les quatre tasques", curt:"El mapa"},
+     """    1:{nom:"Inscripció: les quatre funcions", curt:"El mapa"},
     2:{nom:"Preparació: l'aplicació", curt:"L'aplicació"},
     3:{nom:"Entrenament: la carpeta de feina", curt:"La carpeta"},
     4:{nom:"El reglament: les instruccions fixes", curt:"Instruccions"},
