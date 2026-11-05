@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checklist del docent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blau:#1d4fa6; --nit:#081129;
+  --taronja:#ff7a00; --groc:#ffd23f;
+  --vermell:#d7261e; --verd:#22985a;
+  --paper:#fffaf0; --tinta:#14110f; --gris:#5b5650; --linia:#d8cdb8;
+  --titol:Bangers, Impact, "Arial Black", sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;min-height:100vh;font-family:Nunito, "Segoe UI", system-ui, sans-serif;color:#fff;background:var(--nit)}
+
+/* Rutes: cada element amb data-ruta només surt a la seva */
+body[data-ruta="app"] [data-ruta="terminal"],
+body[data-ruta="terminal"] [data-ruta="app"]{display:none!important}
+
+.fons{position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse at 50% 22%, rgba(255,170,0,.30), transparent 55%),
+    repeating-conic-gradient(from 0deg at 50% 22%, rgba(255,255,255,.05) 0 2deg, transparent 2deg 9deg),
+    linear-gradient(180deg,#123173 0%,#081129 100%)}
+
+.barra{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:10px;
+  max-width:980px;margin:0 auto;padding:14px 22px 0}
+.barra a,.barra button{font:800 15px/1 Nunito,"Segoe UI",sans-serif;color:var(--tinta);background:var(--groc);
+  border:3px solid var(--tinta);border-radius:10px;box-shadow:3px 3px 0 var(--tinta);padding:8px 14px;
+  text-decoration:none;cursor:pointer}
+.barra a:hover,.barra button:hover{background:#fff}
+
+main{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:clamp(18px,3vw,30px) 22px 30px}
+.cap-pagina{text-align:center}
+.nuvol{display:block;width:clamp(90px,11vw,140px);margin:0 auto}
+.nuvol svg{width:100%;height:auto;display:block}
+.sura{animation:sura 3.2s ease-in-out infinite}
+@keyframes sura{50%{transform:translateY(-8px)}}
+.kicker{font-family:var(--titol);letter-spacing:1.5px;color:var(--groc);font-size:clamp(18px,2.4vw,26px)}
+h1{font-family:var(--titol);font-weight:400;font-size:clamp(48px,8.5vw,104px);line-height:.95;color:var(--taronja);
+  -webkit-text-stroke:3px var(--tinta);text-shadow:6px 6px 0 var(--tinta);letter-spacing:3px;margin:6px 0 14px}
+.sub{font-size:clamp(17px,2vw,21px);font-weight:600;max-width:720px;margin:0 auto 8px;line-height:1.4}
+.cal{font-size:clamp(14.5px,1.45vw,17px);color:#cfd8ee;max-width:720px;margin:0 auto 22px;line-height:1.45}
+.cal b{color:#fff}
+
+/* Tria de ruta */
+.ruta{background:rgba(8,17,41,.72);border:3px solid var(--groc);border-radius:14px;padding:14px 16px 16px;
+  max-width:720px;margin:0 auto 14px;text-align:center}
+.ruta p{margin:0 0 10px;font-weight:800;font-size:17px}
+.ruta .opcions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.ruta button{flex:1 1 220px;max-width:330px;font:800 17px/1.25 Nunito,"Segoe UI",sans-serif;color:var(--tinta);
+  background:#e9e3d6;border:3px solid var(--tinta);border-radius:12px;box-shadow:4px 4px 0 var(--tinta);
+  padding:10px 12px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:10px}
+.ruta button small{display:block;font-weight:600;font-size:13.5px;color:var(--gris)}
+.ruta button .ic{font-size:26px;line-height:1}
+.ruta button[aria-pressed="true"]{background:var(--taronja);color:#fff;text-shadow:1px 1px 0 var(--tinta)}
+.ruta button[aria-pressed="true"] small{color:#fff}
+.ruta button:focus-visible{outline:4px solid var(--groc);outline-offset:2px}
+
+/* Progrés */
+.progres{max-width:720px;margin:0 auto 26px;display:flex;align-items:center;gap:12px}
+.progres .pista{flex:1;height:18px;background:rgba(255,255,255,.15);border:3px solid var(--tinta);border-radius:20px;overflow:hidden}
+.progres .ple{height:100%;width:0;background:linear-gradient(90deg,#ffc21a,#ff8a00);transition:width .3s}
+.progres .xifra{font-weight:800;font-size:16px;white-space:nowrap}
+
+/* Etapes */
+.etapa{background:var(--paper);color:var(--tinta);border:4px solid var(--tinta);border-top-width:12px;border-radius:14px;
+  box-shadow:8px 8px 0 var(--tinta);padding:16px clamp(16px,2.6vw,28px) 10px;margin:0 0 30px}
+.etapa.e1{border-top-color:var(--verd)}
+.etapa.e2{border-top-color:var(--taronja)}
+.etapa.e3{border-top-color:var(--blau)}
+.etapa.e4{border-top-color:var(--vermell)}
+.etapa.e5{border-top-color:#8a3ffc}
+.etapa-cap{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.etapa-cap svg{flex:none;filter:drop-shadow(0 0 8px rgba(255,190,30,.7))}
+.etapa-num{display:block;font-family:var(--titol);letter-spacing:1.5px;font-size:18px;color:var(--taronja)}
+.etapa h2{font-family:var(--titol);font-weight:400;letter-spacing:1px;font-size:clamp(26px,3.2vw,36px);line-height:1.05;color:var(--blau);margin:0}
+.quan{display:inline-block;font-size:13.5px;font-weight:800;background:#f1ebdf;border:1px solid var(--linia);border-radius:6px;padding:1px 8px;margin-top:4px}
+.intro{font-size:16px;line-height:1.5;margin:10px 0 4px}
+.intro a{color:var(--blau);font-weight:800}
+
+.punts{list-style:none;margin:6px 0 0;padding:0}
+.punt{border-top:2px dashed var(--linia);padding:14px 0 14px}
+.punt:first-child{border-top:0}
+.marca{display:flex;align-items:flex-start;gap:12px;cursor:pointer}
+.marca input{flex:none;width:26px;height:26px;margin:1px 0 0;accent-color:var(--verd);cursor:pointer}
+.titol{font-weight:800;font-size:clamp(17px,1.8vw,19.5px);line-height:1.3}
+.titol code{font-family:Consolas,"Cascadia Mono",monospace;font-size:.95em;background:#efe6d3;border-radius:5px;padding:0 5px}
+.punt.fet .titol{color:var(--verd)}
+.cos{margin-left:38px;font-size:16px;line-height:1.5}
+.cos p{margin:6px 0}
+.cos code{font-family:Consolas,"Cascadia Mono",monospace;font-size:.92em;background:#efe6d3;border-radius:5px;padding:0 4px}
+.ok{background:#e4f4ea;border-left:5px solid var(--verd);border-radius:6px;padding:6px 10px}
+.compte{background:#fde8e6;border-left:5px solid var(--vermell);border-radius:6px;padding:6px 10px}
+.nota{color:var(--gris);font-size:15px}
+.etiq{display:inline-block;font-size:12.5px;font-weight:800;border-radius:5px;padding:0 6px;margin-left:6px;vertical-align:2px;
+  background:var(--blau);color:#fff}
+
+/* Missatges i ordres per copiar */
+.cmd{position:relative;margin:22px 0 8px;border:3px solid var(--tinta);border-radius:10px;padding:12px 12px 10px;
+  display:flex;flex-direction:column;gap:6px;background:#0d1a3a;color:#e6edff}
+.cmd::before{content:attr(data-on);position:absolute;top:-13px;left:10px;font:800 12.5px/1 Nunito,"Segoe UI",sans-serif;
+  color:#fff;background:var(--blau);border:2px solid var(--tinta);border-radius:6px;padding:4px 8px}
+.cmd code{font-family:Consolas,"Cascadia Mono",monospace;font-size:15px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5;background:none;padding:0}
+.cmd.claude{background:#fff;color:var(--tinta)}
+.cmd.claude::before{background:var(--taronja)}
+.cmd.claude code{font-family:Nunito,"Segoe UI",sans-serif;font-size:16px}
+.cmd.arbre code{white-space:pre;overflow-x:auto}
+.copia{align-self:flex-end;font:800 14px/1 Nunito,"Segoe UI",sans-serif;background:var(--groc);color:var(--tinta);
+  border:2px solid var(--tinta);border-radius:8px;box-shadow:2px 2px 0 var(--tinta);padding:6px 12px;cursor:pointer}
+.copia.fet{background:var(--verd);color:#fff}
+
+.guia{margin:8px 0 0;display:flex;flex-wrap:wrap;gap:6px}
+.guia a{font-size:14px;font-weight:800;color:var(--blau);text-decoration:none;background:#eef2fb;border:1px solid #c6d3ee;border-radius:6px;padding:2px 9px}
+.guia a:hover{background:#dbe5fa;text-decoration:underline}
+
+.peu{color:#b9c6d8;font-size:14px;margin:6px auto 0;max-width:720px;line-height:1.5;text-align:center}
+.peu button{font:800 14px/1 Nunito,"Segoe UI",sans-serif;color:#cfd8ee;background:none;border:2px solid #5d6f99;border-radius:8px;padding:7px 12px;cursor:pointer;margin-top:10px}
+.peu button:hover{color:#fff;border-color:#fff}
+.nomes-paper{display:none}
+
+@media (max-width:600px){
+  .barra{padding:12px 16px 0}
+  .barra a,.barra button{font-size:14px;padding:7px 10px}
+  main{padding:16px 16px 24px}
+  h1{-webkit-text-stroke:2px var(--tinta);text-shadow:4px 4px 0 var(--tinta)}
+  .etapa{box-shadow:5px 5px 0 var(--tinta)}
+  .cos{margin-left:0}
+  .ruta button{max-width:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .sura{animation:none}
+  .progres .ple{transition:none}
+}
+@media print{
+  @page{margin:14mm}
+  body{background:#fff;color:#000}
+  .fons,.barra,.nuvol,.ruta,.progres,.copia,.cal,.peu button{display:none!important}
+  main{padding:0;max-width:none}
+  h1{color:#000;-webkit-text-stroke:0;text-shadow:none;font-size:32px;margin:0 0 4px}
+  .kicker,.sub,.peu{color:#000}
+  .sub{font-size:13px;margin-bottom:6px}
+  .nomes-paper{display:block;font-weight:800;font-size:13px;margin:0 0 8px}
+  .etapa{background:#fff;box-shadow:none;border:1.5px solid #000;border-top-width:5px;padding:8px 14px 2px;margin-bottom:10px;break-inside:auto}
+  .etapa-cap svg{width:34px;height:34px;filter:none}
+  .etapa-num{font-size:13px}
+  .etapa h2{font-size:22px}
+  .quan{font-size:11px}
+  .intro{font-size:12px;margin:6px 0 2px}
+  .punt{break-inside:avoid;padding:7px 0}
+  .marca input{width:16px;height:16px}
+  .titol{font-size:13.5px}
+  .cos{margin-left:28px;font-size:12px;line-height:1.4}
+  .cos p{margin:3px 0}
+  .ok,.compte{padding:3px 8px}
+  .nota{font-size:11.5px}
+  .cmd,.cmd.claude{background:#fff;color:#000;border-width:1.5px;margin:12px 0 4px;padding:14px 10px 6px}
+  .cmd code,.cmd.claude code{font-size:11.5px;line-height:1.4}
+  .cmd::before{color:#000;background:#fff;font-size:10.5px;top:-10px}
+  .guia{margin-top:4px}
+  .guia a{border-color:#999;font-size:11px}
+  .peu{font-size:11px}
+}
+</style>
+</head>
+<body data-ruta="app">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="dbGrad" cx="38%" cy="32%" r="72%">
+      <stop offset="0" stop-color="#fff3b0"/>
+      <stop offset=".25" stop-color="#ffc21a"/>
+      <stop offset=".65" stop-color="#ff8a00"/>
+      <stop offset="1" stop-color="#c24a00"/>
+    </radialGradient>
+    <linearGradient id="nuvolGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff7c2"/>
+      <stop offset=".55" stop-color="#ffd23f"/>
+      <stop offset="1" stop-color="#f0a000"/>
+    </linearGradient>
+  </defs>
+</svg>
+<div class="fons" aria-hidden="true"></div>
+
+<nav class="barra" aria-label="Navegació">
+  <a href="../">🏆 Totes les guies</a>
+  <button type="button" id="imprimeix">🖨️ Imprimeix</button>
+</nav>
+
+<main>
+  <div class="cap-pagina">
+    <span class="nuvol sura" data-nuvol="140"></span>
+    <div class="kicker">Checklist del docent</div>
+    <h1>A punt per al torneig</h1>
+    <p class="sub">Tot el que has de tenir a punt per treballar amb Claude Code, en l'ordre en què et caldrà. Marca cada punt quan el tinguis.</p>
+    <p class="cal">Les marques es desen <b>en aquest navegador</b>. Cada punt porta l'enllaç a la pantalla de la guia que ho explica. Desa aquesta pàgina a preferits, que hi tornaràs.</p>
+  </div>
+
+  <p class="nomes-paper" id="ruta-paper"></p>
+
+  <div class="ruta" role="group" aria-labelledby="ruta-pregunta">
+    <p id="ruta-pregunta">Com treballes amb Claude Code?</p>
+    <div class="opcions">
+      <button type="button" data-tria="app" aria-pressed="true"><span class="ic" aria-hidden="true">🖥️</span><span>Amb l'app d'escriptori<small>La pestanya Code de l'app de Claude</small></span></button>
+      <button type="button" data-tria="terminal" aria-pressed="false"><span class="ic" aria-hidden="true">⌨️</span><span>Amb el terminal<small>Claude Code al PowerShell</small></span></button>
+    </div>
+  </div>
+
+  <div class="progres">
+    <div class="pista" aria-hidden="true"><div class="ple"></div></div>
+    <div class="xifra" aria-live="polite"><b id="fets">0</b> de <b id="total">0</b> fets</div>
+  </div>
+
+  <!-- ============ ETAPA 1 ============ -->
+  <section class="etapa e1" aria-labelledby="t1">
+    <div class="etapa-cap"><span data-bola="1"></span><div><span class="etapa-num">Etapa 1</span><h2 id="t1">Abans de la primera sessió</h2><span class="quan">A casa, uns 20 minuts</span></div></div>
+    <ol class="punts">
+      <li class="punt">
+        <label class="marca"><input type="checkbox" data-id="compte"><span class="titol">El teu compte de Claude, amb el Pro</span></label>
+        <div class="cos">
+          <p>Claude Code només funciona amb un pla de pagament, el Pro o un de superior. Fes-ho tot al teu ordinador i amb el teu compte, no amb un ordinador del centre.</p>
+          <p class="ok">✅ A la configuració del teu compte de Claude hi diu Pro.</p>
+        </div>
+      </li>
+      <li class="punt" data-ruta="app">
+        <label class="marca"><input type="checkbox" data-id="instal-app"><span class="titol">L'app de Claude instal·lada</span></label>
+        <div class="cos">
+          <p>Baixa-la de <b>claude.com/download</b>, instal·la-la i entra-hi amb el teu compte. Claude Code és la pestanya <b>Code</b>.</p>
+          <p class="ok">✅ Obres l'app i a la barra lateral hi veus Code.</p>
+          <div class="guia"><a href="../docents/#7" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 7</a><a href="../docents/#9" target="_blank" rel="noopener">📖 pantalla 9</a></div>
+        </div>
+      </li>
+      <li class="punt" data-ruta="terminal">
+        <label class="marca"><input type="checkbox" data-id="instal-terminal"><span class="titol">Claude Code instal·lat al terminal</span></label>
+        <div class="cos">
+          <p>Obre el PowerShell (no el CMD), enganxa-hi aquesta ordre i prem Enter. Pot trigar un parell de minuts.</p>
+          <div class="cmd" data-on="Al PowerShell"><code>irm https://claude.ai/install.ps1 | iex</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Escrius <code>claude --version</code> i respon amb un número de versió.</p>
+          <div class="guia"><a href="../guia-1/#4" target="_blank" rel="noopener">📖 Guia 1 · pantalles 4 a 6</a></div>
+        </div>
+      </li>
+      <li class="punt">
+        <label class="marca"><input type="checkbox" data-id="privadesa"><span class="titol">Que no entreni amb les teves converses</span></label>
+        <div class="cos">
+          <p>A l'app o a claude.ai, clica el teu nom, obre <b>Settings</b> i, a <b>Privacy</b>, desactiva <b>Help Improve our AI models</b>. Val per al xat, per a l'app i per al terminal, perquè és el mateix compte.</p>
+          <p class="ok">✅ L'interruptor és apagat.</p>
+          <div class="guia"><a href="../docents/#8" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 8</a></div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ============ ETAPA 2 ============ -->
+  <section class="etapa e2" aria-labelledby="t2">
+    <div class="etapa-cap"><span data-bola="2"></span><div><span class="etapa-num">Etapa 2</span><h2 id="t2">L'espai de treball</h2><span class="quan">A la primera sessió</span></div></div>
+    <ol class="punts">
+      <li class="punt">
+        <label class="marca"><input type="checkbox" data-id="carpetes"><span class="titol">La carpeta global i una carpeta per projecte</span></label>
+        <div class="cos">
+          <p>A Documents, crea la carpeta <b>Claude</b>. A dins, una carpeta per a cada projecte. La primera, <b>Feina-docent</b>, amb dos o tres documents de feina. Noms curts, sense espais ni accents.</p>
+          <div class="cmd arbre" data-on="A l'Explorador de fitxers"><code>Documents\Claude\
+├── Feina-docent\       el primer projecte
+└── Joc-fraccions\      un de nou, quan arribi</code></div>
+          <p class="compte">⛔ Cap llista de classe, nota, informe ni foto d'alumnes. Si una carpeta barreja programacions i notes, no hi obris Claude.</p>
+          <p class="ok">✅ A l'Explorador hi ha <code>Documents\Claude\Feina-docent</code>.</p>
+          <div class="guia"><a href="../docents/#12" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 12</a><a href="../guia-1/#7" target="_blank" rel="noopener" data-ruta="terminal">📖 Guia 1 · pantalla 7</a></div>
+        </div>
+      </li>
+      <li class="punt" data-ruta="app">
+        <label class="marca"><input type="checkbox" data-id="obrir-app"><span class="titol">Claude obert a la carpeta del projecte</span></label>
+        <div class="cos">
+          <p>A Code, clica l'entorn i tria <b>Local</b>. Al control del costat, la carpeta, tria <b>Open folder…</b> i busca Feina-docent. Les altres vegades, <b>+ New</b> i comprova la carpeta abans d'escriure.</p>
+          <p class="ok">✅ Sota el quadre d'escriure hi diu Feina-docent.</p>
+          <div class="guia"><a href="../docents/#13" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 13</a></div>
+        </div>
+      </li>
+      <li class="punt" data-ruta="terminal">
+        <label class="marca"><input type="checkbox" data-id="bat"><span class="titol">Un <code>.bat</code> a l'escriptori per a cada projecte</span></label>
+        <div class="cos">
+          <p>Amb un doble clic, Claude s'obre a la carpeta del projecte sense haver-la de buscar. La primera vegada, obre Claude a Feina-docent com a la instal·lació i demana-li que te'l faci.</p>
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Crea'm un fitxer Feina-docent.bat a l'escriptori que obri Claude Code en aquesta carpeta. Que funcioni encara que la ruta tingui accents.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Fas doble clic al <code>.bat</code> i, a dalt de la sessió, hi surt la ruta de Feina-docent.</p>
+          <div class="guia"><a href="../guia-1/#18" target="_blank" rel="noopener">📖 Guia 1 · pantalla 18 (com fer-lo a mà)</a></div>
+        </div>
+      </li>
+      <li class="punt">
+        <label class="marca"><input type="checkbox" data-id="normes"><span class="titol">Les normes de tots els teus projectes</span></label>
+        <div class="cos">
+          <p>Van al CLAUDE.md d'usuari, que Claude llegeix a cada sessió, sigui quina sigui la carpeta. Copia el missatge i canvia o afegeix el que vulguis.</p>
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Afegeix al meu CLAUDE.md d'usuari, el que val per a tots els projectes, aquestes normes:
+- Respon sempre en català, també quan em facis preguntes o em proposis opcions.
+- No em demanis mai dades d'alumnes. Si en trobes en un document, atura't i avisa'm.
+- Abans de crear o canviar fitxers, explica'm què faràs.
+- No esborris res sense preguntar-m'ho.
+- Als exemples, fes servir noms inventats.</code><button type="button" class="copia">Copia</button></div>
+          <p class="nota">El fitxer és a <code>C:\Users\nom\.claude\CLAUDE.md</code>, fora de la carpeta del projecte. Si et demana permís per tocar-lo, digues que sí. El pots obrir amb el Bloc de notes.</p>
+          <p class="ok">✅ Obres una sessió nova, li preguntes «Quines normes tens per a tots els meus projectes?» i te les diu.</p>
+          <div class="guia" data-ruta="terminal"><a href="../guia-1/#9" target="_blank" rel="noopener">📖 Guia 1 · pantalla 9 (el català)</a><a href="../guia-1/#30" target="_blank" rel="noopener">📖 Guia 1 · pantalla 30 (les dues memòries)</a></div>
+        </div>
+      </li>
+      <li class="punt">
+        <label class="marca"><input type="checkbox" data-id="claude-md"><span class="titol">El CLAUDE.md del projecte</span></label>
+        <div class="cos">
+          <p>Dins de Feina-docent, qui ets, què fas i com vols la feina. El missatge per crear-lo és a la guia. Cada vegada que li hagis de repetir una cosa, hi va una línia nova.</p>
+          <p class="ok">✅ A la carpeta hi ha el fitxer CLAUDE.md i, en una sessió nova, «Què saps de mi i de la meva feina?» té bona resposta.</p>
+          <div class="guia"><a href="../docents/#17" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 17</a><a href="../docents/#18" target="_blank" rel="noopener">📖 pantalla 18</a></div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ============ ETAPA 3 ============ -->
+  <section class="etapa e3" aria-labelledby="t3">
+    <div class="etapa-cap"><span data-bola="3"></span><div><span class="etapa-num">Etapa 3</span><h2 id="t3">El primer projecte</h2><span class="quan">Les primeres setmanes</span></div></div>
+    <ol class="punts">
+      <li class="punt">
+        <label class="marca"><input type="checkbox" data-id="tres-preguntes"><span class="titol">Les tres preguntes, abans de donar-li res</span></label>
+        <div class="cos">
+          <p>Hi posaré dades d'alumnes? Decidirà alguna cosa sobre algú? L'ha autoritzada el centre? Amb el compte personal, la tercera és «no», i per això les dues primeres també ho han de ser.</p>
+          <p class="ok">✅ Te les saps de memòria.</p>
+          <div class="guia"><a href="../docents/#36" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 36</a></div>
+        </div>
+      </li>
+      <li class="punt">
+        <label class="marca"><input type="checkbox" data-id="material-viu"><span class="titol">Un primer material viu</span></label>
+        <div class="cos">
+          <p>Un fitxer que s'obre al navegador, com unes diapositives, un joc per repassar o un qüestionari que es corregeix sol. Un exemple per començar, amb el teu tema i el teu curs.</p>
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Fes-me un joc en un sol fitxer HTML per repassar [tema] amb alumnes de [curs]. Deu preguntes de tres opcions, que expliqui per què cada resposta és bona o no, que funcioni obrint el fitxer al navegador i que no enviï cap dada enlloc. Abans de fer-lo, proposa'm un pla.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Fas doble clic al fitxer i el joc s'obre al navegador. L'has jugat sencer.</p>
+          <div class="guia"><a href="../docents/#25" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 25</a><a href="../docents/#29" target="_blank" rel="noopener">📖 pantalla 29</a></div>
+        </div>
+      </li>
+      <li class="punt">
+        <label class="marca"><input type="checkbox" data-id="segona-volta"><span class="titol">Una segona volta al mateix material</span></label>
+        <div class="cos">
+          <p>Prova'l, demana-li un canvi cada vegada i desa al CLAUDE.md el que hagis après. Així creix un projecte.</p>
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>L'he provat i la pregunta 4 es resol massa fàcil. Fes-la més difícil, i afegeix al CLAUDE.md que les preguntes no han de deixar endevinar la resposta.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ El material té una segona versió, i el CLAUDE.md, una línia nova.</p>
+          <div class="guia"><a href="../docents/#32" target="_blank" rel="noopener">📖 Guia per a docents · pantalla 32</a></div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ============ ETAPA 4 ============ -->
+  <section class="etapa e4" aria-labelledby="t4">
+    <div class="etapa-cap"><span data-bola="4"></span><div><span class="etapa-num">Etapa 4</span><h2 id="t4">Les primeres skills</h2><span class="quan">Quan portis tres o quatre sessions</span></div></div>
+    <p class="intro">Una skill és una feina que Claude aprèn una vegada i que fa quan la crides, escrivint <b>/</b> i el seu nom. Aquestes tres són exemples per començar. Copia el missatge, enganxa'l i Claude crea la skill. Després, adapta-la a la teva manera de treballar. <span data-ruta="app">A l'app, també les trobes al botó <b>+</b> › <b>Slash commands</b>.</span></p>
+    <div class="guia" style="margin-bottom:4px"><a href="../guia-2/#10" target="_blank" rel="noopener">📖 Guia 2 · pantalles 10 i 11 (què és una skill)</a></div>
+    <ol class="punts">
+      <li class="punt">
+        <label class="marca"><input type="checkbox" data-id="skill-comencem"><span class="titol"><code>/comencem</code>, per obrir la sessió</span></label>
+        <div class="cos">
+          <p>Llegeix on ho vas deixar i et proposa per on seguir. La primera vegada no trobarà res, perquè el fitxer el crea <code>/pleguem</code>.</p>
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Crea'm una skill personal que es digui comencem, per fer servir quan obro una sessió. Quan la cridi, ha de fer això:
+1. Llegir el fitxer on-ho-deixem.md d'aquesta carpeta. Si no hi és, dir-m'ho i preguntar-me de què va el projecte.
+2. Explicar-me en cinc línies on ho vam deixar i què quedava pendent.
+3. Proposar-me dues o tres coses per fer avui i esperar que en triï una.
+Que no toqui cap fitxer i que només la faci servir quan jo la cridi.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ En una sessió nova escrius <code>/comencem</code> i et diu on ho vas deixar.</p>
+        </div>
+      </li>
+      <li class="punt">
+        <label class="marca"><input type="checkbox" data-id="skill-pleguem"><span class="titol"><code>/pleguem</code>, per tancar-la</span></label>
+        <div class="cos">
+          <p>Deixa escrit en un fitxer de la carpeta què heu fet i per on seguir. És un fitxer de text, i el pots llegir amb el Bloc de notes.</p>
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Crea'm una skill personal que es digui pleguem, per fer servir abans de tancar una sessió. Quan la cridi, ha de fer això:
+1. Escriure al principi del fitxer on-ho-deixem.md d'aquesta carpeta (si no hi és, crear-lo) la data, què hem fet, què hem decidit i per on seguir. Poques línies i en català planer.
+2. Si durant la sessió t'he hagut de repetir alguna cosa, proposar-me una línia per al CLAUDE.md.
+3. Dir-me si ja puc tancar.
+Que només la faci servir quan jo la cridi.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Després de <code>/pleguem</code>, a la carpeta hi ha on-ho-deixem.md amb el resum de la sessió.</p>
+        </div>
+      </li>
+      <li class="punt">
+        <label class="marca"><input type="checkbox" data-id="skill-entrevista"><span class="titol"><code>/entrevista</code>, abans de començar una cosa nova</span></label>
+        <div class="cos">
+          <p>Abans d'una SA, un projecte o un material gran, Claude et pregunta el que necessita saber, d'una en una, fins que no queda cap dubte. Pensa amb tu abans de fer res.</p>
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Crea'm una skill personal que es digui entrevista, per fer servir abans de començar una cosa nova. Quan la cridi, ha de fer això:
+1. Fer-me les preguntes d'una en una, cadascuna amb la teva recomanació.
+2. Preguntar-me per l'alumnat, el temps que hi tinc, què han de saber fer al final, com sabrem que ha funcionat i si hi entra cap dada de persones.
+3. No començar res fins que no quedi cap pregunta oberta.
+4. Acabar amb un resum d'una pantalla perquè el revisi.
+Que només la faci servir quan jo la cridi.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Escrius <code>/entrevista vull fer una SA sobre el reciclatge</code> i et fa la primera pregunta amb la seva recomanació.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ============ ETAPA 5 ============ -->
+  <section class="etapa e5" aria-labelledby="t5">
+    <div class="etapa-cap"><span data-bola="5"></span><div><span class="etapa-num">Etapa 5</span><h2 id="t5">Els primers hooks</h2><span class="quan">Quan les skills ja et funcionin</span></div></div>
+    <p class="intro">Un hook és una ordre que s'executa sola en un moment concret, sense que Claude se n'hagi de recordar. Demana-li que el configuri ell al teu <b>settings.json</b> d'usuari, que val per a l'app i per al terminal. Si ja hi ha altres hooks, Claude hi afegeix el nou sense esborrar-los. Perquè un hook nou funcioni, tanca la sessió i obre'n una altra.</p>
+    <p class="intro compte">⚠️ Els hooks s'executen sense preguntar. Posa només els que entenguis, i si un no et va bé, demana-li que el tregui.<span data-ruta="terminal"> Per veure els que tens, <code>/hooks</code>.</span></p>
+    <div class="guia" style="margin-bottom:4px"><a href="../guia-2/#13" target="_blank" rel="noopener">📖 Guia 2 · pantalles 13 i 14 (què és un hook)</a></div>
+    <ol class="punts">
+      <li class="punt">
+        <label class="marca"><input type="checkbox" data-id="hook-avis"><span class="titol">Un avís quan Claude t'espera</span></label>
+        <div class="cos">
+          <p>Deixes Claude treballant i canvies de finestra. Quan necessita un permís o una resposta, Windows t'avisa.</p>
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Configura un hook de Notification al meu settings.json d'usuari perquè Windows em mostri un avís quan necessitis la meva atenció.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Li demanes una cosa que necessiti permís, canvies de finestra i, al cap d'uns segons, surt l'avís.</p>
+        </div>
+      </li>
+      <li class="punt">
+        <label class="marca"><input type="checkbox" data-id="hook-so"><span class="titol">Un so quan acaba</span></label>
+        <div class="cos">
+          <p>Per a les feines llargues. Pots fer una altra cosa i saps quan ha acabat sense haver-ho de mirar.</p>
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Afegeix un hook de Stop al meu settings.json d'usuari que faci un so curt cada vegada que acabis de respondre.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Li demanes una cosa i, quan acaba de respondre, sona.</p>
+        </div>
+      </li>
+      <li class="punt">
+        <label class="marca"><input type="checkbox" data-id="hook-inici"><span class="titol">En obrir, ja sap on ho vas deixar</span></label>
+        <div class="cos">
+          <p>En obrir la sessió, llegeix sol el principi de on-ho-deixem.md. Ja no et caldrà <code>/comencem</code> per saber on ets.</p>
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Afegeix un hook de SessionStart al meu settings.json d'usuari. Si a la carpeta on obro la sessió hi ha un fitxer on-ho-deixem.md, que te'n passi les primeres 30 línies.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Obres una sessió nova, li preguntes «On ho vam deixar?» i ho sap sense haver de llegir res.</p>
+        </div>
+      </li>
+      <li class="punt">
+        <label class="marca"><input type="checkbox" data-id="hook-barrera"><span class="titol">Una barrera per a les dades d'alumnes</span></label>
+        <div class="cos">
+          <p>Si a l'ordinador tens una carpeta amb notes o llistes, que Claude no hi pugui entrar encara que l'hi demanis. Canvia <code>Documents\Alumnes</code> pel nom de la teva carpeta.</p>
+          <div class="cmd claude" data-on="Missatge per a Claude"><code>Afegeix un hook de PreToolUse al meu settings.json d'usuari que bloquegi qualsevol acció teva que toqui la carpeta Documents\Alumnes (llegir, escriure o executar ordres) i que em digui per què l'ha bloquejada.</code><button type="button" class="copia">Copia</button></div>
+          <p class="ok">✅ Li demanes «Llegeix el que hi ha a Documents\Alumnes» i et respon que no pot.</p>
+          <p class="nota">És una segona barrera. La primera és que les dades d'alumnes no siguin mai a Documents\Claude.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <p class="peu">Les skills i els hooks d'aquesta llista són exemples per començar. Adapta'ls a la teva feina.<br>Comprovada amb la documentació oficial de Claude el novembre de 2026. Claude s'actualitza sovint i algun nom de botó pot canviar.<br>
+    <button type="button" id="esborra">Esborra totes les marques</button></p>
+</main>
+
+<script>
+(function(){
+  // Boles de drac i núvol Kinton, els mateixos dibuixos que a la portada
+  var POS = {1:[[50,52]], 2:[[38,44],[62,60]], 3:[[50,33],[35,60],[65,60]],
+             4:[[37,37],[63,37],[37,63],[63,63]], 5:[[50,29],[30,46],[70,46],[38,69],[62,69]]};
+  function estrella(cx, cy, r){
+    var p = [];
+    for (var k = 0; k < 10; k++){
+      var a = -Math.PI/2 + k*Math.PI/5, rr = k % 2 ? r*0.45 : r;
+      p.push((cx + rr*Math.cos(a)).toFixed(1) + ',' + (cy + rr*Math.sin(a)).toFixed(1));
+    }
+    return p.join(' ');
+  }
+  function bola(n, mida){
+    var r = n === 1 ? 14 : n <= 3 ? 10.5 : 9;
+    var est = POS[n].map(function(c){ return '<polygon points="' + estrella(c[0], c[1], r) + '" fill="#d7261e"/>'; }).join('');
+    return '<svg width="' + mida + '" height="' + mida + '" viewBox="0 0 100 100" aria-hidden="true" focusable="false">' +
+      '<circle cx="50" cy="50" r="45" fill="url(#dbGrad)" stroke="#14110f" stroke-width="5"/>' +
+      '<ellipse cx="35" cy="29" rx="13" ry="7" fill="#fff" opacity=".55" transform="rotate(-30 35 29)"/>' + est + '</svg>';
+  }
+  var NUVOL = [[52,54,24],[82,40,28],[116,38,27],[146,50,22],[104,60,26],[72,64,18],[132,64,18],[28,60,13],[12,64,8]];
+  function nuvol(w){
+    var c = NUVOL.map(function(x){ return '<circle cx="' + x[0] + '" cy="' + x[1] + '" r="' + x[2] + '"/>'; }).join('');
+    return '<svg width="' + w + '" height="' + Math.round(w*95/175) + '" viewBox="0 0 175 95" aria-hidden="true" focusable="false">' +
+      '<g fill="#14110f" stroke="#14110f" stroke-width="7">' + c + '</g><g fill="url(#nuvolGrad)">' + c + '</g>' +
+      '<ellipse cx="96" cy="28" rx="22" ry="7" fill="#fff" opacity=".55"/><ellipse cx="54" cy="42" rx="11" ry="4" fill="#fff" opacity=".45"/></svg>';
+  }
+  document.querySelectorAll('[data-bola]').forEach(function(el){ el.innerHTML = bola(+el.dataset.bola, 54); });
+  document.querySelectorAll('[data-nuvol]').forEach(function(el){ el.innerHTML = nuvol(+el.dataset.nuvol); });
+
+  // Estat desat en aquest navegador (si no es pot, la pàgina funciona igual)
+  var CLAU = 'checklist-docent';
+  var estat = {};
+  try { estat = JSON.parse(localStorage.getItem(CLAU)) || {}; } catch (e) { estat = {}; }
+  if (!estat.fet || typeof estat.fet !== 'object') estat.fet = {};
+  function desa(){ try { localStorage.setItem(CLAU, JSON.stringify(estat)); } catch (e) {} }
+
+  var caselles = Array.prototype.slice.call(document.querySelectorAll('.punt input[type=checkbox]'));
+  var botonsRuta = Array.prototype.slice.call(document.querySelectorAll('[data-tria]'));
+  var NOMS = {app: "Amb l'app d'escriptori (pestanya Code)", terminal: 'Amb el terminal (PowerShell)'};
+
+  function visible(c){
+    var r = c.closest('.punt').dataset.ruta;
+    return !r || r === document.body.dataset.ruta;
+  }
+  function compta(){
+    var vis = caselles.filter(visible);
+    var fets = vis.filter(function(c){ return c.checked; }).length;
+    document.getElementById('fets').textContent = fets;
+    document.getElementById('total').textContent = vis.length;
+    document.querySelector('.progres .ple').style.width = (vis.length ? 100*fets/vis.length : 0) + '%';
+  }
+  function posaRuta(r){
+    document.body.dataset.ruta = r;
+    estat.ruta = r;
+    botonsRuta.forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.tria === r)); });
+    document.getElementById('ruta-paper').textContent = 'Com treballes: ' + NOMS[r];
+    compta();
+    desa();
+  }
+
+  caselles.forEach(function(c){
+    c.checked = !!estat.fet[c.dataset.id];
+    c.closest('.punt').classList.toggle('fet', c.checked);
+    c.addEventListener('change', function(){
+      if (c.checked) estat.fet[c.dataset.id] = true; else delete estat.fet[c.dataset.id];
+      c.closest('.punt').classList.toggle('fet', c.checked);
+      compta();
+      desa();
+    });
+  });
+  botonsRuta.forEach(function(b){ b.addEventListener('click', function(){ posaRuta(b.dataset.tria); }); });
+
+  // ?ruta=terminal o ?ruta=app a l'adreça mana sobre el que hi havia desat
+  var demanada = new URLSearchParams(location.search).get('ruta');
+  posaRuta(demanada === 'app' || demanada === 'terminal' ? demanada : (estat.ruta === 'terminal' ? 'terminal' : 'app'));
+
+  // Botons «Copia»
+  // Com a les guies: el porta-retalls i, si no el deixen fer servir, la manera antiga
+  function copiaAlternativa(text){
+    var t = document.createElement('textarea');
+    t.value = text; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+    document.body.appendChild(t); t.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(t);
+    return ok;
+  }
+  document.querySelectorAll('.copia').forEach(function(b){
+    var code = b.parentNode.querySelector('code');
+    function fet(){
+      b.textContent = 'Copiat ✓'; b.classList.add('fet');
+      setTimeout(function(){ b.textContent = 'Copia'; b.classList.remove('fet'); }, 1800);
+    }
+    function noHaAnat(){
+      // Deixa el text seleccionat perquè es pugui copiar amb Ctrl+C
+      var r = document.createRange(); r.selectNodeContents(code);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      b.textContent = 'Prem Ctrl+C';
+    }
+    b.addEventListener('click', function(){
+      var text = code.textContent;
+      if (navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(text).then(fet, function(){ copiaAlternativa(text) ? fet() : noHaAnat(); });
+      } else if (copiaAlternativa(text)) fet(); else noHaAnat();
+    });
+  });
+
+  document.getElementById('imprimeix').addEventListener('click', function(){ window.print(); });
+
+  // Esborrar les marques demana dos clics, sense finestres emergents
+  var esborra = document.getElementById('esborra'), espera = null;
+  esborra.addEventListener('click', function(){
+    if (!espera){
+      esborra.textContent = 'Segur? Torna-hi a clicar';
+      espera = setTimeout(function(){ esborra.textContent = 'Esborra totes les marques'; espera = null; }, 4000);
+      return;
+    }
+    clearTimeout(espera); espera = null;
+    estat.fet = {};
+    caselles.forEach(function(c){ c.checked = false; c.closest('.punt').classList.remove('fet'); });
+    esborra.textContent = 'Esborra totes les marques';
+    compta();
+    desa();
+  });
+})();
+</script>
+</body>
+</html>
