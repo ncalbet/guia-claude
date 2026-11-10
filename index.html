@@ -80,20 +80,19 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(56px,10vw,124px);lin
 .checklist .entra{align-self:center;margin-top:0;white-space:nowrap}
 .checklist:hover .entra,.checklist:focus-visible .entra{background:var(--vermell)}
 
-/* El vídeo de les quatre funcions, entre els tornejos i la checklist */
-.video{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);align-items:center;gap:clamp(16px,2.4vw,28px);margin-top:28px;text-align:left;
+/* El vídeo de les quatre funcions, a sobre dels tornejos */
+.video{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);align-items:center;gap:clamp(16px,2.4vw,28px);margin:0 0 28px;text-align:left;
   background:var(--paper);color:var(--tinta);border:4px solid var(--tinta);border-left-width:14px;border-left-color:var(--verd);
   border-radius:14px;box-shadow:8px 8px 0 var(--tinta);padding:16px clamp(16px,2.4vw,26px)}
 .video video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#fbf7ee;border:3px solid var(--tinta);border-radius:10px}
 .video h2{font-family:var(--titol);font-weight:400;letter-spacing:1px;font-size:clamp(26px,2.8vw,34px);line-height:1.08;color:var(--blau);margin:2px 0 6px}
-.video p{font-size:clamp(15px,1.5vw,17px);line-height:1.45;margin:0 0 8px}
-.video .nota{font-size:13.5px;color:var(--gris);margin:0}
+.video p{font-size:clamp(15px,1.5vw,17px);line-height:1.45;margin:0}
 
 .peu{color:#b9c6d8;font-size:14px;margin:30px auto 0;max-width:780px;line-height:1.45}
 
 @media (max-width:900px){
   .tornejos{grid-template-columns:1fr;max-width:600px;margin:0 auto}
-  .video{grid-template-columns:1fr;max-width:600px;margin:28px auto 0}
+  .video{grid-template-columns:1fr;max-width:600px;margin:0 auto 28px}
   .checklist{max-width:600px;margin:28px auto 0;display:grid;grid-template-columns:auto 1fr;align-items:start;column-gap:14px;row-gap:12px}
   .checklist .ck-ic{font-size:40px}
   .checklist .entra{grid-column:2;justify-self:start}
@@ -141,6 +140,18 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(56px,10vw,124px);lin
   <p class="sub">Tres guies, de l'app d'escriptori al terminal. A cadascuna superes 7 proves i aconsegueixes les 7 boles de drac.</p>
   <p class="cal">Per a totes tres cal un <b>pla de pagament de Claude</b>: el Pro o un de superior.</p>
 
+  <section class="video" aria-labelledby="video-titol">
+    <video controls preload="none" playsinline poster="video/quatre-funcions-docent.jpg">
+      <source src="video/quatre-funcions-docent.mp4" type="video/mp4">
+      <a href="video/quatre-funcions-docent.mp4">Baixa el vídeo</a>
+    </video>
+    <div>
+      <span class="num">Vídeo · 1 min 38 s</span>
+      <h2 id="video-titol">Les quatre funcions del docent</h2>
+      <p>Què pot fer Claude per tu quan planifiques, implementes, avalues i coordines, explicat amb dibuixos.</p>
+    </div>
+  </section>
+
   <div class="tornejos">
     <a class="torneig t1" href="docents/">
       <div class="cap"><span data-bola="1"></span><div><span class="num">Torneig de les Arts Docents</span><span class="nom-torneig">Guia per a docents</span></div></div>
@@ -164,19 +175,6 @@ h1{font-family:var(--titol);font-weight:400;font-size:clamp(56px,10vw,124px);lin
       <span class="entra">Entra ▶</span>
     </a>
   </div>
-
-  <section class="video" aria-labelledby="video-titol">
-    <video controls preload="none" playsinline poster="video/quatre-funcions-docent.jpg">
-      <source src="video/quatre-funcions-docent.mp4" type="video/mp4">
-      <a href="video/quatre-funcions-docent.mp4">Baixa el vídeo</a>
-    </video>
-    <div>
-      <span class="num">Vídeo · 1 min 38 s</span>
-      <h2 id="video-titol">Les quatre funcions del docent</h2>
-      <p>Què pot fer Claude per tu quan planifiques, implementes, avalues i coordines, explicat amb dibuixos.</p>
-      <p class="nota">La veu del vídeo és sintètica, feta amb IA.</p>
-    </div>
-  </section>
 
   <a class="checklist" href="checklist/">
     <span class="ck-ic" aria-hidden="true">📋</span>
