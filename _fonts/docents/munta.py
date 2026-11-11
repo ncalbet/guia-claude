@@ -169,9 +169,9 @@ CANVIS = [
     ("    if (index.classList.contains('oberta')){ if (e.key === 'Escape') tancaIndex(); return; }",
      "    if (" + OBERTA + ") return;\n"
      "    if (index.classList.contains('oberta')){ if (e.key === 'Escape') tancaIndex(); return; }"),
-    ("    if (tx === null) return;",
-     "    if (tx === null) return;\n"
-     "    if (" + OBERTA + "){ tx = ty = null; return; }"),
+    ("    if (tx === null || e.touches.length) { tx = null; return; }",
+     "    if (tx === null || e.touches.length) { tx = null; return; }\n"
+     "    if (" + OBERTA + "){ tx = null; return; }"),
 ]
 for vell, nou in CANVIS:
     n = html.count(vell)
