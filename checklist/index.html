@@ -441,8 +441,8 @@ Que només la faci servir quan jo la cridi.</code><button type="button" class="c
         <div class="carta-cos">
           <div class="cmd claude" data-on="Missatge a Claude"><code>Crea'm una skill personal que es digui sa, per planificar una situació d'aprenentatge. Quan la cridi, ha de fer això:
 1. Preguntar-me el curs, la matèria, quantes sessions hi tinc i què vull que aprenguin.
-2. Fer servir el model de SA i el currículum que hi hagi a la carpeta, i la programació si hi és. No inventar cap criteri ni cap codi.
-3. Proposar-me primer l'esquema (el repte, les activitats de cada sessió i com l'avaluaré) i esperar que el validi.
+2. Fer servir el model de SA i el currículum que hi hagi a la carpeta, i la programació si hi és. Que la SA parteixi d'un context i d'un repte, i que hi surtin les competències específiques, els criteris d'avaluació i els sabers tal com són al currículum. No inventar cap criteri ni cap codi.
+3. Proposar-me primer l'esquema (el repte, les activitats inicials, de desenvolupament, d'estructuració i d'aplicació, i com l'avaluaré) i esperar que el validi.
 4. Després, escriure-la sencera en un Word a la carpeta.
 Que només la faci servir quan jo la cridi.</code><button type="button" class="copia">Copia</button></div>
           <p class="ok">✅ Escrius <code>/sa</code> i et pregunta el curs i la matèria abans de fer res.</p>
@@ -490,7 +490,7 @@ Que només la faci servir quan jo la cridi.</code><button type="button" class="c
         <summary><span><span class="carta-nom"><code>/revisa</code> Una revisió exigent abans de fer classe</span><span class="carta-que">Com un company crític, amb una taula de problemes i propostes.</span></span></summary>
         <div class="carta-cos">
           <div class="cmd claude" data-on="Missatge a Claude"><code>Crea'm una skill personal que es digui revisa, per revisar un material abans de portar-lo a classe. Quan la cridi, ha de fer això:
-1. Llegir el material que li indiqui i revisar-lo com un company exigent. L'objectiu és clar? El nivell és el del curs? S'entenen les instruccions? Hi ha errors? La resposta es veu massa? Hi cap en el temps? Hi surt cap dada de persones?
+1. Llegir el material que li indiqui i revisar-lo com un company exigent. L'objectiu és clar? El nivell és el del curs? S'entenen les instruccions? Hi ha errors? La resposta es veu massa? Hi cap en el temps? Hi ha estereotips o biaixos? Hi surt cap dada de persones?
 2. Posar el que trobi en una taula amb el problema, on és i la proposta.
 3. No canviar res fins que jo triï què aplico.
 Que només la faci servir quan jo la cridi.</code><button type="button" class="copia">Copia</button></div>
@@ -635,7 +635,7 @@ Que només la faci servir quan jo la cridi.</code><button type="button" class="c
       </details>
 
       <details class="carta">
-        <summary><span><span class="carta-nom">El correu, només per llegir</span><span class="carta-que">Si has connectat Claude al teu correu, que pugui llegir i buscar, però no enviar ni esborrar.</span></span></summary>
+        <summary><span><span class="carta-nom">El correu, només per llegir</span><span class="carta-que">Si has connectat Claude al teu correu personal, que pugui llegir i buscar, però no enviar ni esborrar.</span></span></summary>
         <div class="carta-cos">
           <div class="cmd claude" data-on="Missatge a Claude"><code>Afegeix un hook de PreToolUse al meu settings.json d'usuari que bloquegi qualsevol acció del connector de correu que enviï, respongui, reenviï o esborri missatges, o que en creï esborranys. Llegir i buscar, sí.</code><button type="button" class="copia">Copia</button></div>
           <p class="ok">✅ Li demanes que enviï un correu de prova i et respon que no pot.</p>
